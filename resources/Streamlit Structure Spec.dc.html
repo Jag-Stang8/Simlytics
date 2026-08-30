@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+doc-page:not(:defined){visibility:hidden}
+a{color:oklch(0.50 0.13 245)}a:hover{color:oklch(0.40 0.13 245)}
+</style>
+<script src="./doc-page.js"></script>
+</helmet>
+<doc-page margin="0.7in">
+<div style="font-family:Barlow,Helvetica,sans-serif;color:#16181a">
+
+<div style="display:flex;align-items:baseline;justify-content:space-between;border-bottom:2px solid #16181a;padding-bottom:9px">
+  <span style="font:700 13px 'IBM Plex Mono',monospace;letter-spacing:.06em">SIMLYTICS</span>
+  <span style="font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.5)">STREAMLIT APP STRUCTURE · v1 SPEC</span>
+</div>
+
+<h1 style="font:600 30px/1.15 Barlow,sans-serif;letter-spacing:-.015em;margin:26px 0 8px">Page structure for the web interface</h1>
+<p style="font:400 14px/1.6 Barlow,sans-serif;color:rgba(22,24,26,.7);margin:0 0 26px;max-width:46em">How the five designs map onto a Streamlit multipage app on top of the existing <span style="font-family:'IBM Plex Mono',monospace;font-size:13px">db/</span>, <span style="font-family:'IBM Plex Mono',monospace;font-size:13px">queries/</span> and <span style="font-family:'IBM Plex Mono',monospace;font-size:13px">stats/</span> packages. Nothing here changes the ingest or derivation pipeline — the app is a read-only consumer of the same SQL the notebook uses.</p>
+
+<h2 style="font:600 17px Barlow,sans-serif;margin:0 0 12px;padding-bottom:6px;border-bottom:1px solid rgba(22,24,26,.15)">1 · File layout</h2>
+<pre style="font:500 11.5px/1.75 'IBM Plex Mono',monospace;background:#f6f5f2;border:1px solid rgba(22,24,26,.10);border-radius:7px;padding:14px 16px;margin:0 0 10px;break-inside:avoid;overflow-x:auto">app/
+  Home.py                  # entry: st.navigation + league/season pick + season rail
+  pages/
+    1_Session.py           # 2a shell: Result / Timeline / Passing / Pit / Pace tabs
+    2_Time_frame.py        # 3a: range picker + metric builder + heatmap
+    3_Head_to_head.py      # 3b: two-driver compare
+  lib/
+    data.py                # cached query runners (the only place SQL is executed)
+    filters.py             # season rail, range-mode picker, metric multiselect
+    charts.py              # altair builders (position-by-lap, box, heatmap, radar…)
+    fmt.py                 # ms→s, 0-based pos→1-based, colour scale per driver
+  .streamlit/config.toml   # dark theme tokens</pre>
+<p style="font:400 13px/1.6 Barlow,sans-serif;color:rgba(22,24,26,.65);margin:0 0 24px;max-width:46em">Three pages, not eight — the tabs inside <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">1_Session.py</span> are <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.tabs</span>, so switching tabs never re-runs the session picker or re-queries the result table.</p>
+
+<h2 style="font:600 17px Barlow,sans-serif;margin:0 0 12px;padding-bottom:6px;border-bottom:1px solid rgba(22,24,26,.15)">2 · Data layer</h2>
+<p style="font:400 13.5px/1.6 Barlow,sans-serif;margin:0 0 12px;max-width:46em">One function reads a <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">.sql</span> file and returns a DataFrame; every page calls it and nothing else. Route through <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">db.connection</span> so the app obeys the existing single-access-point rule.</p>
+<pre style="font:500 11.5px/1.75 'IBM Plex Mono',monospace;background:#f6f5f2;border:1px solid rgba(22,24,26,.10);border-radius:7px;padding:14px 16px;margin:0 0 12px;break-inside:avoid;overflow-x:auto"># lib/data.py
+from pathlib import Path
+import pandas as pd, streamlit as st
+from db.connection import connection
+
+QUERIES = Path(__file__).parents[2] / "queries"
+
+@st.cache_resource
+def _conn():                       # one pooled connection per server process
+    return connection().__enter__()
+
+@st.cache_data(ttl=600, show_spinner=False)
+def run_sql(name: str, **params) -> pd.DataFrame:
+    sql = (QUERIES / name).read_text()
+    return pd.read_sql_query(sql, _conn(), params=params or None)
+
+@st.cache_data(ttl=600)
+def sessions(season_id: int) -> pd.DataFrame:   # powers the season rail
+    return run_sql("session_list.sql", season_id=season_id)</pre>
+<p style="font:400 13px/1.6 Barlow,sans-serif;color:rgba(22,24,26,.65);margin:0 0 8px;max-width:46em">Cache keys are the file name plus params, so a season-wide query is computed once and shared by all three pages. A "Refresh data" button in the sidebar calls <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">st.cache_data.clear()</span> — that is the whole story after an ingest.</p>
+<div style="background:#faf9f7;border:1px solid rgba(22,24,26,.12);border-left:3px solid oklch(0.70 0.13 245);border-radius:6px;padding:12px 15px;margin:0 0 24px;break-inside:avoid">
+  <div style="font:600 10.5px 'IBM Plex Mono',monospace;letter-spacing:.07em;color:rgba(22,24,26,.5);margin-bottom:6px">NEW SQL THIS APP NEEDS</div>
+  <div style="font:400 13px/1.7 Barlow,sans-serif;color:#16181a">
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">session_list.sql</span> — subsession_id, round, track, date, laps, sof, caution count per season (season rail + selectbox).<br>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">race_result.sql</span> — the finishing table for one subsession, with net green passes and median pit Δ joined in (2a's main table; today's <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">driver_standings.sql</span> is season-grained).<br>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">race_running_order.sql</span> — lap_num, cust_id, position, gap_ms, gap_pct, flags for one subsession (position-by-lap lines, running order at lap N).<br>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">race_events.sql</span> — union of passes, pit stops, caution/restart laps as one ordered feed (2b's event list).<br>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">race_pass_matrix.sql</span> — passer × passed counts for one subsession (3c matrix).<br>
+    <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">green_laps.sql</span> already covers the pace tab; add a <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">subsession_id</span> filter clause.
+  </div>
+</div>
+
+<h2 style="font:600 17px Barlow,sans-serif;margin:0 0 12px;padding-bottom:6px;border-bottom:1px solid rgba(22,24,26,.15)">3 · State &amp; deep links</h2>
+<p style="font:400 13.5px/1.6 Barlow,sans-serif;margin:0 0 12px;max-width:46em">Every selection lives in <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">st.query_params</span> as well as <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">st.session_state</span>, so a URL is a shareable view — the thing a league needs when someone posts "look at lap 27".</p>
+<table style="width:100%;border-collapse:collapse;margin:0 0 10px;break-inside:avoid">
+  <thead><tr style="border-bottom:1px solid rgba(22,24,26,.2)">
+    <th style="text-align:left;font:600 10.5px 'IBM Plex Mono',monospace;letter-spacing:.05em;color:rgba(22,24,26,.5);padding:0 8px 7px 0">KEY</th>
+    <th style="text-align:left;font:600 10.5px 'IBM Plex Mono',monospace;letter-spacing:.05em;color:rgba(22,24,26,.5);padding:0 8px 7px 0">SET BY</th>
+    <th style="text-align:left;font:600 10.5px 'IBM Plex Mono',monospace;letter-spacing:.05em;color:rgba(22,24,26,.5);padding:0 0 7px 0">READ BY</th>
+  </tr></thead>
+  <tbody style="font:400 12.5px Barlow,sans-serif">
+    <tr style="border-bottom:1px solid rgba(22,24,26,.08)"><td style="padding:7px 8px 7px 0;font-family:'IBM Plex Mono',monospace;font-size:12px">season</td><td style="padding:7px 8px 7px 0;color:rgba(22,24,26,.7)">sidebar selectbox</td><td style="padding:7px 0;color:rgba(22,24,26,.7)">all pages</td></tr>
+    <tr style="border-bottom:1px solid rgba(22,24,26,.08)"><td style="padding:7px 8px 7px 0;font-family:'IBM Plex Mono',monospace;font-size:12px">subsession</td><td style="padding:7px 8px 7px 0;color:rgba(22,24,26,.7)">season rail click</td><td style="padding:7px 0;color:rgba(22,24,26,.7)">Session page + all tabs</td></tr>
+    <tr style="border-bottom:1px solid rgba(22,24,26,.08)"><td style="padding:7px 8px 7px 0;font-family:'IBM Plex Mono',monospace;font-size:12px">lap</td><td style="padding:7px 8px 7px 0;color:rgba(22,24,26,.7)">timeline slider / chart click</td><td style="padding:7px 0;color:rgba(22,24,26,.7)">Timeline tab</td></tr>
+    <tr style="border-bottom:1px solid rgba(22,24,26,.08)"><td style="padding:7px 8px 7px 0;font-family:'IBM Plex Mono',monospace;font-size:12px">range_mode, r_from, r_to, last_n, picks</td><td style="padding:7px 8px 7px 0;color:rgba(22,24,26,.7)">range picker</td><td style="padding:7px 0;color:rgba(22,24,26,.7)">Time frame, Head-to-head</td></tr>
+    <tr style="border-bottom:1px solid rgba(22,24,26,.08)"><td style="padding:7px 8px 7px 0;font-family:'IBM Plex Mono',monospace;font-size:12px">metrics</td><td style="padding:7px 8px 7px 0;color:rgba(22,24,26,.7)">metric multiselect</td><td style="padding:7px 0;color:rgba(22,24,26,.7)">Time frame</td></tr>
+    <tr><td style="padding:7px 8px 7px 0;font-family:'IBM Plex Mono',monospace;font-size:12px">a, b</td><td style="padding:7px 8px 7px 0;color:rgba(22,24,26,.7)">driver click in result table</td><td style="padding:7px 0;color:rgba(22,24,26,.7)">Head-to-head</td></tr>
+  </tbody>
+</table>
+<p style="font:400 13px/1.6 Barlow,sans-serif;color:rgba(22,24,26,.65);margin:0 0 24px;max-width:46em">The one rule that keeps this sane: the range picker writes a <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">list[int]</span> of subsession ids into state, and every downstream query takes that list. Round / date / last-N / hand-pick are four editors for the same value, exactly as drawn in 1e.</p>
+
+<h2 style="font:600 17px Barlow,sans-serif;margin:0 0 14px;padding-bottom:6px;border-bottom:1px solid rgba(22,24,26,.15)">4 · Page by page</h2>
+
+<div style="border:1px solid rgba(22,24,26,.12);border-radius:8px;padding:14px 16px;margin:0 0 12px;break-inside:avoid">
+  <div style="display:flex;align-items:baseline;gap:9px;margin-bottom:9px"><span style="font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;border-radius:4px;background:#16181a;color:#fff">Home.py</span><span style="font:600 14px Barlow,sans-serif">League / season entry</span></div>
+  <div style="font:400 13px/1.65 Barlow,sans-serif;color:rgba(22,24,26,.75)">Sidebar: league selectbox → season selectbox → the season rail (<span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.radio</span> with a formatter, or a column of <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.button</span>s for the card look) → "Season-wide" links. Body redirects straight to the newest session with <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.switch_page</span>; the sidebar block is defined once here and imported by every page from <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">lib/filters.py</span>.</div>
+</div>
+
+<div style="border:1px solid rgba(22,24,26,.12);border-radius:8px;padding:14px 16px;margin:0 0 12px;break-inside:avoid">
+  <div style="display:flex;align-items:baseline;gap:9px;margin-bottom:9px"><span style="font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;border-radius:4px;background:#16181a;color:#fff">1_Session.py</span><span style="font:600 14px Barlow,sans-serif">Session home — designs 2a, 2b, 3c, 3d, 3e</span></div>
+  <div style="font:400 13px/1.65 Barlow,sans-serif;color:rgba(22,24,26,.75);margin-bottom:10px">Header strip of <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.metric</span>s (laps, SOF, cautions, green passes, lead changes) from <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">session_list.sql</span>, then <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.tabs([...])</span>:</div>
+  <table style="width:100%;border-collapse:collapse">
+    <tbody style="font:400 12.5px Barlow,sans-serif">
+      <tr style="border-top:1px solid rgba(22,24,26,.08)"><td style="padding:7px 10px 7px 0;font-weight:600;width:88px">Result</td><td style="padding:7px 0;color:rgba(22,24,26,.7)"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.dataframe</span> on <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">race_result.sql</span> with <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">selection_mode="single-row"</span> (row click → sets <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">a</span> and jumps to head-to-head) + <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">column_config.ProgressColumn</span> for pit Δ. Right column: mini position chart, pit bars, season-impact box.</td></tr>
+      <tr style="border-top:1px solid rgba(22,24,26,.08)"><td style="padding:7px 10px 7px 0;font-weight:600">Timeline</td><td style="padding:7px 0;color:rgba(22,24,26,.7)">Altair line chart of <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">race_running_order.sql</span> with a lap <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">selection_point</span> bound through <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.altair_chart(on_select="rerun")</span>; caution bands as a layered <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">mark_rect</span>. The selected lap drives the running-order table, the event feed slice and the flag strip. Shift-drag stint select = an <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">interval</span> selection on the same chart.</td></tr>
+      <tr style="border-top:1px solid rgba(22,24,26,.08)"><td style="padding:7px 10px 7px 0;font-weight:600">Passing</td><td style="padding:7px 0;color:rgba(22,24,26,.7)">Altair heatmap (<span style="font-family:'IBM Plex Mono',monospace;font-size:12px">race_pass_matrix.sql</span>), stacked bars by flag (<span style="font-family:'IBM Plex Mono',monospace;font-size:12px">passing_by_flag.sql</span> filtered to the race), conversion table (<span style="font-family:'IBM Plex Mono',monospace;font-size:12px">passing_conversion.sql</span>), restart bars (<span style="font-family:'IBM Plex Mono',monospace;font-size:12px">passing_restarts.sql</span>). Matrix cell click writes <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">lap</span> and switches to Timeline.</td></tr>
+      <tr style="border-top:1px solid rgba(22,24,26,.08)"><td style="padding:7px 10px 7px 0;font-weight:600">Pit cycles</td><td style="padding:7px 0;color:rgba(22,24,26,.7)"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">pit_cycle_by_race.sql</span> as the stop table; the window strip is an Altair <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">mark_rect</span> of in/out laps per driver. <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.toggle("Show outliers")</span> flips the <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">is_outlier</span> filter — the query already exposes it, so this is a client-side mask, no re-query.</td></tr>
+      <tr style="border-top:1px solid rgba(22,24,26,.08)"><td style="padding:7px 10px 7px 0;font-weight:600">Pace</td><td style="padding:7px 0;color:rgba(22,24,26,.7)"><span style="font-family:'IBM Plex Mono',monospace;font-size:12px">green_laps.sql</span> → Altair <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">mark_boxplot</span> normalized to the race median, stint line chart, and a median-vs-spread scatter reusing <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">stats/driver_features.py</span>'s skew-normal fit.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div style="border:1px solid rgba(22,24,26,.12);border-radius:8px;padding:14px 16px;margin:0 0 12px;break-inside:avoid">
+  <div style="display:flex;align-items:baseline;gap:9px;margin-bottom:9px"><span style="font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;border-radius:4px;background:#16181a;color:#fff">2_Time_frame.py</span><span style="font:600 14px Barlow,sans-serif">Range + metric builder — design 3a</span></div>
+  <div style="font:400 13px/1.65 Barlow,sans-serif;color:rgba(22,24,26,.75)">Sidebar: mode segmented control (<span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.segmented_control</span>) → <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.select_slider</span> for rounds, <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.date_input</span> for dates, <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.number_input</span> for last-N, <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.multiselect</span> for hand-pick; then a metric <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">st.multiselect</span> whose selection just picks columns off one wide frame — join <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">driver_standings</span>, <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">passing_score</span> and <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">pit_cycle_ranking</span> once on <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">cust_id</span> and slice, never re-query per metric. Body: sortable table, driver × round heatmap, points progression (<span style="font-family:'IBM Plex Mono',monospace;font-size:12px">driver_points_progression.sql</span>). The two option toggles map to <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">driver_standings_drops.sql</span> and the outlier mask.</div>
+</div>
+
+<div style="border:1px solid rgba(22,24,26,.12);border-radius:8px;padding:14px 16px;margin:0 0 22px;break-inside:avoid">
+  <div style="display:flex;align-items:baseline;gap:9px;margin-bottom:9px"><span style="font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;border-radius:4px;background:#16181a;color:#fff">3_Head_to_head.py</span><span style="font:600 14px Barlow,sans-serif">Two-driver compare — design 3b</span></div>
+  <div style="font:400 13px/1.65 Barlow,sans-serif;color:rgba(22,24,26,.75)">Two driver selectboxes (pre-filled from <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">a</span>/<span style="font-family:'IBM Plex Mono',monospace;font-size:12px">b</span> query params), sharing the same range picker. Mirrored metric bars are one Altair bar chart per side with reversed <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">x</span> scale; the radar comes from <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">passing_score.sql</span>'s <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">z_*</span> columns (already emitted for exactly this re-weighting use); the field scatter is the same frame with the two drivers highlighted. Meetings row needs a <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">passes</span> query filtered to the pair.</div>
+</div>
+
+<h2 style="font:600 17px Barlow,sans-serif;margin:0 0 12px;padding-bottom:6px;border-bottom:1px solid rgba(22,24,26,.15)">5 · Theme</h2>
+<p style="font:400 13.5px/1.6 Barlow,sans-serif;margin:0 0 11px;max-width:46em">The palette from the designs, as Streamlit config — set it once and the widgets, tables and Altair defaults follow.</p>
+<pre style="font:500 11.5px/1.75 'IBM Plex Mono',monospace;background:#f6f5f2;border:1px solid rgba(22,24,26,.10);border-radius:7px;padding:14px 16px;margin:0 0 12px;break-inside:avoid;overflow-x:auto">{{ themeToml }}</pre>
+<div style="display:flex;gap:8px;flex-wrap:wrap;margin:0 0 10px">
+  <span style="display:flex;align-items:center;gap:7px;font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.7)"><span style="width:22px;height:22px;border-radius:4px;background:#1b2024"></span>#1b2024</span>
+  <span style="display:flex;align-items:center;gap:7px;font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.7)"><span style="width:22px;height:22px;border-radius:4px;background:#212830"></span>#212830</span>
+  <span style="display:flex;align-items:center;gap:7px;font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.7)"><span style="width:22px;height:22px;border-radius:4px;background:oklch(0.72 0.13 245)"></span>accent</span>
+  <span style="display:flex;align-items:center;gap:7px;font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.7)"><span style="width:22px;height:22px;border-radius:4px;background:oklch(0.78 0.13 152)"></span>gain</span>
+  <span style="display:flex;align-items:center;gap:7px;font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.7)"><span style="width:22px;height:22px;border-radius:4px;background:oklch(0.82 0.13 78)"></span>caution</span>
+  <span style="display:flex;align-items:center;gap:7px;font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.7)"><span style="width:22px;height:22px;border-radius:4px;background:oklch(0.68 0.17 25)"></span>loss</span>
+</div>
+<p style="font:400 13px/1.6 Barlow,sans-serif;color:rgba(22,24,26,.65);margin:0 0 24px;max-width:46em">One driver → one colour, assigned once per season in <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">lib/fmt.py</span> and reused by every chart and table accent, so a colour means the same driver on every page. Altair over Plotly here: selections round-trip to Python via <span style="font-family:'IBM Plex Mono',monospace;font-size:12.5px">on_select</span>, which is what makes the timeline scrub and the matrix drill-down work at all.</p>
+
+<h2 style="font:600 17px Barlow,sans-serif;margin:0 0 12px;padding-bottom:6px;border-bottom:1px solid rgba(22,24,26,.15)">6 · Build order</h2>
+<div style="display:flex;flex-direction:column;gap:8px;margin:0 0 6px">
+  <div style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:baseline;break-inside:avoid"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">01</span><span style="font:400 13px/1.6 Barlow,sans-serif"><span style="font-weight:600">Data layer + season rail.</span> <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">lib/data.py</span>, <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">session_list.sql</span>, sidebar. Proves connection reuse and caching before any chart exists.</span></div>
+  <div style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:baseline;break-inside:avoid"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">02</span><span style="font:400 13px/1.6 Barlow,sans-serif"><span style="font-weight:600">Result tab.</span> <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">race_result.sql</span> + the metric strip. The whole app is useful at this point.</span></div>
+  <div style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:baseline;break-inside:avoid"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">03</span><span style="font:400 13px/1.6 Barlow,sans-serif"><span style="font-weight:600">Time frame page.</span> Reuses existing season SQL unchanged — cheapest big win after step 2.</span></div>
+  <div style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:baseline;break-inside:avoid"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">04</span><span style="font:400 13px/1.6 Barlow,sans-serif"><span style="font-weight:600">Timeline tab.</span> The one genuinely new query set (<span style="font-family:'IBM Plex Mono',monospace;font-size:12px">race_running_order</span>, <span style="font-family:'IBM Plex Mono',monospace;font-size:12px">race_events</span>) and the only place selection plumbing matters.</span></div>
+  <div style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:baseline;break-inside:avoid"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">05</span><span style="font:400 13px/1.6 Barlow,sans-serif"><span style="font-weight:600">Passing, Pit, Pace tabs</span> — each one query plus one or two charts.</span></div>
+  <div style="display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:baseline;break-inside:avoid"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">06</span><span style="font:400 13px/1.6 Barlow,sans-serif"><span style="font-weight:600">Head-to-head</span> last: it is mostly re-slicing frames the other pages already cache.</span></div>
+</div>
+
+</div>
+</doc-page>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const k = (...w) => w.join('');
+    return {
+      themeToml: [
+        '# .streamlit/config.toml',
+        '[theme]',
+        'base                = "dark"',
+        k('background', 'Color') + '     = "#1b2024"   # page',
+        k('secondary', 'Background', 'Color') + ' = "#212830"  # cards, sidebar panels',
+        k('text', 'Color') + '           = "#e9eef2"',
+        k('primary', 'Color') + '        = "#5aa2f0"   # oklch(0.72 0.13 245)',
+        'font                = "sans-serif"'
+      ].join('\n')
+    };
+  }
+}
+</script>
+</body>
+</html>

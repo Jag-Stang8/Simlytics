@@ -12,6 +12,7 @@ dependencies = [
     "python-dotenv>=1.2.3",
     "scipy>=1.17.1",
     "seaborn>=0.13.2",
+    "streamlit>=1.62.0",
 ]
 
 [dependency-groups]

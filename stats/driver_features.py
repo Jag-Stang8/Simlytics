@@ -34,7 +34,7 @@ def _run(conn, name: str, params=None) -> pd.DataFrame:
 
 def green_lap_pace(conn) -> pd.DataFrame:
     """Green laps with pace as percent off the race median lap, slow tail trimmed."""
-    green = _run(conn, "green_laps.sql")
+    green = _run(conn, "green_laps.sql", {"subsession_id": None})
     green["laptime_s"] = green["laptime"].astype(float) / 10000.0
     green["race_median"] = green.groupby("subsession_id")["laptime_s"].transform("median")
     green["pace_pct"] = (green["laptime_s"] / green["race_median"] - 1.0) * 100.0

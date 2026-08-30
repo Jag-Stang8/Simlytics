@@ -170,13 +170,14 @@ def load_race(conn, race: ParsedRace) -> None:
     with conn.cursor() as cur:
         cur.execute(
             """
-            INSERT INTO races (subsession_id, season_id, track_id)
-            VALUES (%s, %s, %s)
+            INSERT INTO races (subsession_id, season_id, track_id, start_time)
+            VALUES (%s, %s, %s, %s)
             ON CONFLICT (subsession_id) DO UPDATE
                 SET season_id = EXCLUDED.season_id,
-                    track_id = EXCLUDED.track_id;
+                    track_id = EXCLUDED.track_id,
+                    start_time = EXCLUDED.start_time;
             """,
-            (race.subsession_id, race.season_id, race.track_id),
+            (race.subsession_id, race.season_id, race.track_id, race.start_time),
         )
 
 

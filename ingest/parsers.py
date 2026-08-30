@@ -110,6 +110,7 @@ class ParsedRace:
     subsession_id: int
     season_id: int
     track_id: int
+    start_time: str
 
 @dataclass
 class ParsedReasonCode:
@@ -245,6 +246,7 @@ def parse_race(raw_json: dict) -> ParsedRace:
         subsession_id=data["subsession_id"],
         season_id=data.get("league_season_id"),
         track_id=data.get("track", {}).get("track_id"),
+        start_time=data.get("start_time"),
     )
 
 
