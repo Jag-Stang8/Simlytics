@@ -13,7 +13,7 @@
 -- single repair stop doesn't distort the driver.
 --
 -- Lap times (best_lap_time, avg_lap) stay in raw ten-thousandths of a second;
--- app/lib/fmt.py formats them.
+-- web/lib/fmt.py formats them.
 
 WITH green AS (
     SELECT *

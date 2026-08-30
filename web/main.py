@@ -20,8 +20,9 @@ from fastapi.templating import Jinja2Templates
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 
-from app.lib import charts, fmt, metrics  # noqa: E402  — none import Streamlit
+from stats import metrics  # noqa: E402
 from web import data  # noqa: E402
+from web.lib import charts, fmt  # noqa: E402
 
 app = FastAPI(title="simlytics")
 app.mount("/static", StaticFiles(directory=HERE / "static"), name="static")

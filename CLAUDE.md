@@ -11,8 +11,8 @@ straight from iRacing: `subsession_id` (one race), `cust_id` (a driver), `sof`
 
 The **ingest pipeline is complete and verified** end-to-end against the live
 database (parse → load for both file types, idempotent on re-run), and `queries/`
-and `stats/` are populated. `app/` is a **Streamlit web UI** on top of them — a
-read-only consumer that never writes. `schema/` holds no DDL (the DB itself is the
+and `stats/` are populated. `web/` is a **FastAPI + Jinja web UI** on top of them —
+a read-only consumer that never writes. `schema/` holds no DDL (the DB itself is the
 schema source of truth — see below). `main.py` is leftover PyCharm boilerplate and
 is not part of the app.
 
@@ -24,12 +24,16 @@ Dependencies are managed with **uv** (`uv.lock`, `pyproject.toml`); Python >= 3.
 uv sync                                          # install deps into .venv
 uv run python -m ingest.ingest <path.json> ...   # ingest one or more result files
 uv run python -m db.introspect                   # dump live DB schema (read-only)
-uv run streamlit run app/Home.py                 # the web UI (run from the repo root)
+uv run uvicorn web.main:app --reload --port 8000 # the web UI
 ```
 
-**Run the app from the repo root.** Streamlit resolves `.streamlit/config.toml`
-from the working directory, not from the script's folder — the theme lives at
-`./.streamlit/config.toml` and is silently ignored if you launch from `app/`.
+`web/main.py` puts the repo root on `sys.path` so `db`, `stats` and `queries`
+resolve however uvicorn is launched.
+
+There was a Streamlit UI under `app/` until it was removed: it could not reach
+the designs in `resources/`, because Streamlit renders its own widget chrome and
+spacing while the mockups are bespoke layouts. Its data and formatting layers
+survive as `stats/metrics.py` and `web/lib/`; the git history has the rest.
 
 `psycopg` requires the `[binary]` extra (bundles libpq); it's already in
 `pyproject.toml`. The ingest CLI accepts multiple files and auto-orders
@@ -126,26 +130,38 @@ The pipeline is layered: **raw JSON → normalized rows → analytics**.
   normalized to each race median + fitted skew-normal, results, passing z-scores,
   pit speed) as a pandas DataFrame via `build_features()`; the basis for clustering /
   similarity work. `green_laps.sql` extracts the clean racing laps it uses.
-- `app/` — the **Streamlit UI**, a read-only consumer of the same SQL. Three pages
-  plus an entry page; `app/lib/` is the shared layer:
-  - `lib/data.py` — **the only place the app executes SQL.** One `st.cache_resource`
-    connection (autocommit, rebuilt once on `OperationalError`), `run_sql(name,
-    **params)` returning a DataFrame keyed on file name + params. `refresh()`
-    clears every cache — the whole story after an ingest.
-  - `lib/filters.py` — the shared sidebar (league → season → season rail) and
-    `range_picker()`. Every selection is mirrored into `st.query_params`, so a URL
-    is a shareable view. `_init_state()` seeds session state from the URL once per
-    session; without it the first run clears the deep link before reading it.
-  - `lib/metrics.py` — range aggregation in pandas. Reproduces `passing_score.sql`
-    (verified to its display rounding).
-  - `lib/charts.py` — Altair builders. No SQL.
-  - `lib/fmt.py` — formatting and the palette.
+- `web/` — the **FastAPI + Jinja UI**, a read-only consumer of the same SQL.
+  - `web/main.py` — routes and the per-page data assembly. Three pages:
+    `/session/{id}` (five tabs: result, timeline, passing, pit, pace),
+    `/season` (the time-frame explorer) and `/h2h` (head-to-head).
+  - `web/data.py` — **the only place the app executes SQL.** `rows(name, **params)`
+    returns a list of dicts. Templates never touch the database.
+  - `web/templates/` — one file per page plus a partial per session tab.
+  - `web/static/app.css` — **the design system, as real CSS**: tokens as custom
+    properties, then one class per component. Lifted from
+    `resources/Simlytics Web UI Ideas.dc.html`; every value there is the mockup's
+    own. Nothing generates this file — edit it directly. The three layout knobs
+    are `--rail-w`, `--aside-w` and `--gutter`.
+  - `web/lib/fmt.py` — formatting and the palette. `web/lib/charts.py` — Altair
+    builders that emit Vega-Lite specs; no SQL, no page code.
+
+  **Charts are Vega-Lite, rendered by vega-embed.** `charts.position_by_lap()`
+  takes a `data_url`: pass one and the spec references
+  `/api/session/{id}/running.json` and splits the field with a Vega-Lite filter
+  instead of in pandas. Without it the spec inlines every lap row, which put that
+  page at 2.2 MB. Prefer the URL form for anything lap-grained. Most other
+  visuals — the pass matrix, pit window, pace boxes, flag strip, points
+  progression — are plain HTML/CSS or inline SVG, not charts at all.
 
   **The range rule.** `driver_race_matrix.sql` returns only counts and raw values
-  at (subsession_id, cust_id) grain — never a ratio. So narrowing a date range is a
-  row filter on a cached frame, and every rate is recomputed by summing numerator
-  and denominator over the surviving races. Changing the range **never re-queries**.
-  Rates are computed from summed components, never averaged from per-race rates.
+  at (subsession_id, cust_id) grain — never a ratio. So narrowing a range is a
+  row filter on an already-fetched frame, and every rate is recomputed by summing
+  numerator and denominator over the surviving races. Rates are computed from
+  summed components, never averaged from per-race rates.
+
+- `stats/metrics.py` — range aggregation in pandas over that matrix, plus the
+  four passing z-scores and the blended score. Reproduces `passing_score.sql`
+  to that query's display rounding. Frontend-independent; a notebook can use it.
 
 - `notebooks/` — Jupyter notebooks for exploration.
 
@@ -169,7 +185,7 @@ parsers`); the DB layer is imported by path (`from db.connection import ...`).
   `race_results.avg_lap` / `best_lap_time` — are in **ten-thousandths of a second**
   (Bristol's median lap of 163692 is 16.37 s). The `*_ms` columns on `pit_cycles`
   are already **milliseconds**: `stats/pit_cycles.py` divides by 10 on the way in.
-  `app/lib/fmt.py` has `laptime()` for the former and `delta_s()` for the latter.
+  `web/lib/fmt.py` has `laptime()` for the former and `delta_s()` for the latter.
 - **Caution laps are derived, not reported.** `stats/passes.py` flags a lap whose
   field-median laptime exceeds the race median by `CAUTION_LAP_FACTOR` (1.46) and
   requires a run of at least `MIN_CAUTION_RUN` (2) consecutive laps — a single slow
@@ -205,10 +221,10 @@ parsers`); the DB layer is imported by path (`from db.connection import ...`).
 - Route all DB access through `db/connection.py` rather than opening psycopg
   connections directly.
 - In the app, the same rule one level up: SQL lives in `queries/*.sql` and runs
-  only through `app/lib/data.py`. Pages call `data.run_sql(...)`; they never build
-  SQL and never open a connection.
+  only through `web/data.py`. Routes call `data.rows(...)`; they never build SQL
+  and never open a connection, and templates never touch either.
 - Keep formatting out of SQL. Queries emit raw values (ticks, milliseconds,
-  0-based positions where the source is 0-based); `app/lib/fmt.py` formats them.
+  0-based positions where the source is 0-based); `web/lib/fmt.py` formats them.
   The exception is the pre-existing `pit_cycle_by_race.sql`, which rounds to
   seconds — it predates this rule and notebooks depend on its shape, which is why
   `race_pit_cycles.sql` exists alongside it rather than replacing it.
