@@ -1,10 +1,38 @@
+# Theme lifted from resources/Simlytics Web UI Ideas.dc.html.
+# Surfaces, inks and borders are the design's own values; the border and muted-ink
+# hexes are its rgba(233,238,242,.08/.10/.14) overlays flattened against each
+# surface, since Streamlit's theme options take solid colours.
+
 [theme]
-base                = "dark"
-backgroundColor     = "#1b2024"
+base                      = "dark"
+backgroundColor           = "#1b2024"   # card / app surface
+secondaryBackgroundColor  = "#212830"   # panels, tiles, table header
+textColor                 = "#e9eef2"
+primaryColor              = "#56acf0"   # oklch(0.72 0.13 245)
+borderColor               = "#303539"   # ink at .10 over #1b2024
+dataframeBorderColor      = "#2b3034"   # ink at .08
+dataframeHeaderBackgroundColor = "#212830"
+linkColor                 = "#56acf0"
+baseRadius                = "8px"
+buttonRadius              = "7px"
+showWidgetBorder          = true
+showSidebarBorder         = true
+
+font        = "Barlow:https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap, Helvetica, sans-serif"
+headingFont = "Barlow:https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&display=swap, Helvetica, sans-serif"
+codeFont    = "IBM Plex Mono:https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&display=swap, monospace"
+baseFontSize = 14
+
+# Validated against the #1b2024 surface — see app/lib/fmt.py HIGHLIGHT.
+chartCategoricalColors = ["#3987e5", "#d95926", "#199e70", "#c98500",
+                          "#d55181", "#008300", "#9085e9", "#e66767"]
+chartSequentialColors  = ["#cde2fb", "#b7d3f6", "#9ec5f4", "#86b6ef", "#6da7ec",
+                          "#5598e7", "#3987e5", "#2a78d6", "#256abf", "#1c5cab"]
+
+[theme.sidebar]
+backgroundColor          = "#161b1f"
 secondaryBackgroundColor = "#212830"
-textColor           = "#e9eef2"
-primaryColor        = "#5aa2f0"
-font                = "sans-serif"
+borderColor              = "#2b3034"   # ink at .10 over #161b1f
 
 [server]
 headless = true

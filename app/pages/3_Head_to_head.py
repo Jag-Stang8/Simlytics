@@ -15,9 +15,11 @@ if str(APP) not in sys.path:
 import pandas as pd
 import streamlit as st
 
-from lib import charts, data, filters, fmt, metrics
+from lib import charts, data, filters, fmt, metrics, theme
 
 st.set_page_config(page_title="Head-to-head · Simlytics", page_icon="🏁", layout="wide")
+
+theme.inject()
 
 league_id, season_id, _ = filters.sidebar(show_rail=False)
 if season_id is None:
@@ -29,7 +31,7 @@ picked, _mode = filters.range_picker(sessions)
 matrix = data.run_sql("driver_race_matrix.sql", season_id=int(season_id))
 scoped = matrix[matrix["subsession_id"].isin(picked)] if picked else matrix.iloc[0:0]
 
-st.markdown("### Head-to-head")
+theme.topbar("Head-to-head", f"{len(picked)} races")
 if scoped.empty:
     st.info("No races in the selected range.")
     st.stop()
@@ -65,12 +67,10 @@ b_row = agg[agg["driver_name"] == b_name].iloc[0]
 st.query_params["a"] = str(int(a_row["cust_id"]))
 st.query_params["b"] = str(int(b_row["cust_id"]))
 
-st.markdown(
-    f"<div style='color:{fmt.MUTED};font-size:0.9rem;margin-top:-0.4rem'>"
-    f"{len(picked)} races · {int(a_row['races'])} started by {a_name} · "
-    f"{int(b_row['races'])} by {b_name}</div>",
-    unsafe_allow_html=True,
-)
+theme.tiles([
+    (f"{a_name} races", str(int(a_row["races"])), None),
+    (f"{b_name} races", str(int(b_row["races"])), None),
+])
 st.write("")
 
 # --- mirrored metric bars ----------------------------------------------------
@@ -104,12 +104,12 @@ bars = pd.DataFrame(rows)
 left, right = st.columns([3, 2])
 
 with left:
-    st.markdown("**Metric comparison**")
+    st.markdown(theme.micro("Metric comparison"), unsafe_allow_html=True)
     st.caption("Bar length is normalized across the field; longer is always better. Values are printed at the tip.")
     st.altair_chart(charts.mirrored_bars(bars, a_name, b_name), width="stretch")
 
 with right:
-    st.markdown("**Passing profile**")
+    st.markdown(theme.micro("Passing profile"), unsafe_allow_html=True)
     st.altair_chart(charts.radar(a_row, b_row, a_name, b_name), width="stretch")
     st.dataframe(
         pd.DataFrame({
@@ -126,7 +126,7 @@ st.divider()
 fl, fr = st.columns([4, 3])
 
 with fl:
-    st.markdown("**Where they sit in the field**")
+    st.markdown(theme.micro("Where they sit in the field"), unsafe_allow_html=True)
     axes = [lbl for lbl in metrics.CATALOG if lbl not in ("Races",)]
     x_lbl = st.selectbox("X", axes, index=axes.index("Avg finish"))
     y_lbl = st.selectbox("Y", axes, index=axes.index("Passing score"))
@@ -143,7 +143,7 @@ with fl:
     st.caption(f"X = {x_lbl}, Y = {y_lbl}. Both selected drivers are highlighted; the field is grey.")
 
 with fr:
-    st.markdown("**Meetings**")
+    st.markdown(theme.micro("Meetings"), unsafe_allow_html=True)
     pair = data.run_sql(
         "driver_pair_passes.sql",
         season_id=int(season_id),

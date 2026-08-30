@@ -11,7 +11,7 @@ from __future__ import annotations
 import pandas as pd
 import streamlit as st
 
-from . import data, fmt
+from . import data, fmt, theme
 
 
 def _qp_int(key: str) -> int | None:
@@ -98,7 +98,12 @@ def sidebar(
         st.sidebar.warning("No ingested races yet.")
         return None, None, None
 
-    st.sidebar.markdown("## Simlytics")
+    st.sidebar.markdown(
+        f'<div style="font:700 15px {theme.SANS};color:{theme.INK};'
+        f'padding:2px 0 14px">simlytics</div>',
+        unsafe_allow_html=True,
+    )
+    st.sidebar.markdown(theme.micro("League / season"), unsafe_allow_html=True)
 
     league_ids = leagues["league_id"].tolist()
     league_id = _pick("league", league_ids)
@@ -159,8 +164,10 @@ def range_picker(sessions: pd.DataFrame) -> tuple[list[int], str]:
     ordered = sessions.sort_values("round")
     modes = ["Rounds", "Dates", "Last N", "Pick"]
     stored = st.query_params.get("range_mode")
+    st.sidebar.markdown(theme.micro("Range mode"), unsafe_allow_html=True)
     mode = st.sidebar.segmented_control(
-        "Range", modes, default=stored if stored in modes else "Rounds"
+        "Range", modes, default=stored if stored in modes else "Rounds",
+        label_visibility="collapsed",
     ) or "Rounds"
     st.query_params["range_mode"] = mode
 

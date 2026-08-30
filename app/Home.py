@@ -12,9 +12,11 @@ if str(Path(__file__).resolve().parent) not in sys.path:
 
 import streamlit as st
 
-from lib import data, filters, fmt
+from lib import data, filters, fmt, theme
 
 st.set_page_config(page_title="Simlytics", page_icon="🏁", layout="wide")
+
+theme.inject()
 
 league_id, season_id, subsession_id = filters.sidebar(
     navigate_to="pages/1_Session.py"
@@ -30,22 +32,20 @@ seasons = data.seasons(league_id=league_id).set_index("season_id")
 season_name = seasons.at[season_id, "season_name"]
 league_name = seasons.at[season_id, "league_name"]
 
-st.markdown(f"### {league_name}")
-st.markdown(
-    f"<div style='color:{fmt.MUTED};font-size:0.9rem;margin-top:-0.6rem'>"
-    f"{season_name} · {len(sessions)} races</div>",
-    unsafe_allow_html=True,
+theme.topbar(
+    f"{league_name} · {season_name}",
+    f"{len(sessions)} races · {sessions['entries'].max()} entries · "
+    f"{fmt.compact(sessions['green_passes'].sum())} green passes",
 )
+
+theme.tiles([
+    ("Races", str(len(sessions)), None),
+    ("Green passes", fmt.compact(sessions["green_passes"].sum()), theme.GAIN_TEXT),
+    ("Cautions", str(int(sessions["num_cautions"].sum())), theme.CAUTION),
+    ("Median SOF", fmt.compact(sessions["sof"].median()), None),
+])
 st.write("")
-
-# --- season totals ----------------------------------------------------------
-c1, c2, c3, c4 = st.columns(4)
-c1.metric("Races", len(sessions))
-c2.metric("Green passes", fmt.compact(sessions["green_passes"].sum()))
-c3.metric("Cautions", int(sessions["num_cautions"].sum()))
-c4.metric("Median SOF", fmt.compact(sessions["sof"].median()))
-
-st.divider()
+st.markdown(theme.micro("Season calendar"), unsafe_allow_html=True)
 
 # --- the season's races -----------------------------------------------------
 table = sessions.assign(

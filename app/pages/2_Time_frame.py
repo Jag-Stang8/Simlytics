@@ -14,9 +14,11 @@ if str(APP) not in sys.path:
 import pandas as pd
 import streamlit as st
 
-from lib import charts, data, filters, fmt, metrics
+from lib import charts, data, filters, fmt, metrics, theme
 
 st.set_page_config(page_title="Time frame · Simlytics", page_icon="🏁", layout="wide")
+
+theme.inject()
 
 league_id, season_id, _ = filters.sidebar(show_rail=False)
 if season_id is None:
@@ -28,14 +30,11 @@ picked, mode = filters.range_picker(sessions)
 matrix = data.run_sql("driver_race_matrix.sql", season_id=int(season_id))
 scoped = matrix[matrix["subsession_id"].isin(picked)] if picked else matrix.iloc[0:0]
 
-st.markdown("### Time frame")
-st.markdown(
-    f"<div style='color:{fmt.MUTED};font-size:0.9rem;margin-top:-0.6rem'>"
-    f"{len(picked)} races · {scoped['cust_id'].nunique() if not scoped.empty else 0} drivers"
-    f"</div>",
-    unsafe_allow_html=True,
+theme.topbar(
+    "Time frame",
+    f"{len(picked)} races · "
+    f"{scoped['cust_id'].nunique() if not scoped.empty else 0} drivers",
 )
-st.write("")
 
 if scoped.empty:
     st.info("No races in the selected range.")
@@ -84,7 +83,7 @@ st.divider()
 left, right = st.columns([3, 4])
 
 with left:
-    st.markdown("**Driver × round**")
+    st.markdown(theme.micro("Driver × round"), unsafe_allow_html=True)
     heat_options = {
         "Points": ("league_points", False),
         "Finish": ("finish", True),
@@ -101,7 +100,7 @@ with left:
     )
 
 with right:
-    st.markdown("**Points progression**")
+    st.markdown(theme.micro("Points progression"), unsafe_allow_html=True)
     prog = metrics.progression(scoped)
     prog = prog[prog["cust_id"].isin(agg["cust_id"])]
     leaders = (

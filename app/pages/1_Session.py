@@ -15,9 +15,11 @@ if str(APP) not in sys.path:
 import pandas as pd
 import streamlit as st
 
-from lib import charts, data, filters, fmt
+from lib import charts, data, filters, fmt, theme
 
 st.set_page_config(page_title="Session · Simlytics", page_icon="🏁", layout="wide")
+
+theme.inject()
 
 league_id, season_id, subsession_id = filters.sidebar()
 
@@ -33,23 +35,21 @@ if subsession_id not in sessions.index:
 race = sessions.loc[subsession_id]
 
 # --- header -----------------------------------------------------------------
-st.markdown(f"### Round {race['round']} · {fmt.track_label(race['track_name'], race['track_config_name'])}")
-st.markdown(
-    f"<div style='color:{fmt.MUTED};font-size:0.9rem;margin-top:-0.6rem'>"
-    f"{race['season_name']} · {fmt.race_date(race['start_time'], 'long')} · "
-    f"subsession {subsession_id}</div>",
-    unsafe_allow_html=True,
+theme.topbar(
+    f"{race['season_name']} · R{race['round']} "
+    f"{fmt.track_label(race['track_name'], race['track_config_name'])}",
+    f"{fmt.race_date(race['start_time'], 'long')} · subsession {subsession_id}",
 )
+
+theme.tiles([
+    ("Laps", str(int(race["laps_completed"])), None),
+    ("SOF", fmt.compact(race["sof"]), None),
+    ("Cautions", f"{int(race['num_cautions'])}", theme.CAUTION),
+    ("Caution laps", str(int(race["num_caution_laps"])), theme.CAUTION),
+    ("Green passes", fmt.compact(race["green_passes"]), theme.GAIN_TEXT),
+    ("Lead changes", str(int(race["num_lead_changes"])), None),
+])
 st.write("")
-
-m = st.columns(5)
-m[0].metric("Laps", int(race["laps_completed"]))
-m[1].metric("SOF", fmt.compact(race["sof"]))
-m[2].metric("Cautions", int(race["num_cautions"]), f"{int(race['num_caution_laps'])} laps")
-m[3].metric("Green passes", fmt.compact(race["green_passes"]))
-m[4].metric("Lead changes", int(race["num_lead_changes"]))
-
-st.divider()
 
 tab_result, tab_timeline, tab_passing, tab_pit, tab_pace = st.tabs(
     ["Result", "Timeline", "Passing", "Pit cycles", "Pace"]
@@ -177,7 +177,7 @@ with tab_timeline:
         left, right = st.columns([3, 4])
 
         with left:
-            st.markdown(f"**Running order — lap {lap}**")
+            st.markdown(theme.micro(f"Running order · lap {lap}"), unsafe_allow_html=True)
             order = running[running["lap_num"] == lap].sort_values("position")
             st.dataframe(
                 pd.DataFrame({
@@ -193,7 +193,7 @@ with tab_timeline:
             )
 
         with right:
-            st.markdown("**Event feed**")
+            st.markdown(theme.micro("Event feed"), unsafe_allow_html=True)
             kinds = st.multiselect(
                 "Kinds",
                 ["pass", "lead_change", "pit", "caution", "restart"],
@@ -228,7 +228,7 @@ with tab_passing:
     else:
         pc1, pc2 = st.columns([4, 3])
         with pc1:
-            st.markdown("**Who passed whom**")
+            st.markdown(theme.micro("Who passed whom"), unsafe_allow_html=True)
             st.altair_chart(charts.pass_matrix(matrix), width="stretch")
         with pc2:
             direction = st.radio(
@@ -238,7 +238,7 @@ with tab_passing:
             st.altair_chart(charts.passing_by_flag(by_flag, direction), width="stretch")
 
         st.divider()
-        st.markdown("**Opportunity conversion and restarts**")
+        st.markdown(theme.micro("Opportunity conversion and restarts"), unsafe_allow_html=True)
         race_rows = data.run_sql(
             "driver_race_matrix.sql", season_id=int(season_id)
         )
@@ -326,11 +326,11 @@ with tab_pace:
         )
         g1, g2 = st.columns([3, 4])
         with g1:
-            st.markdown("**Pace distribution**")
+            st.markdown(theme.micro("Pace distribution"), unsafe_allow_html=True)
             st.altair_chart(
                 charts.pace_box(charts.pace_box_stats(green), picked_pace),
                 width="stretch",
             )
         with g2:
-            st.markdown("**Consistency — median vs spread**")
+            st.markdown(theme.micro("Consistency · median vs spread"), unsafe_allow_html=True)
             st.altair_chart(charts.pace_scatter(summary, picked_pace), width="stretch")
