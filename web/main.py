@@ -12,7 +12,7 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Query, Request
 from fastapi.responses import RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -20,7 +20,7 @@ from fastapi.templating import Jinja2Templates
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent))
 
-from app.lib import charts, fmt  # noqa: E402  — neither imports Streamlit
+from app.lib import charts, fmt, metrics  # noqa: E402  — none import Streamlit
 from web import data  # noqa: E402
 
 app = FastAPI(title="simlytics")
@@ -305,5 +305,178 @@ def session(request: Request, subsession_id: int, tab: str = "result",
             "pass_": passing,
             "pit": pit,
             "pace": pace,
+        },
+    )
+
+
+# --- season-wide pages ------------------------------------------------------
+
+DEFAULT_METRICS = ["Points", "Avg finish", "Net passes", "Conversion %",
+                   "Defense %", "Pit Δ median", "Passing score"]
+
+
+def _scoped(season_id: int, r_from: int | None, r_to: int | None):
+    """The driver x race matrix, sliced to a round range. Never re-queries per
+    metric — the matrix holds counts, so a range is a row filter (see CLAUDE.md).
+    """
+    import pandas as pd
+
+    matrix = pd.DataFrame(data.rows("driver_race_matrix.sql", season_id=season_id))
+    if matrix.empty:
+        return matrix, matrix, 1, 1
+    lo_all, hi_all = int(matrix["round"].min()), int(matrix["round"].max())
+    lo = lo_all if r_from is None else max(lo_all, r_from)
+    hi = hi_all if r_to is None else min(hi_all, r_to)
+    if lo > hi:
+        lo, hi = lo_all, hi_all
+    scoped = matrix[matrix["round"].between(lo, hi)]
+    return matrix, scoped, lo, hi
+
+
+@app.get("/season")
+def season_page(request: Request, season_id: int | None = None,
+                r_from: int | None = None, r_to: int | None = None,
+                m: list[str] | None = Query(default=None)):
+    seasons = data.rows("season_list.sql", league_id=None)
+    if not seasons:
+        return RedirectResponse("/")
+    season = next((s for s in seasons if s["season_id"] == season_id), seasons[0])
+    sid = season["season_id"]
+
+    matrix, scoped, lo, hi = _scoped(sid, r_from, r_to)
+    if scoped.empty:
+        return RedirectResponse("/")
+
+    chosen = [x for x in (m or DEFAULT_METRICS) if x in metrics.CATALOG] or DEFAULT_METRICS
+    agg = metrics.aggregate(scoped, min_races=1)
+
+    sort_col, better, _f = metrics.CATALOG[chosen[0]]
+    agg = agg.sort_values(sort_col, ascending=not better)
+
+    cols = []
+    for label in chosen:
+        col, good_high, spec = metrics.CATALOG[label]
+        cols.append({"label": label, "col": col, "spec": spec, "high": good_high})
+
+    rows = []
+    for rank, rec in enumerate(agg.to_dict("records"), start=1):
+        cells = []
+        for c in cols:
+            v = rec.get(c["col"])
+            cells.append({
+                "text": "—" if v is None or v != v else (c["spec"] % v).replace("%%", "%"),
+                "cls": "gain" if (c["col"] == "net_passes" and v and v > 0)
+                       else "loss" if (c["col"] == "net_passes" and v and v < 0) else "",
+            })
+        rows.append({"rank": rank, "name": rec["driver_name"],
+                     "cust_id": rec["cust_id"], "cells": cells})
+
+    # finish-position heatmap, best drivers x rounds
+    top = [r["cust_id"] for r in rows[:8]]
+    rounds = sorted(scoped["round"].unique().tolist())
+    finishes = {
+        (int(r["cust_id"]), int(r["round"])): int(r["finish"])
+        for r in scoped.to_dict("records")
+    }
+    field = int(scoped["finish"].max() or 1)
+    heat = []
+    for r in rows[:8]:
+        cells = []
+        for rd in rounds:
+            f = finishes.get((int(r["cust_id"]), rd))
+            # one hue, dark = good; blank where the driver did not start
+            alpha = 0 if f is None else 0.15 + 0.65 * (1 - (f - 1) / max(field - 1, 1))
+            cells.append({"v": f, "alpha": alpha})
+        heat.append({"name": r["name"], "cells": cells})
+
+    prog = metrics.progression(scoped)
+    leaders = [r["cust_id"] for r in rows[:5]]
+    series = []
+    for i, cust in enumerate(leaders):
+        pts = prog[prog["cust_id"] == cust].sort_values("round")
+        series.append({
+            "name": next(r["name"] for r in rows if r["cust_id"] == cust),
+            "color": fmt.HIGHLIGHT[i],
+            "points": list(zip(pts["round"].tolist(),
+                               pts["cumulative_points"].tolist())),
+        })
+    peak = max((p[1] for s in series for p in s["points"]), default=1) or 1
+
+    all_rounds = sorted(matrix["round"].unique().tolist())
+    field_size = {
+        int(rd): int((matrix["round"] == rd).sum()) for rd in all_rounds
+    }
+    biggest = max(field_size.values(), default=1) or 1
+
+    return templates.TemplateResponse(
+        request=request, name="season.html",
+        context={
+            "season": season, "seasons": seasons,
+            "rows": rows, "cols": cols, "chosen": chosen,
+            "catalog": list(metrics.CATALOG),
+            "lo": lo, "hi": hi, "all_rounds": all_rounds,
+            "field_size": field_size, "biggest": biggest,
+            "rounds": rounds, "heat": heat,
+            "series": series, "peak": peak,
+            "drivers": len(rows), "races": len(rounds),
+        },
+    )
+
+
+@app.get("/h2h")
+def h2h_page(request: Request, season_id: int | None = None,
+             a: int | None = None, b: int | None = None,
+             r_from: int | None = None, r_to: int | None = None):
+    seasons = data.rows("season_list.sql", league_id=None)
+    if not seasons:
+        return RedirectResponse("/")
+    season = next((s for s in seasons if s["season_id"] == season_id), seasons[0])
+    sid = season["season_id"]
+
+    _matrix, scoped, lo, hi = _scoped(sid, r_from, r_to)
+    if scoped.empty:
+        return RedirectResponse("/")
+
+    agg = metrics.aggregate(scoped, min_races=1).sort_values("points", ascending=False)
+    people = agg.to_dict("records")
+    by_id = {int(p["cust_id"]): p for p in people}
+    a_row = by_id.get(a) or people[0]
+    b_row = by_id.get(b) or next((p for p in people if p is not a_row), people[0])
+
+    compare = ["Points", "Wins", "Avg finish", "Laps led", "Net passes",
+               "Conversion %", "Defense %", "Pit Δ median", "Incidents"]
+    bars = []
+    for label in compare:
+        col, good_high, spec = metrics.CATALOG[label]
+        av, bv = a_row.get(col), b_row.get(col)
+        if (av is None or av != av) and (bv is None or bv != bv):
+            continue
+        pair = [x for x in (av, bv) if x is not None and x == x]
+        widest = max(abs(float(x)) for x in pair) or 1.0
+
+        def width(v):
+            return 0 if v is None or v != v else abs(float(v)) / widest * 100
+
+        def show(v):
+            return "—" if v is None or v != v else (spec % v).replace("%%", "%")
+
+        bars.append({"label": label, "a": show(av), "b": show(bv),
+                     "aw": width(av), "bw": width(bv)})
+
+    pair_rows = data.rows("driver_pair_passes.sql", season_id=sid,
+                          a=int(a_row["cust_id"]), b=int(b_row["cust_id"]))
+    keep = [r for r in pair_rows if lo <= r["round"] <= hi and r["is_green"]]
+    a_over = sum(1 for r in keep if r["direction"] == "a_over_b")
+    b_over = len(keep) - a_over
+    total = max(a_over + b_over, 1)
+
+    return templates.TemplateResponse(
+        request=request, name="h2h.html",
+        context={
+            "season": season, "a": a_row, "b": b_row, "people": people,
+            "bars": bars, "lo": lo, "hi": hi,
+            "a_over": a_over, "b_over": b_over,
+            "a_pct": a_over / total * 100, "b_pct": b_over / total * 100,
+            "meetings": len(keep),
         },
     )

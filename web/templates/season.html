@@ -1,0 +1,129 @@
+{% extends "base.html" %}
+{% block title %}Time frame · simlytics{% endblock %}
+
+{% macro qs(from_, to_, ms) -%}
+?season_id={{ season.season_id }}&r_from={{ from_ }}&r_to={{ to_ }}{% for x in ms %}&m={{ x | urlencode }}{% endfor %}
+{%- endmacro %}
+
+{% block content %}
+<div class="topbar">
+  <div class="left">
+    <span class="mark">simlytics</span>
+    <span class="crumb">{{ season.league_name }} · Time frame</span>
+  </div>
+  <div class="right">
+    <span class="stat">{{ drivers }} drivers · {{ races }} races · rounds {{ lo }}–{{ hi }}</span>
+    <a class="btn" href="/">Back to session</a>
+    <a class="btn" href="/h2h{{ qs(lo, hi, []) }}">Head-to-head</a>
+  </div>
+</div>
+
+<div class="season-shell">
+
+  <div class="range">
+    <div>
+      <div class="micro" style="margin-bottom:9px">Range mode</div>
+      <div class="segmented">
+        <a class="on" href="{{ '/season' ~ qs(lo, hi, chosen) }}">Rounds</a>
+        <a href="{{ '/season' ~ qs(lo, hi, chosen) }}" title="Not ported yet">Dates</a>
+        <a href="{{ '/season' ~ qs(all_rounds[-5] if all_rounds | length > 5 else all_rounds[0], all_rounds[-1], chosen) }}">Last 5</a>
+        <a href="{{ '/season' ~ qs(all_rounds[0], all_rounds[-1], chosen) }}">All</a>
+      </div>
+    </div>
+
+    <div>
+      <div class="micro" style="margin-bottom:11px">
+        Rounds {{ lo }} → {{ hi }} of {{ all_rounds | length }}
+      </div>
+      <div class="roundbars">
+        {% for rd in all_rounds %}
+          <a class="{% if lo <= rd <= hi %}on{% else %}out{% endif %}"
+             style="height: {{ '%.0f' % (30 + 70 * field_size[rd] / biggest) }}%"
+             title="R{{ rd }} · {{ field_size[rd] }} entries"
+             href="{{ '/season' ~ qs(rd if rd < hi else lo, hi if rd < hi else rd, chosen) }}"></a>
+        {% endfor %}
+      </div>
+      <div class="scalerow">
+        <span>R{{ all_rounds[0] }}</span><span>Bar = field size</span><span>R{{ all_rounds[-1] }}</span>
+      </div>
+    </div>
+
+    <div>
+      <div class="micro" style="margin-bottom:9px">Metrics · {{ chosen | length }} shown</div>
+      <div class="chips">
+        {% for label in catalog %}
+          {% if label in chosen %}
+            <a class="on"
+               href="{{ '/season' ~ qs(lo, hi, chosen | reject('equalto', label) | list) }}">{{ label }} ×</a>
+          {% else %}
+            <a class="off"
+               href="{{ '/season' ~ qs(lo, hi, chosen + [label]) }}">+ {{ label }}</a>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <div class="season-main">
+    <div class="stable">
+      {% set grid = 'grid-template-columns: 26px minmax(0,1fr)' ~ (' 74px' * (cols | length)) %}
+      <div class="h" style="display:grid; {{ grid }}">
+        <span>#</span><span>Driver</span>
+        {% for c in cols %}<span>{{ c.label }}</span>{% endfor %}
+      </div>
+      {% for r in rows %}
+      <a class="row" style="display:grid; {{ grid }}"
+         href="/h2h?season_id={{ season.season_id }}&r_from={{ lo }}&r_to={{ hi }}&a={{ r.cust_id }}">
+        <span class="rank">{{ r.rank }}</span>
+        <span class="who"><i></i><b>{{ r.name }}</b></span>
+        {% for c in r.cells %}
+          <span class="n {{ c.cls }} {% if loop.first %}lead{% endif %}">{{ c.text }}</span>
+        {% endfor %}
+      </a>
+      {% endfor %}
+    </div>
+
+    <div class="season-split">
+      <div>
+        <div class="micro" style="margin-bottom:10px">Finish position · driver × round</div>
+        <div class="heat" style="grid-template-columns: 104px repeat({{ rounds | length }}, minmax(0, 1fr))">
+          <span></span>
+          {% for rd in rounds %}<span class="hcol">R{{ rd }}</span>{% endfor %}
+          {% for h in heat %}
+            <span class="hname">{{ h.name }}</span>
+            {% for c in h.cells %}
+              <span class="hcell"
+                    style="background: {% if c.v %}oklch(0.72 0.13 245 / {{ '%.2f' % c.alpha }}){% else %}rgba(233,238,242,.04){% endif %};
+                           color: {% if c.alpha > 0.5 %}#fff{% else %}var(--ink-60){% endif %}">
+                {{ c.v if c.v else '' }}
+              </span>
+            {% endfor %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div>
+        <div class="micro" style="margin-bottom:10px">Points progression</div>
+        {% set w = 340 %}{% set h = 190 %}
+        <svg viewBox="0 0 {{ w }} {{ h }}" style="width:100%;height:auto;display:block">
+          <line x1="18" y1="{{ h - 14 }}" x2="{{ w - 8 }}" y2="{{ h - 14 }}"
+                stroke="rgba(233,238,242,.15)"></line>
+          {% for s in series %}
+            {% if s.points | length > 1 %}
+            <polyline fill="none" stroke="{{ s.color }}" stroke-width="2.2"
+              points="{% for rd, pts in s.points %}{{ 18 + (rd - rounds[0]) / ((rounds | length - 1) or 1) * (w - 30) }},{{ (h - 14) - (pts / peak) * (h - 28) }} {% endfor %}"></polyline>
+            {% endif %}
+          {% endfor %}
+        </svg>
+        <div class="legend" style="flex-wrap:wrap;margin-top:8px">
+          {% for s in series %}
+          <span style="font:500 10.5px var(--sans);color:var(--ink-60);text-transform:none">
+            <i style="width:10px;height:3px;border-radius:0;background:{{ s.color }}"></i>{{ s.name }}
+          </span>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

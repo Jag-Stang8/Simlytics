@@ -447,3 +447,151 @@ body {
 @media (max-width: 1180px) {
   .panels.pass, .panels.pace { grid-template-columns: 1fr; }
 }
+
+/* ==========================================================================
+   Season-wide pages: Time frame (3a) and Head-to-head (3b)
+   ========================================================================== */
+
+/* top bar used by both — wordmark, breadcrumb, right-hand stat */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px var(--gutter); border-bottom: 1px solid var(--line-08);
+}
+.topbar .left { display: flex; align-items: baseline; gap: 14px; }
+.topbar .mark { font: 700 15px var(--sans); color: var(--ink); }
+.topbar .crumb, .topbar .stat {
+  font: 500 10.5px var(--mono); color: var(--ink-40); text-transform: uppercase;
+}
+.topbar .right { display: flex; align-items: center; gap: 10px; }
+
+/* --- range sidebar ------------------------------------------------------- */
+.season-shell { display: grid; grid-template-columns: 262px minmax(0, 1fr); }
+.range {
+  padding: 18px 20px 24px; border-right: 1px solid var(--line-08);
+  background: var(--sidebar); display: flex; flex-direction: column; gap: 22px;
+}
+.segmented { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.segmented a {
+  font: 500 11.5px var(--sans); text-align: center; padding: 7px 0;
+  border-radius: 6px; background: var(--panel);
+  border: 1px solid var(--line-10); color: var(--ink-75, rgba(233,238,242,.75));
+  text-decoration: none;
+}
+.segmented a.on {
+  font-weight: 600; background: var(--ink); color: var(--on-light);
+  border-color: var(--ink);
+}
+
+/* round bars — height is field size, fill is in/out of range */
+.roundbars { display: flex; gap: 3px; align-items: flex-end; height: 44px; }
+.roundbars a { flex: 1; border-radius: 3px; background: rgba(233,238,242,.14); }
+.roundbars a.on { background: var(--accent); }
+.roundbars a.out { background: rgba(233,238,242,.10); }
+.scalerow {
+  display: flex; justify-content: space-between; margin-top: 6px;
+  font: 500 9.5px var(--mono); color: var(--ink-32);
+}
+
+/* metric chips */
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chips a {
+  font: 500 11px var(--sans); padding: 5px 9px; border-radius: 20px;
+  text-decoration: none;
+}
+.chips a.on { background: var(--ink); color: var(--on-light); }
+.chips a.off { border: 1px dashed rgba(233,238,242,.25); color: var(--ink-60); }
+
+/* --- season table -------------------------------------------------------- */
+.season-main { padding: 18px var(--gutter) 24px; display: flex; flex-direction: column; gap: 22px; }
+.stable { display: grid; }
+.stable .h {
+  padding-bottom: 8px; border-bottom: 1px solid var(--line-10);
+  font: 500 9.5px var(--mono); letter-spacing: .05em; color: var(--ink-40);
+}
+.stable .h span + span, .stable .row span + span { text-align: right; }
+.stable .row {
+  align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line-06);
+  font: 500 13px var(--sans); color: var(--ink); text-decoration: none;
+}
+.stable .row:hover { background: rgba(233,238,242,.03); }
+.stable .row .rank { font: 600 11px var(--mono); color: var(--ink-45); text-align: left; }
+.stable .row .who { display: flex; align-items: center; gap: 9px; text-align: left; min-width: 0; }
+.stable .row .who b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stable .row .who i { width: 3px; height: 15px; border-radius: 2px; background: var(--accent); flex: none; }
+.stable .row .n { font: 500 12px var(--mono); color: var(--ink-60); }
+.stable .row .n.lead { font: 600 12.5px var(--mono); color: var(--ink); }
+.stable .row .n.gain { color: var(--gain); }
+.stable .row .n.loss { color: var(--loss); }
+
+/* --- driver x round heatmap ---------------------------------------------- */
+.season-split { display: grid; grid-template-columns: 1.35fr 1fr; gap: 24px; }
+.heat { display: grid; gap: 3px; align-items: center; }
+.heat .hname {
+  font: 500 11.5px var(--sans); color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.heat .hcol { font: 500 9.5px var(--mono); color: var(--ink-35); text-align: center; }
+.heat .hcell {
+  height: 22px; border-radius: 3px; display: flex;
+  align-items: center; justify-content: center;
+  font: 500 10.5px var(--mono);
+}
+
+/* --- head-to-head -------------------------------------------------------- */
+.h2h-banner {
+  display: grid; grid-template-columns: 1fr 92px 1fr; align-items: center;
+  padding: 20px var(--gutter); background: var(--sidebar);
+  border-bottom: 1px solid var(--line-08);
+}
+.h2h-banner .who b { font: 600 19px var(--sans); color: var(--ink); display: block; }
+.h2h-banner .who span { font: 500 10.5px var(--mono); }
+.h2h-banner .b { text-align: right; }
+.h2h-banner .vs { font: 600 13px var(--mono); color: var(--ink-30); text-align: center; }
+.h2h-a { color: var(--loss); }
+.h2h-b { color: var(--accent-text); }
+
+.h2h-body { display: grid; grid-template-columns: minmax(0, 1fr) 310px; }
+.h2h-metrics {
+  padding: 18px var(--gutter) 22px; border-right: 1px solid var(--line-08);
+  display: flex; flex-direction: column; gap: 11px;
+}
+.h2h-row {
+  display: grid; grid-template-columns: 62px 1fr 128px 1fr 62px;
+  align-items: center; gap: 8px;
+}
+.h2h-row .val { font: 600 13px var(--mono); color: var(--ink); }
+.h2h-row .val.l { text-align: right; }
+.h2h-row .lbl {
+  font: 500 10.5px var(--mono); letter-spacing: .04em;
+  color: var(--ink-45); text-align: center; text-transform: uppercase;
+}
+.h2h-row .track {
+  height: 8px; border-radius: 4px; background: rgba(233,238,242,.09);
+  display: flex; overflow: hidden;
+}
+.h2h-row .track.l { justify-content: flex-end; }
+.h2h-row .track i { display: block; height: 8px; border-radius: 4px; }
+.h2h-row .track.l i { background: var(--loss); }
+.h2h-row .track.r i { background: var(--accent); }
+
+.meetings { display: flex; gap: 5px; align-items: center; }
+.meetings i {
+  height: 26px; border-radius: 4px; display: flex; align-items: center;
+  padding: 0 9px; font: 600 11.5px var(--mono); color: #fff; font-style: normal;
+  white-space: nowrap; overflow: hidden;
+}
+.meetings i.a { background: oklch(0.62 0.16 25); }
+.meetings i.b { background: oklch(0.58 0.13 245); justify-content: flex-end; }
+.meetings i.none {
+  background: repeating-linear-gradient(135deg, rgba(233,238,242,.12) 0 4px, transparent 4px 8px);
+  color: var(--ink-45); justify-content: center; font-weight: 500; font-size: 10.5px;
+}
+
+@media (max-width: 1180px) {
+  .season-split { grid-template-columns: 1fr; }
+  .h2h-body { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .season-shell { grid-template-columns: 1fr; }
+  .range { border-right: none; border-bottom: 1px solid var(--line-08); }
+}

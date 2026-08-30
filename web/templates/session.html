@@ -35,8 +35,8 @@
 
     <div class="rail-foot">
       <div class="micro" style="padding:0 4px">Season-wide</div>
-      <a class="rail-link" href="#">Standings &amp; stat builder</a>
-      <a class="rail-link" href="#">Head-to-head</a>
+      <a class="rail-link" href="/season?season_id={{ race.season_id }}">Standings &amp; stat builder</a>
+      <a class="rail-link" href="/h2h?season_id={{ race.season_id }}">Head-to-head</a>
     </div>
   </div>
 
@@ -89,8 +89,8 @@
         <span class="tabstat">Green laps only · {{ pace.green_laps }} laps · median {{ pace.median_lap | laptime }}</span>
       {% else %}
         <span class="spacer">
-          <a class="btn" href="#">Compare a time frame</a>
-          <a class="btn" href="#">Head-to-head</a>
+          <a class="btn" href="/season?season_id={{ race.season_id }}">Compare a time frame</a>
+          <a class="btn" href="/h2h?season_id={{ race.season_id }}">Head-to-head</a>
         </span>
       {% endif %}
     </div>
@@ -108,7 +108,8 @@
           <span class="r">PIT Δ</span><span class="r">INC</span><span class="r">PTS</span>
         </div>
         {% for r in result %}
-        <a class="result-cols result-row" href="#">
+        <a class="result-cols result-row"
+           href="/h2h?season_id={{ race.season_id }}&a={{ r.cust_id }}">
           <span class="pos">{{ r.finish }}</span>
           <span class="driver">
             <span class="chip"></span>{{ r.driver_name }}
@@ -123,7 +124,8 @@
         </a>
         {% endfor %}
         <p class="footnote">
-          Click any driver to open <a href="#">head-to-head</a> with them pre-loaded.
+          Click any driver to open
+          <a href="/h2h?season_id={{ race.season_id }}">head-to-head</a> with them pre-loaded.
           NET+/- excludes pit-cycle and caution order changes.
         </p>
       </div>
