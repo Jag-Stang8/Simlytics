@@ -88,6 +88,10 @@ The pipeline is layered: **raw JSON → normalized rows → analytics**.
   pitting nearby), and `is_outlier` (per-race Tukey Q3+3*IQR on time lost — flags
   repair/stall/penalty stops; pit-cycle queries exclude it). Run:
   `uv run python -m stats.pit_cycles`.
+- `stats/driver_features.py` — assembles a per-driver feature vector (green-lap pace
+  normalized to each race median + fitted skew-normal, results, passing z-scores,
+  pit speed) as a pandas DataFrame via `build_features()`; the basis for clustering /
+  similarity work. `green_laps.sql` extracts the clean racing laps it uses.
 - `notebooks/` — Jupyter notebooks for exploration.
 
 Run everything as a module from the repo root (`python -m ingest.ingest`). Within
