@@ -130,6 +130,7 @@ def position_by_lap(
     running: pd.DataFrame,
     highlight: list[str],
     caution_laps: list[int],
+    data_url: str | None = None,
 ) -> alt.Chart:
     """Position-by-lap lines with caution bands and a clickable lap cursor.
 
@@ -137,6 +138,11 @@ def position_by_lap(
     so the field is one grey and only the highlighted drivers take slots from
     `fmt.HIGHLIGHT`. y is inverted so P1 sits at the top, which is how a running
     order is read.
+
+    `data_url` keeps the spec lean: instead of inlining every lap row, the layers
+    point at a URL and split the field with a Vega-Lite filter rather than in
+    pandas. A long race is thousands of rows, and inlining them makes the page
+    tens of times larger than it needs to be.
     """
     lap_sel = alt.selection_point(
         name="lap", fields=["lap_num"], on="click", nearest=True, empty=False
@@ -165,18 +171,27 @@ def position_by_lap(
             )
         )
 
-    field = running[~running["driver_name"].isin(highlight)]
-    lead = running[running["driver_name"].isin(highlight)]
+    if data_url:
+        source = alt.Chart(alt.Data(url=data_url))
+        in_highlight = alt.FieldOneOfPredicate("driver_name", highlight or [""])
+        field = source.transform_filter(~in_highlight)
+        lead = source.transform_filter(in_highlight)
+        field_empty = lead_empty = False
+    else:
+        field_rows = running[~running["driver_name"].isin(highlight)]
+        lead_rows = running[running["driver_name"].isin(highlight)]
+        field, lead = alt.Chart(field_rows), alt.Chart(lead_rows)
+        field_empty, lead_empty = field_rows.empty, lead_rows.empty
 
-    if not field.empty:
+    if not field_empty:
         layers.append(
-            alt.Chart(field)
+            field
             .mark_line(strokeWidth=1, opacity=0.28, color="#5c6470")
             .encode(x=x, y=y, detail="driver_name:N")
         )
-    if not lead.empty:
+    if not lead_empty:
         layers.append(
-            alt.Chart(lead)
+            lead
             .mark_line(strokeWidth=2)
             .encode(
                 x=x,
@@ -198,7 +213,7 @@ def position_by_lap(
     # A transparent wide-hit-area layer so clicking anywhere on a lap selects it,
     # rather than requiring a hit on a 2px line.
     cursor = (
-        alt.Chart(running)
+        (alt.Chart(alt.Data(url=data_url)) if data_url else alt.Chart(running))
         .mark_rule(strokeWidth=6, opacity=0)
         .encode(x=x, tooltip=alt.Tooltip("lap_num:Q", title="Lap"))
         .add_params(lap_sel)
