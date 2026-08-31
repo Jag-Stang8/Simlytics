@@ -1,0 +1,52 @@
+{# Pace tab — mockup 3e #}
+{% if not pace %}
+  <div class="panel-pane"><p class="footnote">No green laps — this race's lap chart has not been ingested.</p></div>
+{% else %}
+<div class="panels pace">
+  <div class="panel-pane">
+    <div class="micro">Lap-time distribution · % of race median</div>
+    <div class="pace">
+      {% for r in pace.rows %}
+      <div class="pacerow {% if loop.index > 5 %}back{% endif %}">
+        <span class="n">{{ r.driver_name }}</span>
+        <span class="pacetrack">
+          {% if pace.zero is not none %}
+          <i class="zero" style="left: {{ '%.2f' % pace.zero }}%"></i>
+          {% endif %}
+          <i class="whisker" style="left: {{ '%.2f' % r.l_lo }}%; width: {{ '%.2f' % (r.l_hi - r.l_lo) }}%"></i>
+          <i class="box" style="left: {{ '%.2f' % r.l_q1 }}%; width: {{ '%.2f' % (r.l_q3 - r.l_q1) }}%"></i>
+          <i class="med" style="left: {{ '%.2f' % r.l_med }}%"></i>
+        </span>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="pacescale">
+      <span>{{ '%+.1f' % pace.lo }}%</span>
+      <span>Race median</span>
+      <span>{{ '%+.1f' % pace.hi }}%</span>
+    </div>
+    <div class="tl-note">
+      Box is Q1–Q3, the tick is the median, whiskers are Tukey 1.5·IQR clamped to
+      observed laps. Green laps only: caution laps, pit in/out laps and the
+      standing-start lap are excluded.
+    </div>
+  </div>
+
+  <div class="panel-pane">
+    <div class="micro">Fastest by median</div>
+    <div class="panel-rows">
+      {% for r in pace.rows[:8] %}
+      <div class="panel-row">
+        <span>{{ r.driver_name }}</span>
+        <span class="v">{{ '%+.2f' % r.median }}% <span style="color:var(--ink-32)">{{ r.laps }} laps</span></span>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="panel" style="margin-top:16px">
+      Race median green lap <b>{{ pace.median_lap | laptime }}</b> over
+      <b>{{ pace.green_laps }}</b> green laps from <b>{{ pace.drivers }}</b> drivers.
+      Every figure on this tab is a percentage off that.
+    </div>
+  </div>
+</div>
+{% endif %}

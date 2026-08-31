@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#e9e7e2;font-family:Barlow,Helvetica,sans-serif}
+a{color:oklch(0.55 0.13 245);text-decoration:none}a:hover{color:oklch(0.45 0.13 245)}
+.dv-turn{padding:40px 44px 32px;border-bottom:1px solid rgba(0,0,0,.08);scroll-margin-top:16px}
+.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 20px}
+.dv-tid{font:600 10px 'IBM Plex Mono',monospace;padding:3px 7px;background:#16181a;color:#fff;border-radius:4px;text-decoration:none}
+.dv-tname{font:600 13px/1.2 Barlow,sans-serif;color:#16181a}
+.dv-opts{display:flex;flex-wrap:wrap;gap:28px;align-items:flex-start}
+.dv-opt{flex:none;display:flex;flex-direction:column;gap:9px;scroll-margin-top:16px}
+.dv-oid{font:600 10.5px 'IBM Plex Mono',monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#16181a;border-radius:5px;text-decoration:none}
+.dv-olabel{display:flex;align-items:baseline;gap:8px;font:400 11.5px/1.3 Barlow,sans-serif;color:rgba(0,0,0,.55)}
+.dv-card{max-width:100%;background:#fff;border:1px solid rgba(0,0,0,.10);border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.07);overflow:hidden}
+.dv-opt:target .dv-oid{background:oklch(0.70 0.13 245);color:#fff}
+.dv-next{margin:22px 0 0;font:12px/1.6 Barlow,sans-serif;color:rgba(0,0,0,.5)}
+</style></helmet>
+
+<section class="dv-turn" id="t3">
+<div class="dv-thd"><a class="dv-tid" href="#t3">3</a><span class="dv-tname"><a class="dv-oid" href="#1c">1c</a> and <a class="dv-oid" href="#1d">1d</a> in the softer dark palette, plus the three remaining tabs of <a class="dv-oid" href="#2a">2a</a></span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="3a">
+<div class="dv-olabel"><a class="dv-oid" href="#3a">3a</a>Time-frame explorer — <a class="dv-oid" href="#1c">1c</a> converted</div>
+<div class="dv-card" style="width:1240px;background:#1b2024;border-color:rgba(233,238,242,.10)">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid rgba(233,238,242,.08)">
+    <div style="display:flex;align-items:baseline;gap:14px"><span style="font:700 15px Barlow,sans-serif;color:#e9eef2">simlytics</span><span style="font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">APEX GTP · TIME FRAME</span></div>
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">14 DRIVERS · 6 RACES · 3 412 GREEN PASSES</span>
+      <a href="#2a" style="font:500 11.5px Barlow,sans-serif;padding:6px 11px;border-radius:6px;border:1px solid rgba(233,238,242,.14);color:rgba(233,238,242,.8)">Back to session</a>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:262px 1fr">
+    <div style="padding:18px 20px 24px;border-right:1px solid rgba(233,238,242,.08);background:#161b1f;display:flex;flex-direction:column;gap:22px">
+      <div>
+        <div style="font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.09em;color:rgba(233,238,242,.35);margin-bottom:9px">RANGE MODE</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+          <span style="font:600 11.5px Barlow,sans-serif;text-align:center;padding:7px 0;border-radius:6px;background:#e9eef2;color:#16181a">Rounds</span>
+          <span style="font:500 11.5px Barlow,sans-serif;text-align:center;padding:7px 0;border-radius:6px;background:#212830;border:1px solid rgba(233,238,242,.10);color:rgba(233,238,242,.75)">Dates</span>
+          <span style="font:500 11.5px Barlow,sans-serif;text-align:center;padding:7px 0;border-radius:6px;background:#212830;border:1px solid rgba(233,238,242,.10);color:rgba(233,238,242,.75)">Last N</span>
+          <span style="font:500 11.5px Barlow,sans-serif;text-align:center;padding:7px 0;border-radius:6px;background:#212830;border:1px solid rgba(233,238,242,.10);color:rgba(233,238,242,.75)">Hand-pick</span>
+        </div>
+      </div>
+      <div>
+        <div style="font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.09em;color:rgba(233,238,242,.35);margin-bottom:11px">ROUNDS 3 → 8 OF 10</div>
+        <div style="display:flex;gap:3px;align-items:flex-end;height:44px">
+          <span style="flex:1;height:60%;border-radius:3px;background:rgba(233,238,242,.14)"></span>
+          <span style="flex:1;height:75%;border-radius:3px;background:rgba(233,238,242,.14)"></span>
+          <span style="flex:1;height:52%;border-radius:3px;background:oklch(0.72 0.13 245)"></span>
+          <span style="flex:1;height:88%;border-radius:3px;background:oklch(0.72 0.13 245)"></span>
+          <span style="flex:1;height:66%;border-radius:3px;background:oklch(0.72 0.13 245)"></span>
+          <span style="flex:1;height:44%;border-radius:3px;background:oklch(0.72 0.13 245)"></span>
+          <span style="flex:1;height:80%;border-radius:3px;background:oklch(0.72 0.13 245)"></span>
+          <span style="flex:1;height:70%;border-radius:3px;background:oklch(0.72 0.13 245)"></span>
+          <span style="flex:1;height:35%;border-radius:3px;background:rgba(233,238,242,.10)"></span>
+          <span style="flex:1;height:30%;border-radius:3px;background:rgba(233,238,242,.10)"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.32)"><span>R1</span><span>BAR = FIELD SIZE</span><span>R10</span></div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px"><span style="font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.09em;color:rgba(233,238,242,.35)">METRICS</span><span style="font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.28)">7 / 24</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#e9eef2;color:#16181a">points ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#e9eef2;color:#16181a">avg finish ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#e9eef2;color:#16181a">net passes ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#e9eef2;color:#16181a">conversion % ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#e9eef2;color:#16181a">defense % ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#e9eef2;color:#16181a">pit Δ median ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#e9eef2;color:#16181a">passing score ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;border:1px dashed rgba(233,238,242,.25);color:rgba(233,238,242,.6)">+ laps led</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;border:1px dashed rgba(233,238,242,.25);color:rgba(233,238,242,.6)">+ incidents</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;border:1px dashed rgba(233,238,242,.25);color:rgba(233,238,242,.6)">+ restart net</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;border:1px dashed rgba(233,238,242,.25);color:rgba(233,238,242,.6)">+ green pace z</span>
+        </div>
+      </div>
+      <div>
+        <div style="font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.09em;color:rgba(233,238,242,.35);margin-bottom:9px">OPTIONS</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font:500 11.5px Barlow,sans-serif;color:#e9eef2">
+          <span style="display:flex;align-items:center;gap:8px"><span style="width:26px;height:15px;border-radius:9px;background:oklch(0.72 0.13 245);position:relative"><span style="position:absolute;right:2px;top:2px;width:11px;height:11px;border-radius:50%;background:#101316"></span></span>Drop-adjusted points (best 8)</span>
+          <span style="display:flex;align-items:center;gap:8px"><span style="width:26px;height:15px;border-radius:9px;background:rgba(233,238,242,.18);position:relative"><span style="position:absolute;left:2px;top:2px;width:11px;height:11px;border-radius:50%;background:#1b2024"></span></span>Per-race rates, not totals</span>
+          <span style="display:flex;align-items:center;gap:8px"><span style="width:26px;height:15px;border-radius:9px;background:oklch(0.72 0.13 245);position:relative"><span style="position:absolute;right:2px;top:2px;width:11px;height:11px;border-radius:50%;background:#101316"></span></span>Exclude pit-cycle outliers</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:18px 24px 24px;display:flex;flex-direction:column;gap:22px">
+      <div>
+        <div style="display:grid;grid-template-columns:26px 1fr 46px 56px 58px 62px 58px 62px 62px;padding-bottom:8px;border-bottom:1px solid rgba(233,238,242,.10);font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.05em;color:rgba(233,238,242,.4)">
+          <span>#</span><span>DRIVER</span><span style="text-align:right">PTS</span><span style="text-align:right">AVG FIN</span><span style="text-align:right">NET PASS</span><span style="text-align:right">CONV %</span><span style="text-align:right">DEF %</span><span style="text-align:right">PIT Δ s</span><span style="text-align:right">SCORE</span>
+        </div>
+        <sc-for list="{{ seasonRowsD }}" as="s" hint-placeholder-count="8">
+          <div style="display:grid;grid-template-columns:26px 1fr 46px 56px 58px 62px 58px 62px 62px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(233,238,242,.06);font:500 13px Barlow,sans-serif;color:#e9eef2">
+            <span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.45)">{{ s.rank }}</span>
+            <span style="display:flex;align-items:center;gap:9px"><span style="width:3px;height:15px;border-radius:2px;background:{{ s.color }}"></span>{{ s.name }}</span>
+            <span style="text-align:right;font:600 12.5px 'IBM Plex Mono',monospace">{{ s.pts }}</span>
+            <span style="text-align:right;font:500 12px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.6)">{{ s.avgFin }}</span>
+            <span style="text-align:right;font:500 12px 'IBM Plex Mono',monospace;color:{{ s.netColor }}">{{ s.net }}</span>
+            <span style="text-align:right;font:500 12px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.6)">{{ s.conv }}</span>
+            <span style="text-align:right;font:500 12px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.6)">{{ s.def }}</span>
+            <span style="text-align:right;font:500 12px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.6)">{{ s.pit }}</span>
+            <span style="text-align:right;display:flex;justify-content:flex-end;align-items:center;gap:6px"><span style="width:34px;height:6px;border-radius:3px;background:rgba(233,238,242,.10);position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;background:oklch(0.72 0.13 245);width:{{ s.scoreW }}"></span></span><span style="font:600 12px 'IBM Plex Mono',monospace">{{ s.score }}</span></span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:24px">
+        <div>
+          <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:10px">FINISH POSITION · DRIVER × ROUND</div>
+          <div style="display:grid;grid-template-columns:104px repeat(8,1fr);gap:3px;align-items:center">
+            <span></span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">R1</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">R2</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">R3</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">R4</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">R5</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">R6</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">R7</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">R8</span>
+          </div>
+          <sc-for list="{{ heatRowsD }}" as="h" hint-placeholder-count="7">
+            <div style="display:grid;grid-template-columns:104px repeat(8,1fr);gap:3px;align-items:center;margin-top:3px">
+              <span style="font:500 11.5px Barlow,sans-serif;color:#e9eef2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.name }}</span>
+              <sc-for list="{{ h.cells }}" as="c" hint-placeholder-count="8">
+                <span style="height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;font:500 10.5px 'IBM Plex Mono',monospace;background:{{ c.bg }};color:{{ c.fg }}">{{ c.v }}</span>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+        <div>
+          <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:10px">POINTS PROGRESSION</div>
+          <svg viewBox="0 0 340 190" style="width:100%;height:auto;display:block">
+            <line x1="18" y1="176" x2="332" y2="176" stroke="rgba(233,238,242,.15)"></line>
+            <polyline points="18,168 62,138 106,120 150,96 194,78 238,54 282,30 326,10" fill="none" stroke="oklch(0.68 0.16 25)" stroke-width="2.2"></polyline>
+            <polyline points="18,160 62,146 106,112 150,104 194,72 238,62 282,42 326,26" fill="none" stroke="oklch(0.72 0.13 245)" stroke-width="2.2"></polyline>
+            <polyline points="18,172 62,152 106,134 150,116 194,96 238,80 282,60 326,44" fill="none" stroke="oklch(0.78 0.13 152)" stroke-width="1.8"></polyline>
+            <polyline points="18,166 62,158 106,148 150,130 194,118 238,100 282,88 326,72" fill="none" stroke="oklch(0.74 0.14 340)" stroke-width="1.6"></polyline>
+            <polyline points="18,174 62,166 106,158 150,146 194,138 238,124 282,112 326,98" fill="none" stroke="rgba(233,238,242,.3)" stroke-width="1.4"></polyline>
+          </svg>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font:500 10.5px Barlow,sans-serif;color:rgba(233,238,242,.6)">
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:3px;background:oklch(0.68 0.16 25)"></span>Vasquez</span>
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:3px;background:oklch(0.72 0.13 245)"></span>Ohtani-Reed</span>
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:3px;background:oklch(0.78 0.13 152)"></span>Bergström</span>
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:3px;background:oklch(0.74 0.14 340)"></span>Okonkwo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="3b">
+<div class="dv-olabel"><a class="dv-oid" href="#3b">3b</a>Head-to-head — <a class="dv-oid" href="#1d">1d</a> converted</div>
+<div class="dv-card" style="width:940px;background:#1b2024;border-color:rgba(233,238,242,.10)">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid rgba(233,238,242,.08)">
+    <span style="font:600 15px Barlow,sans-serif;color:#e9eef2">Head-to-head</span>
+    <span style="font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">ROUNDS 1–8 · 2026 S2</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 92px 1fr;align-items:center;padding:20px 24px;background:#161b1f;border-bottom:1px solid rgba(233,238,242,.08)">
+    <div style="display:flex;flex-direction:column;gap:3px">
+      <span style="font:600 19px Barlow,sans-serif;color:#e9eef2">T. Vasquez</span>
+      <span style="font:500 10.5px 'IBM Plex Mono',monospace;color:oklch(0.72 0.16 25)">#21 · 8 RACES · CUST 812204</span>
+    </div>
+    <span style="font:600 13px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.3);text-align:center">VS</span>
+    <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">
+      <span style="font:600 19px Barlow,sans-serif;color:#e9eef2">M. Ohtani-Reed</span>
+      <span style="font:500 10.5px 'IBM Plex Mono',monospace;color:oklch(0.74 0.13 245)">#4 · 8 RACES · CUST 604117</span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 310px">
+    <div style="padding:18px 24px 22px;border-right:1px solid rgba(233,238,242,.08);display:flex;flex-direction:column;gap:11px">
+      <sc-for list="{{ h2hRows }}" as="m" hint-placeholder-count="8">
+        <div style="display:grid;grid-template-columns:52px 1fr 128px 1fr 52px;align-items:center;gap:8px">
+          <span style="font:600 13px 'IBM Plex Mono',monospace;color:#e9eef2;text-align:right">{{ m.left }}</span>
+          <span style="height:8px;border-radius:4px;background:rgba(233,238,242,.09);display:flex;justify-content:flex-end"><span style="height:8px;border-radius:4px;background:oklch(0.68 0.16 25);width:{{ m.leftW }}"></span></span>
+          <span style="font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:rgba(233,238,242,.45);text-align:center">{{ m.label }}</span>
+          <span style="height:8px;border-radius:4px;background:rgba(233,238,242,.09)"><span style="display:block;height:8px;border-radius:4px;background:oklch(0.72 0.13 245);width:{{ m.rightW }}"></span></span>
+          <span style="font:600 13px 'IBM Plex Mono',monospace;color:#e9eef2">{{ m.right }}</span>
+        </div>
+      </sc-for>
+      <div style="margin-top:8px;padding-top:14px;border-top:1px solid rgba(233,238,242,.08)">
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:10px">ON-TRACK MEETINGS · 8 ROUNDS</div>
+        <div style="display:flex;gap:5px;align-items:center">
+          <span style="flex:0 0 44%;height:26px;border-radius:4px;background:oklch(0.62 0.16 25);display:flex;align-items:center;padding:0 9px;font:600 11.5px 'IBM Plex Mono',monospace;color:#fff">9 PASSES</span>
+          <span style="flex:0 0 30%;height:26px;border-radius:4px;background:oklch(0.58 0.13 245);display:flex;align-items:center;justify-content:flex-end;padding:0 9px;font:600 11.5px 'IBM Plex Mono',monospace;color:#fff">6</span>
+          <span style="flex:1;height:26px;border-radius:4px;background:repeating-linear-gradient(135deg,rgba(233,238,242,.12) 0 4px,transparent 4px 8px);display:flex;align-items:center;justify-content:center;font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.5)">4 REVERTED</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:18px 22px 22px;display:flex;flex-direction:column;gap:18px">
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:8px">PASSING COMPONENTS · Z</div>
+        <svg viewBox="0 0 260 240" style="width:100%;height:auto;display:block">
+          <polygon points="130,30 220,120 130,210 40,120" fill="none" stroke="rgba(233,238,242,.16)"></polygon>
+          <polygon points="130,75 175,120 130,165 85,120" fill="none" stroke="rgba(233,238,242,.10)"></polygon>
+          <line x1="130" y1="30" x2="130" y2="210" stroke="rgba(233,238,242,.10)"></line>
+          <line x1="40" y1="120" x2="220" y2="120" stroke="rgba(233,238,242,.10)"></line>
+          <polygon points="130,60 183,120 130,153 67,120" fill="oklch(0.68 0.16 25 / .22)" stroke="oklch(0.68 0.16 25)" stroke-width="2"></polygon>
+          <polygon points="130,76 197,120 130,183 102,120" fill="oklch(0.72 0.13 245 / .20)" stroke="oklch(0.72 0.13 245)" stroke-width="2"></polygon>
+          <text x="130" y="20" text-anchor="middle" fill="rgba(233,238,242,.5)" style="font:500 10px 'IBM Plex Mono',monospace">RACECRAFT</text>
+          <text x="228" y="124" fill="rgba(233,238,242,.5)" style="font:500 10px 'IBM Plex Mono',monospace">ATK</text>
+          <text x="130" y="228" text-anchor="middle" fill="rgba(233,238,242,.5)" style="font:500 10px 'IBM Plex Mono',monospace">DEFENSE</text>
+          <text x="6" y="124" fill="rgba(233,238,242,.5)" style="font:500 10px 'IBM Plex Mono',monospace">RSTRT</text>
+        </svg>
+      </div>
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:8px">FIELD · SCORE vs PIT Δ</div>
+        <svg viewBox="0 0 260 150" style="width:100%;height:auto;display:block">
+          <line x1="14" y1="136" x2="252" y2="136" stroke="rgba(233,238,242,.15)"></line>
+          <line x1="14" y1="8" x2="14" y2="136" stroke="rgba(233,238,242,.15)"></line>
+          <circle cx="52" cy="102" r="4" fill="rgba(233,238,242,.25)"></circle>
+          <circle cx="74" cy="86" r="4" fill="rgba(233,238,242,.25)"></circle>
+          <circle cx="96" cy="112" r="4" fill="rgba(233,238,242,.25)"></circle>
+          <circle cx="118" cy="70" r="4" fill="rgba(233,238,242,.25)"></circle>
+          <circle cx="140" cy="94" r="4" fill="rgba(233,238,242,.25)"></circle>
+          <circle cx="162" cy="58" r="4" fill="rgba(233,238,242,.25)"></circle>
+          <circle cx="196" cy="120" r="4" fill="rgba(233,238,242,.25)"></circle>
+          <circle cx="214" cy="46" r="4" fill="rgba(233,238,242,.25)"></circle>
+          <circle cx="182" cy="34" r="6" fill="oklch(0.68 0.16 25)"></circle>
+          <circle cx="146" cy="52" r="6" fill="oklch(0.72 0.13 245)"></circle>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="3c">
+<div class="dv-olabel"><a class="dv-oid" href="#3c">3c</a>Passing tab of <a class="dv-oid" href="#2a">2a</a> — who passed whom, and every unconverted chance</div>
+<div class="dv-card" style="width:1240px;background:#1b2024;border-color:rgba(233,238,242,.10)">
+  <div style="display:flex;align-items:center;gap:0;padding:0 24px;border-bottom:1px solid rgba(233,238,242,.08)">
+    <a href="#2a" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Result</a>
+    <a href="#2b" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Timeline</a>
+    <span style="font:600 12.5px Barlow,sans-serif;padding:11px 13px;color:#e9eef2;box-shadow:inset 0 -2px 0 oklch(0.72 0.13 245)">Passing</span>
+    <a href="#3d" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Pit cycles</a>
+    <a href="#3e" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Pace</a>
+    <span style="margin-left:auto;font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">R7 WATKINS GLEN · 118 GREEN PASSES</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 320px;gap:1px;background:rgba(233,238,242,.07)">
+    <div style="background:#1b2024;padding:18px 22px 22px">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:12px">PASS MATRIX · ROWS PASSED COLUMNS</div>
+      <div style="display:grid;grid-template-columns:88px repeat(6,1fr);gap:3px;align-items:center">
+        <span></span>
+        <span style="font:500 9px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">VAS</span>
+        <span style="font:500 9px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">OHT</span>
+        <span style="font:500 9px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">BER</span>
+        <span style="font:500 9px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">OKO</span>
+        <span style="font:500 9px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">FAL</span>
+        <span style="font:500 9px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">MBE</span>
+      </div>
+      <sc-for list="{{ passMatrix }}" as="row" hint-placeholder-count="6">
+        <div style="display:grid;grid-template-columns:88px repeat(6,1fr);gap:3px;align-items:center;margin-top:3px">
+          <span style="font:500 11px Barlow,sans-serif;color:#e9eef2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ row.name }}</span>
+          <sc-for list="{{ row.cells }}" as="c" hint-placeholder-count="6">
+            <span style="height:26px;border-radius:3px;display:flex;align-items:center;justify-content:center;font:500 11px 'IBM Plex Mono',monospace;background:{{ c.bg }};color:{{ c.fg }}">{{ c.v }}</span>
+          </sc-for>
+        </div>
+      </sc-for>
+      <p style="margin:12px 0 0;font:400 11px/1.5 Barlow,sans-serif;color:rgba(233,238,242,.38)">Green-flag only. Click a cell to jump the <a href="#2b" style="color:oklch(0.75 0.13 245)">timeline</a> to those laps.</p>
+    </div>
+
+    <div style="background:#1b2024;padding:18px 22px 22px;display:flex;flex-direction:column;gap:22px">
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:12px">PASSES MADE BY FLAG STATE</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <div style="display:grid;grid-template-columns:104px 1fr 30px;align-items:center;gap:9px;font:500 12px Barlow,sans-serif;color:#e9eef2"><span>T. Vasquez</span><span style="display:flex;height:14px;border-radius:3px;overflow:hidden"><span style="width:62%;background:oklch(0.78 0.13 152)"></span><span style="width:22%;background:oklch(0.72 0.13 245 / .7)"></span><span style="width:16%;background:oklch(0.82 0.13 78 / .7)"></span></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">18</span></div>
+          <div style="display:grid;grid-template-columns:104px 1fr 30px;align-items:center;gap:9px;font:500 12px Barlow,sans-serif;color:#e9eef2"><span>R. Okonkwo</span><span style="display:flex;height:14px;border-radius:3px;overflow:hidden"><span style="width:54%;background:oklch(0.78 0.13 152)"></span><span style="width:30%;background:oklch(0.72 0.13 245 / .7)"></span><span style="width:16%;background:oklch(0.82 0.13 78 / .7)"></span></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">17</span></div>
+          <div style="display:grid;grid-template-columns:104px 1fr 30px;align-items:center;gap:9px;font:500 12px Barlow,sans-serif;color:#e9eef2"><span>M. Ohtani-Reed</span><span style="display:flex;height:14px;border-radius:3px;overflow:hidden"><span style="width:70%;background:oklch(0.78 0.13 152)"></span><span style="width:18%;background:oklch(0.72 0.13 245 / .7)"></span><span style="width:12%;background:oklch(0.82 0.13 78 / .7)"></span></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">14</span></div>
+          <div style="display:grid;grid-template-columns:104px 1fr 30px;align-items:center;gap:9px;font:500 12px Barlow,sans-serif;color:#e9eef2"><span>K. Bergström</span><span style="display:flex;height:14px;border-radius:3px;overflow:hidden"><span style="width:58%;background:oklch(0.78 0.13 152)"></span><span style="width:24%;background:oklch(0.72 0.13 245 / .7)"></span><span style="width:18%;background:oklch(0.82 0.13 78 / .7)"></span></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">11</span></div>
+          <div style="display:grid;grid-template-columns:104px 1fr 30px;align-items:center;gap:9px;font:500 12px Barlow,sans-serif;color:rgba(233,238,242,.75)"><span>S. Mbeki</span><span style="display:flex;height:14px;border-radius:3px;overflow:hidden"><span style="width:50%;background:oklch(0.78 0.13 152 / .8)"></span><span style="width:26%;background:oklch(0.72 0.13 245 / .55)"></span><span style="width:24%;background:oklch(0.82 0.13 78 / .55)"></span></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">9</span></div>
+        </div>
+        <div style="display:flex;gap:14px;margin-top:11px;font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.45)">
+          <span style="display:flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:2px;background:oklch(0.78 0.13 152)"></span>GREEN</span>
+          <span style="display:flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:2px;background:oklch(0.72 0.13 245 / .7)"></span>PIT CYCLE</span>
+          <span style="display:flex;align-items:center;gap:5px"><span style="width:8px;height:8px;border-radius:2px;background:oklch(0.82 0.13 78 / .7)"></span>CAUTION</span>
+        </div>
+      </div>
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:12px">RESTART NET · FIRST 2 LAPS AFTER GREEN</div>
+        <div style="display:flex;align-items:flex-end;gap:8px;height:96px;padding-top:8px;border-bottom:1px solid rgba(233,238,242,.12)">
+          <span style="flex:1;height:78%;border-radius:3px 3px 0 0;background:oklch(0.78 0.13 152 / .85)"></span>
+          <span style="flex:1;height:52%;border-radius:3px 3px 0 0;background:oklch(0.78 0.13 152 / .7)"></span>
+          <span style="flex:1;height:34%;border-radius:3px 3px 0 0;background:oklch(0.78 0.13 152 / .55)"></span>
+          <span style="flex:1;height:12%;border-radius:3px 3px 0 0;background:rgba(233,238,242,.22)"></span>
+          <span style="flex:1;height:26%;border-radius:3px 3px 0 0;background:oklch(0.68 0.17 25 / .55)"></span>
+          <span style="flex:1;height:44%;border-radius:3px 3px 0 0;background:oklch(0.68 0.17 25 / .7)"></span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:6px;font:500 9px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4);text-align:center">
+          <span>VAS</span><span>OKO</span><span>OHT</span><span>BER</span><span>MBE</span><span>FAL</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="background:#1b2024;padding:18px 22px 22px">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:12px">OPPORTUNITY CONVERSION</div>
+      <div style="display:grid;grid-template-columns:1fr 34px 34px 46px;padding-bottom:7px;border-bottom:1px solid rgba(233,238,242,.10);font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)"><span>DRIVER</span><span style="text-align:right">OPP</span><span style="text-align:right">CVT</span><span style="text-align:right">%</span></div>
+      <div style="display:grid;grid-template-columns:1fr 34px 34px 46px;padding:9px 0;border-bottom:1px solid rgba(233,238,242,.06);font:500 12.5px Barlow,sans-serif;color:#e9eef2"><span>M. Ohtani-Reed</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">16</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">7</span><span style="text-align:right;font:600 12px 'IBM Plex Mono',monospace;color:oklch(0.80 0.13 152)">43.8</span></div>
+      <div style="display:grid;grid-template-columns:1fr 34px 34px 46px;padding:9px 0;border-bottom:1px solid rgba(233,238,242,.06);font:500 12.5px Barlow,sans-serif;color:#e9eef2"><span>R. Okonkwo</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">24</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">10</span><span style="text-align:right;font:600 12px 'IBM Plex Mono',monospace;color:oklch(0.80 0.13 152)">41.7</span></div>
+      <div style="display:grid;grid-template-columns:1fr 34px 34px 46px;padding:9px 0;border-bottom:1px solid rgba(233,238,242,.06);font:500 12.5px Barlow,sans-serif;color:#e9eef2"><span>T. Vasquez</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">18</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">7</span><span style="text-align:right;font:600 12px 'IBM Plex Mono',monospace">38.9</span></div>
+      <div style="display:grid;grid-template-columns:1fr 34px 34px 46px;padding:9px 0;border-bottom:1px solid rgba(233,238,242,.06);font:500 12.5px Barlow,sans-serif;color:rgba(233,238,242,.8)"><span>S. Mbeki</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">20</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">6</span><span style="text-align:right;font:600 12px 'IBM Plex Mono',monospace">30.0</span></div>
+      <div style="display:grid;grid-template-columns:1fr 34px 34px 46px;padding:9px 0;border-bottom:1px solid rgba(233,238,242,.06);font:500 12.5px Barlow,sans-serif;color:rgba(233,238,242,.8)"><span>K. Bergström</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">17</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">5</span><span style="text-align:right;font:600 12px 'IBM Plex Mono',monospace;color:oklch(0.82 0.13 78)">29.4</span></div>
+      <div style="display:grid;grid-template-columns:1fr 34px 34px 46px;padding:9px 0;font:500 12.5px Barlow,sans-serif;color:rgba(233,238,242,.8)"><span>D. Falk</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">12</span><span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">3</span><span style="text-align:right;font:600 12px 'IBM Plex Mono',monospace;color:oklch(0.82 0.13 78)">25.0</span></div>
+      <div style="margin-top:16px;padding:12px 14px;border-radius:8px;background:#212830;border:1px solid rgba(233,238,242,.08);font:400 11.5px/1.6 Barlow,sans-serif;color:rgba(233,238,242,.6)">An <span style="color:#e9eef2">opportunity</span> is a same-lap gap under 1% of the median lap with a car ahead, green flag only. Converted = a pass on the following lap.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="3d">
+<div class="dv-olabel"><a class="dv-oid" href="#3d">3d</a>Pit cycles tab — every green stop, the window it fell in, and what it cost</div>
+<div class="dv-card" style="width:1240px;background:#1b2024;border-color:rgba(233,238,242,.10)">
+  <div style="display:flex;align-items:center;gap:0;padding:0 24px;border-bottom:1px solid rgba(233,238,242,.08)">
+    <a href="#2a" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Result</a>
+    <a href="#2b" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Timeline</a>
+    <a href="#3c" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Passing</a>
+    <span style="font:600 12.5px Barlow,sans-serif;padding:11px 13px;color:#e9eef2;box-shadow:inset 0 -2px 0 oklch(0.72 0.13 245)">Pit cycles</span>
+    <a href="#3e" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Pace</a>
+    <span style="margin-left:auto;display:flex;align-items:center;gap:10px;font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">
+      <span>WINDOW L25–L28 · 9 OF 16 PITTED</span>
+      <span style="padding:4px 9px;border-radius:5px;background:#212830;border:1px solid rgba(233,238,242,.10);color:rgba(233,238,242,.7)">OUTLIERS HIDDEN</span>
+    </span>
+  </div>
+
+  <div style="padding:18px 24px 12px">
+    <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:11px">PIT WINDOW · WHO STOPPED WHEN</div>
+    <div style="display:grid;grid-template-columns:120px 1fr;gap:8px;align-items:center">
+      <span></span>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:3px;font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35);text-align:center">
+        <span>L23</span><span>L24</span><span>L25</span><span>L26</span><span>L27</span><span>L28</span><span>L29</span><span>L30</span>
+      </div>
+      <span style="font:500 12px Barlow,sans-serif;color:#e9eef2">K. Bergström</span>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:3px">
+        <span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:oklch(0.78 0.13 152 / .8)"></span><span style="height:18px;border-radius:3px;background:oklch(0.78 0.13 152 / .45)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:oklch(0.82 0.13 78 / .25)"></span>
+      </div>
+      <span style="font:500 12px Barlow,sans-serif;color:#e9eef2">M. Ohtani-Reed</span>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:3px">
+        <span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:oklch(0.72 0.13 245 / .8)"></span><span style="height:18px;border-radius:3px;background:oklch(0.72 0.13 245 / .45)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:oklch(0.82 0.13 78 / .25)"></span>
+      </div>
+      <span style="font:500 12px Barlow,sans-serif;color:#e9eef2">T. Vasquez</span>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:3px">
+        <span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:oklch(0.68 0.16 25 / .8)"></span><span style="height:18px;border-radius:3px;background:oklch(0.68 0.16 25 / .45)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:oklch(0.82 0.13 78 / .25)"></span>
+      </div>
+      <span style="font:500 12px Barlow,sans-serif;color:#e9eef2">D. Falk</span>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:3px">
+        <span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:oklch(0.82 0.13 78 / .85)"></span><span style="height:18px;border-radius:3px;background:oklch(0.82 0.13 78 / .6)"></span><span style="height:18px;border-radius:3px;background:oklch(0.82 0.13 78 / .4)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:oklch(0.82 0.13 78 / .25)"></span>
+      </div>
+      <span style="font:500 12px Barlow,sans-serif;color:rgba(233,238,242,.75)">R. Okonkwo</span>
+      <div style="display:grid;grid-template-columns:repeat(8,1fr);gap:3px">
+        <span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:oklch(0.74 0.14 340 / .8)"></span><span style="height:18px;border-radius:3px;background:oklch(0.74 0.14 340 / .45)"></span><span style="height:18px;border-radius:3px;background:rgba(233,238,242,.05)"></span><span style="height:18px;border-radius:3px;background:oklch(0.82 0.13 78 / .25)"></span>
+      </div>
+    </div>
+    <div style="display:flex;gap:16px;margin-top:11px;font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:8px;border-radius:2px;background:rgba(233,238,242,.5)"></span>IN-LAP</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:8px;border-radius:2px;background:rgba(233,238,242,.25)"></span>OUT-LAP</span>
+      <span style="display:flex;align-items:center;gap:5px"><span style="width:14px;height:8px;border-radius:2px;background:oklch(0.82 0.13 78 / .25)"></span>CAUTION LAP</span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 330px;gap:1px;background:rgba(233,238,242,.07);margin-top:10px">
+    <div style="background:#1b2024;padding:16px 24px 22px">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:11px">GREEN STOPS · RANKED BY TIME LOST</div>
+      <div style="display:grid;grid-template-columns:1fr 34px 44px 46px 42px 62px 62px 1fr 56px;padding-bottom:8px;border-bottom:1px solid rgba(233,238,242,.10);font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.05em;color:rgba(233,238,242,.4)">
+        <span>DRIVER</span><span style="text-align:right">#</span><span style="text-align:right">IN</span><span style="text-align:right">OUT</span><span style="text-align:right">LAPS</span><span style="text-align:right">IN s</span><span style="text-align:right">OUT s</span><span style="text-align:right;padding-right:8px">CYCLE s</span><span style="text-align:right">LOST</span>
+      </div>
+      <sc-for list="{{ pitStops }}" as="p" hint-placeholder-count="7">
+        <div style="display:grid;grid-template-columns:1fr 34px 44px 46px 42px 62px 62px 1fr 56px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(233,238,242,.06);font:500 12.5px Barlow,sans-serif;color:#e9eef2">
+          <span>{{ p.name }}</span>
+          <span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.5)">{{ p.stop }}</span>
+          <span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.6)">L{{ p.inLap }}</span>
+          <span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.6)">L{{ p.outLap }}</span>
+          <span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.6)">{{ p.nLaps }}</span>
+          <span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.6)">{{ p.inS }}</span>
+          <span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.6)">{{ p.outS }}</span>
+          <span style="display:flex;align-items:center;justify-content:flex-end;gap:8px;padding-right:8px"><span style="flex:1;height:8px;border-radius:4px;background:rgba(233,238,242,.09);position:relative;overflow:hidden;max-width:120px"><span style="position:absolute;left:0;top:0;bottom:0;background:oklch(0.72 0.13 245 / .8);width:{{ p.barW }}"></span></span><span style="font:600 12px 'IBM Plex Mono',monospace">{{ p.cycle }}</span></span>
+          <span style="text-align:right;font:600 12px 'IBM Plex Mono',monospace;color:{{ p.lostColor }}">{{ p.lost }}</span>
+        </div>
+      </sc-for>
+      <sc-if value="{{ showOutliers }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;align-items:center;gap:10px;margin-top:12px;padding:10px 12px;border-radius:8px;background:#212830;border:1px dashed oklch(0.68 0.17 25 / .4);font:500 12px Barlow,sans-serif;color:rgba(233,238,242,.65)">
+          <span style="font:600 9.5px 'IBM Plex Mono',monospace;color:oklch(0.72 0.17 25)">EXCLUDED</span>
+          <span>J. Prentice · stop 1 · cycle 61.2s · +39.5s lost</span>
+          <span style="margin-left:auto;font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">TUKEY Q3 + 3×IQR — LIKELY REPAIR</span>
+        </div>
+      </sc-if>
+    </div>
+
+    <div style="background:#1b2024;padding:16px 22px 22px;display:flex;flex-direction:column;gap:20px">
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:10px">SEASON PIT RANKING</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="display:grid;grid-template-columns:16px 1fr 46px;gap:8px;align-items:center;font:500 12px Barlow,sans-serif;color:#e9eef2"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">1</span><span>K. Bergström</span><span style="text-align:right;font:600 11.5px 'IBM Plex Mono',monospace;color:oklch(0.80 0.13 152)">21.9</span></div>
+          <div style="display:grid;grid-template-columns:16px 1fr 46px;gap:8px;align-items:center;font:500 12px Barlow,sans-serif;color:#e9eef2"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">2</span><span>T. Vasquez</span><span style="text-align:right;font:600 11.5px 'IBM Plex Mono',monospace">22.4</span></div>
+          <div style="display:grid;grid-template-columns:16px 1fr 46px;gap:8px;align-items:center;font:500 12px Barlow,sans-serif;color:#e9eef2"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">3</span><span>A. Kowalczyk</span><span style="text-align:right;font:600 11.5px 'IBM Plex Mono',monospace">22.6</span></div>
+          <div style="display:grid;grid-template-columns:16px 1fr 46px;gap:8px;align-items:center;font:500 12px Barlow,sans-serif;color:rgba(233,238,242,.8)"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">4</span><span>M. Ohtani-Reed</span><span style="text-align:right;font:600 11.5px 'IBM Plex Mono',monospace">23.1</span></div>
+          <div style="display:grid;grid-template-columns:16px 1fr 46px;gap:8px;align-items:center;font:500 12px Barlow,sans-serif;color:rgba(233,238,242,.8)"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">5</span><span>D. Falk</span><span style="text-align:right;font:600 11.5px 'IBM Plex Mono',monospace;color:oklch(0.82 0.13 78)">27.2</span></div>
+        </div>
+        <div style="margin-top:8px;font:400 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">MEDIAN CYCLE s · MIN 4 GREEN STOPS</div>
+      </div>
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:10px">THIS RACE vs SEASON MEDIAN</div>
+        <svg viewBox="0 0 280 130" style="width:100%;height:auto;display:block">
+          <line x1="10" y1="118" x2="270" y2="118" stroke="rgba(233,238,242,.15)"></line>
+          <line x1="10" y1="66" x2="270" y2="66" stroke="rgba(233,238,242,.25)" stroke-dasharray="3 3"></line>
+          <rect x="26" y="72" width="26" height="46" rx="2" fill="oklch(0.78 0.13 152 / .7)"></rect>
+          <rect x="70" y="62" width="26" height="56" rx="2" fill="oklch(0.68 0.16 25 / .7)"></rect>
+          <rect x="114" y="54" width="26" height="64" rx="2" fill="oklch(0.72 0.13 245 / .7)"></rect>
+          <rect x="158" y="58" width="26" height="60" rx="2" fill="rgba(233,238,242,.28)"></rect>
+          <rect x="202" y="42" width="26" height="76" rx="2" fill="oklch(0.74 0.14 340 / .6)"></rect>
+          <rect x="240" y="14" width="26" height="104" rx="2" fill="oklch(0.82 0.13 78 / .75)"></rect>
+          <text x="272" y="63" fill="rgba(233,238,242,.4)" style="font:500 9px 'IBM Plex Mono',monospace">MED</text>
+        </svg>
+        <div style="display:flex;justify-content:space-between;margin-top:5px;font:500 9px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)"><span>BER</span><span>VAS</span><span>OHT</span><span>MBE</span><span>OKO</span><span>FAL</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="3e">
+<div class="dv-olabel"><a class="dv-oid" href="#3e">3e</a>Pace tab — green laps only, normalized to the race median</div>
+<div class="dv-card" style="width:1240px;background:#1b2024;border-color:rgba(233,238,242,.10)">
+  <div style="display:flex;align-items:center;gap:0;padding:0 24px;border-bottom:1px solid rgba(233,238,242,.08)">
+    <a href="#2a" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Result</a>
+    <a href="#2b" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Timeline</a>
+    <a href="#3c" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Passing</a>
+    <a href="#3d" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Pit cycles</a>
+    <span style="font:600 12.5px Barlow,sans-serif;padding:11px 13px;color:#e9eef2;box-shadow:inset 0 -2px 0 oklch(0.72 0.13 245)">Pace</span>
+    <span style="margin-left:auto;font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">GREEN LAPS ONLY · 486 OF 631 LAPS · MEDIAN 1:24.86</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 400px;gap:1px;background:rgba(233,238,242,.07)">
+    <div style="background:#1b2024;padding:18px 24px 22px">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:12px">LAP-TIME DISTRIBUTION · % OF RACE MEDIAN</div>
+      <div style="display:grid;grid-template-columns:112px 1fr;gap:9px;align-items:center">
+        <span style="font:500 12px Barlow,sans-serif;color:#e9eef2">M. Ohtani-Reed</span>
+        <svg viewBox="0 0 560 26" style="width:100%;height:26px;display:block"><line x1="150" y1="13" x2="330" y2="13" stroke="rgba(233,238,242,.25)"></line><rect x="196" y="5" width="94" height="16" rx="2" fill="oklch(0.72 0.13 245 / .55)"></rect><line x1="236" y1="2" x2="236" y2="24" stroke="#e9eef2" stroke-width="2"></line></svg>
+        <span style="font:500 12px Barlow,sans-serif;color:#e9eef2">T. Vasquez</span>
+        <svg viewBox="0 0 560 26" style="width:100%;height:26px;display:block"><line x1="162" y1="13" x2="356" y2="13" stroke="rgba(233,238,242,.25)"></line><rect x="212" y="5" width="102" height="16" rx="2" fill="oklch(0.68 0.16 25 / .55)"></rect><line x1="248" y1="2" x2="248" y2="24" stroke="#e9eef2" stroke-width="2"></line></svg>
+        <span style="font:500 12px Barlow,sans-serif;color:#e9eef2">K. Bergström</span>
+        <svg viewBox="0 0 560 26" style="width:100%;height:26px;display:block"><line x1="180" y1="13" x2="382" y2="13" stroke="rgba(233,238,242,.25)"></line><rect x="232" y="5" width="106" height="16" rx="2" fill="oklch(0.78 0.13 152 / .5)"></rect><line x1="272" y1="2" x2="272" y2="24" stroke="#e9eef2" stroke-width="2"></line></svg>
+        <span style="font:500 12px Barlow,sans-serif;color:#e9eef2">R. Okonkwo</span>
+        <svg viewBox="0 0 560 26" style="width:100%;height:26px;display:block"><line x1="196" y1="13" x2="412" y2="13" stroke="rgba(233,238,242,.25)"></line><rect x="250" y="5" width="118" height="16" rx="2" fill="oklch(0.74 0.14 340 / .5)"></rect><line x1="296" y1="2" x2="296" y2="24" stroke="#e9eef2" stroke-width="2"></line></svg>
+        <span style="font:500 12px Barlow,sans-serif;color:rgba(233,238,242,.8)">D. Falk</span>
+        <svg viewBox="0 0 560 26" style="width:100%;height:26px;display:block"><line x1="214" y1="13" x2="448" y2="13" stroke="rgba(233,238,242,.25)"></line><rect x="272" y="5" width="128" height="16" rx="2" fill="rgba(233,238,242,.26)"></rect><line x1="320" y1="2" x2="320" y2="24" stroke="#e9eef2" stroke-width="2"></line></svg>
+        <span style="font:500 12px Barlow,sans-serif;color:rgba(233,238,242,.8)">S. Mbeki</span>
+        <svg viewBox="0 0 560 26" style="width:100%;height:26px;display:block"><line x1="230" y1="13" x2="472" y2="13" stroke="rgba(233,238,242,.25)"></line><rect x="292" y="5" width="132" height="16" rx="2" fill="rgba(233,238,242,.20)"></rect><line x1="338" y1="2" x2="338" y2="24" stroke="#e9eef2" stroke-width="2"></line></svg>
+        <span style="font:500 12px Barlow,sans-serif;color:rgba(233,238,242,.8)">A. Kowalczyk</span>
+        <svg viewBox="0 0 560 26" style="width:100%;height:26px;display:block"><line x1="244" y1="13" x2="498" y2="13" stroke="rgba(233,238,242,.25)"></line><rect x="308" y="5" width="140" height="16" rx="2" fill="rgba(233,238,242,.18)"></rect><line x1="360" y1="2" x2="360" y2="24" stroke="#e9eef2" stroke-width="2"></line></svg>
+        <span></span>
+        <div style="display:flex;justify-content:space-between;font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)"><span>-1.0%</span><span>MEDIAN</span><span>+1.5%</span><span>+3.0%</span></div>
+      </div>
+      <p style="margin:14px 0 0;font:400 11px/1.5 Barlow,sans-serif;color:rgba(233,238,242,.38)">Box = interquartile range, line = median, whiskers = 5th–95th. Pit, caution and first-lap-after-restart laps excluded (<span style="font-family:'IBM Plex Mono',monospace">green_laps.sql</span>).</p>
+    </div>
+
+    <div style="background:#1b2024;padding:18px 22px 22px;display:flex;flex-direction:column;gap:22px">
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:10px">STINT PACE · LAP TIME BY LAP</div>
+        <svg viewBox="0 0 340 170" style="width:100%;height:auto;display:block">
+          <rect x="0" y="0" width="340" height="170" rx="5" fill="#212830"></rect>
+          <rect x="72" y="0" width="23" height="170" fill="oklch(0.82 0.13 78 / .12)"></rect>
+          <rect x="178" y="0" width="19" height="170" fill="oklch(0.82 0.13 78 / .12)"></rect>
+          <line x1="8" y1="96" x2="332" y2="96" stroke="rgba(233,238,242,.22)" stroke-dasharray="3 3"></line>
+          <polyline points="8,120 30,104 52,98 74,96 96,150 118,104 140,94 162,90 184,142 206,100 228,92 250,88 272,86 294,90 316,88 332,84" fill="none" stroke="oklch(0.68 0.16 25)" stroke-width="1.8"></polyline>
+          <polyline points="8,112 30,100 52,96 74,94 96,146 118,100 140,98 162,96 184,140 206,104 228,98 250,96 272,94 294,98 316,96 332,94" fill="none" stroke="oklch(0.72 0.13 245)" stroke-width="1.8"></polyline>
+          <polyline points="8,130 30,116 52,112 74,110 96,152 118,116 140,112 162,110 184,148 206,118 228,112 250,110 272,112 294,116 316,114 332,112" fill="none" stroke="rgba(233,238,242,.3)" stroke-width="1.4"></polyline>
+        </svg>
+        <div style="display:flex;justify-content:space-between;margin-top:5px;font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)"><span>L1</span><span>SPIKES = PIT / CAUTION LAPS</span><span>L42</span></div>
+      </div>
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:10px">CONSISTENCY · MEDIAN vs SPREAD</div>
+        <svg viewBox="0 0 340 150" style="width:100%;height:auto;display:block">
+          <line x1="14" y1="136" x2="332" y2="136" stroke="rgba(233,238,242,.15)"></line>
+          <line x1="14" y1="8" x2="14" y2="136" stroke="rgba(233,238,242,.15)"></line>
+          <circle cx="62" cy="40" r="6" fill="oklch(0.72 0.13 245)"></circle>
+          <circle cx="86" cy="52" r="6" fill="oklch(0.68 0.16 25)"></circle>
+          <circle cx="126" cy="66" r="6" fill="oklch(0.78 0.13 152)"></circle>
+          <circle cx="168" cy="84" r="6" fill="oklch(0.74 0.14 340)"></circle>
+          <circle cx="206" cy="98" r="5" fill="rgba(233,238,242,.28)"></circle>
+          <circle cx="236" cy="106" r="5" fill="rgba(233,238,242,.25)"></circle>
+          <circle cx="268" cy="118" r="5" fill="rgba(233,238,242,.22)"></circle>
+          <circle cx="298" cy="112" r="5" fill="rgba(233,238,242,.2)"></circle>
+        </svg>
+        <div style="display:flex;justify-content:space-between;margin-top:5px;font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)"><span>FASTER MEDIAN</span><span>WIDER SPREAD →</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "make the pass matrix clickable into a pass-by-pass list" · "add a season-wide landing page before a session is picked" · "mobile layout for <a class="dv-oid" href="#2a">2a</a>" · "spec out the Streamlit page structure for these"</p>
+</section>
+
+<section class="dv-turn" id="t2">
+<div class="dv-thd"><a class="dv-tid" href="#t2">2</a><span class="dv-tname"><a class="dv-oid" href="#1a">1a</a> as the home page, softer dark palette from <a class="dv-oid" href="#1b">1b</a>, season rail from <a class="dv-oid" href="#1e">1e</a>-A — with <a class="dv-oid" href="#1b">1b</a>/<a class="dv-oid" href="#1c">1c</a>/<a class="dv-oid" href="#1d">1d</a> reachable from it</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="2a">
+<div class="dv-olabel"><a class="dv-oid" href="#2a">2a</a>Home — session picked in the rail; tabs go to the timeline, top-right goes to time frame &amp; head-to-head</div>
+<div class="dv-card" style="width:1240px;background:#1b2024;border-color:rgba(233,238,242,.10)">
+  <div style="display:grid;grid-template-columns:238px 1fr">
+
+    <div style="background:#161b1f;border-right:1px solid rgba(233,238,242,.08);padding:16px 14px 20px;display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:baseline;gap:9px;padding:0 4px">
+        <span style="font:700 16px Barlow,sans-serif;color:#e9eef2">simlytics</span>
+        <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">v0.4</span>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span style="font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.09em;color:rgba(233,238,242,.35);padding:0 4px">LEAGUE / SEASON</span>
+        <div style="display:flex;flex-direction:column;gap:2px;padding:9px 11px;border-radius:8px;background:#212830;border:1px solid rgba(233,238,242,.09)">
+          <span style="font:600 12.5px Barlow,sans-serif;color:#e9eef2">Apex GTP League</span>
+          <span style="font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.45)">2026 SEASON 2 ▾</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;padding:0 4px">
+          <span style="font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.09em;color:rgba(233,238,242,.35)">SESSIONS</span>
+          <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.28)">8 OF 10</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:7px;background:#e9eef2"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(22,26,30,.5)">R8</span><span style="font:600 12.5px Barlow,sans-serif;color:#16181a">Spa</span><span style="margin-left:auto;font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,26,30,.45)">26 AUG</span></div>
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:7px;background:#212830;border:1px solid oklch(0.72 0.13 245 / .45)"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:oklch(0.75 0.13 245)">R7</span><span style="font:600 12.5px Barlow,sans-serif;color:#e9eef2">Watkins Glen</span><span style="margin-left:auto;font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">12 AUG</span></div>
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:7px"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.32)">R6</span><span style="font:500 12.5px Barlow,sans-serif;color:rgba(233,238,242,.8)">Road Atlanta</span><span style="margin-left:auto;font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.3)">29 JUL</span></div>
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:7px"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.32)">R5</span><span style="font:500 12.5px Barlow,sans-serif;color:rgba(233,238,242,.8)">Sebring</span><span style="margin-left:auto;font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.3)">15 JUL</span></div>
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:7px"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.32)">R4</span><span style="font:500 12.5px Barlow,sans-serif;color:rgba(233,238,242,.8)">Mid-Ohio</span><span style="margin-left:auto;font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.3)">01 JUL</span></div>
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:7px"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.32)">R3</span><span style="font:500 12.5px Barlow,sans-serif;color:rgba(233,238,242,.8)">Lime Rock</span><span style="margin-left:auto;font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.3)">17 JUN</span></div>
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:7px"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.32)">R2</span><span style="font:500 12.5px Barlow,sans-serif;color:rgba(233,238,242,.8)">Laguna Seca</span><span style="margin-left:auto;font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.3)">03 JUN</span></div>
+          <div style="display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:7px"><span style="font:600 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.32)">R1</span><span style="font:500 12.5px Barlow,sans-serif;color:rgba(233,238,242,.8)">Daytona RC</span><span style="margin-left:auto;font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.3)">20 MAY</span></div>
+        </div>
+      </div>
+      <div style="margin-top:auto;display:flex;flex-direction:column;gap:5px">
+        <span style="font:600 9.5px 'IBM Plex Mono',monospace;letter-spacing:.09em;color:rgba(233,238,242,.35);padding:0 4px">SEASON-WIDE</span>
+        <a href="#1c" style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;font:500 12px Barlow,sans-serif;color:rgba(233,238,242,.85);background:#212830">Standings &amp; stat builder</a>
+        <a href="#1d" style="display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:7px;font:500 12px Barlow,sans-serif;color:rgba(233,238,242,.85);background:#212830">Head-to-head</a>
+      </div>
+    </div>
+
+    <div>
+      <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:18px 24px 16px;border-bottom:1px solid rgba(233,238,242,.08)">
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <span style="font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4)">ROUND 7 · 83742118 · 12 AUG 2026</span>
+          <span style="font:600 25px/1.1 Barlow,sans-serif;letter-spacing:-.01em;color:#e9eef2">Watkins Glen — 90 min</span>
+        </div>
+        <div style="display:flex;gap:22px;padding-bottom:4px">
+          <div style="display:flex;flex-direction:column;gap:1px"><span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">LAPS</span><span style="font:600 19px Barlow,sans-serif;color:#e9eef2">42</span></div>
+          <div style="display:flex;flex-direction:column;gap:1px"><span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">SOF</span><span style="font:600 19px Barlow,sans-serif;color:#e9eef2">2384</span></div>
+          <div style="display:flex;flex-direction:column;gap:1px"><span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">CAUTIONS</span><span style="font:600 19px Barlow,sans-serif;color:oklch(0.82 0.13 78)">3</span></div>
+          <div style="display:flex;flex-direction:column;gap:1px"><span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">GREEN PASSES</span><span style="font:600 19px Barlow,sans-serif;color:oklch(0.78 0.13 152)">118</span></div>
+          <div style="display:flex;flex-direction:column;gap:1px"><span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">LEAD CHG</span><span style="font:600 19px Barlow,sans-serif;color:#e9eef2">7</span></div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:0;padding:0 24px;border-bottom:1px solid rgba(233,238,242,.08)">
+        <span style="font:600 12.5px Barlow,sans-serif;padding:11px 13px;color:#e9eef2;box-shadow:inset 0 -2px 0 oklch(0.72 0.13 245)">Result</span>
+        <a href="#2b" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Timeline</a>
+        <a href="#2b" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Passing</a>
+        <a href="#2b" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Pit cycles</a>
+        <a href="#2b" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Pace</a>
+        <span style="margin-left:auto;display:flex;gap:7px">
+          <a href="#1c" style="font:500 11.5px Barlow,sans-serif;padding:6px 11px;border-radius:6px;border:1px solid rgba(233,238,242,.14);color:rgba(233,238,242,.8)">Compare a time frame</a>
+          <a href="#1d" style="font:500 11.5px Barlow,sans-serif;padding:6px 11px;border-radius:6px;border:1px solid rgba(233,238,242,.14);color:rgba(233,238,242,.8)">Head-to-head</a>
+        </span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 372px">
+        <div style="padding:16px 24px 22px;border-right:1px solid rgba(233,238,242,.08)">
+          <div style="display:grid;grid-template-columns:32px 1fr 38px 42px 54px 52px 44px 44px;padding-bottom:8px;border-bottom:1px solid rgba(233,238,242,.10);font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:rgba(233,238,242,.4)">
+            <span>POS</span><span>DRIVER</span><span style="text-align:right">ST</span><span style="text-align:right">LED</span><span style="text-align:right">NET+/-</span><span style="text-align:right">PIT Δ</span><span style="text-align:right">INC</span><span style="text-align:right">PTS</span>
+          </div>
+          <sc-for list="{{ resultRowsD }}" as="r" hint-placeholder-count="10">
+            <div style="display:grid;grid-template-columns:32px 1fr 38px 42px 54px 52px 44px 44px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(233,238,242,.06);font:500 13px Barlow,sans-serif;color:#e9eef2">
+              <span style="font:600 12.5px 'IBM Plex Mono',monospace">{{ r.pos }}</span>
+              <span style="display:flex;align-items:center;gap:9px"><span style="width:3px;height:15px;border-radius:2px;background:{{ r.color }}"></span>{{ r.name }}<span style="font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.3)">#{{ r.car }}</span></span>
+              <span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(233,238,242,.55)">{{ r.start }}</span>
+              <span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">{{ r.led }}</span>
+              <span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ r.netColor }}">{{ r.net }}</span>
+              <span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(233,238,242,.55)">{{ r.pit }}</span>
+              <span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(233,238,242,.55)">{{ r.inc }}</span>
+              <span style="text-align:right;font:600 13px 'IBM Plex Mono',monospace">{{ r.pts }}</span>
+            </div>
+          </sc-for>
+          <p style="margin:12px 0 0;font:400 11px/1.5 Barlow,sans-serif;color:rgba(233,238,242,.4)">Click any driver to open <a href="#1d" style="color:oklch(0.75 0.13 245)">head-to-head</a> with them pre-loaded. NET+/- excludes pit-cycle and caution order changes.</p>
+        </div>
+
+        <div style="padding:16px 20px 22px;display:flex;flex-direction:column;gap:20px">
+          <div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px">
+              <span style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4)">POSITION BY LAP</span>
+              <a href="#2b" style="font:500 10.5px 'IBM Plex Mono',monospace;color:oklch(0.75 0.13 245)">SCRUB →</a>
+            </div>
+            <svg viewBox="0 0 340 170" style="width:100%;height:auto;display:block">
+              <rect x="0" y="0" width="340" height="170" rx="5" fill="#212830"></rect>
+              <rect x="72" y="0" width="23" height="170" fill="oklch(0.82 0.13 78 / .12)"></rect>
+              <rect x="178" y="0" width="19" height="170" fill="oklch(0.82 0.13 78 / .12)"></rect>
+              <rect x="265" y="0" width="15" height="170" fill="oklch(0.82 0.13 78 / .12)"></rect>
+              <polyline points="8,30 42,30 76,14 110,14 144,3 178,3 212,3 246,14 280,3 314,3 332,3" fill="none" stroke="oklch(0.68 0.16 25)" stroke-width="2"></polyline>
+              <polyline points="8,3 42,3 76,3 110,3 144,14 178,14 212,14 246,3 280,14 314,14 332,14" fill="none" stroke="oklch(0.72 0.13 245)" stroke-width="2"></polyline>
+              <polyline points="8,62 42,46 76,46 110,30 144,30 178,30 212,46 246,30 280,30 314,30 332,30" fill="none" stroke="oklch(0.78 0.13 152)" stroke-width="1.6"></polyline>
+              <polyline points="8,14 42,14 76,30 110,46 144,46 178,62 212,62 246,62 280,78 314,78 332,78" fill="none" stroke="rgba(233,238,242,.32)" stroke-width="1.4"></polyline>
+              <polyline points="8,110 42,94 76,78 110,78 144,62 178,46 212,30 246,46 280,46 314,46 332,46" fill="none" stroke="oklch(0.74 0.14 340)" stroke-width="1.6"></polyline>
+              <polyline points="8,150 42,134 76,134 110,118 144,134 178,118 212,118 246,102 280,118 314,118 332,118" fill="none" stroke="rgba(233,238,242,.2)" stroke-width="1.4"></polyline>
+            </svg>
+          </div>
+          <div>
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:11px">
+              <span style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4)">GREEN PIT CYCLES · TIME LOST</span>
+              <a href="#2b" style="font:500 10.5px 'IBM Plex Mono',monospace;color:oklch(0.75 0.13 245)">ALL STOPS →</a>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <div style="display:grid;grid-template-columns:112px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif;color:#e9eef2"><span>K. Bergström</span><span style="height:9px;border-radius:2px;background:oklch(0.78 0.13 152);width:52%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">21.4s</span></div>
+              <div style="display:grid;grid-template-columns:112px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif;color:#e9eef2"><span>T. Vasquez</span><span style="height:9px;border-radius:2px;background:oklch(0.78 0.13 152);width:58%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">22.1s</span></div>
+              <div style="display:grid;grid-template-columns:112px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif;color:#e9eef2"><span>M. Ohtani-Reed</span><span style="height:9px;border-radius:2px;background:oklch(0.72 0.13 245);width:64%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">23.0s</span></div>
+              <div style="display:grid;grid-template-columns:112px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif;color:#e9eef2"><span>R. Okonkwo</span><span style="height:9px;border-radius:2px;background:oklch(0.72 0.13 245);width:71%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">24.3s</span></div>
+              <div style="display:grid;grid-template-columns:112px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif;color:#e9eef2"><span>D. Falk</span><span style="height:9px;border-radius:2px;background:oklch(0.82 0.13 78);width:88%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">28.9s</span></div>
+              <sc-if value="{{ showOutliers }}" hint-placeholder-val="{{ true }}">
+                <div style="display:grid;grid-template-columns:112px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif;color:rgba(233,238,242,.5)"><span>J. Prentice <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:oklch(0.70 0.17 25)">OUTLIER</span></span><span style="height:9px;border-radius:2px;background:repeating-linear-gradient(90deg,rgba(233,238,242,.28) 0 4px,transparent 4px 8px);width:100%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">61.2s</span></div>
+              </sc-if>
+            </div>
+          </div>
+          <div style="padding:12px 14px;border-radius:8px;background:#212830;border:1px solid rgba(233,238,242,.08)">
+            <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:8px">SEASON IMPACT OF THIS RACE</div>
+            <div style="display:flex;flex-direction:column;gap:6px;font:500 12px Barlow,sans-serif;color:#e9eef2">
+              <span style="display:flex;justify-content:space-between">Vasquez takes the lead<span style="font:500 11.5px 'IBM Plex Mono',monospace;color:oklch(0.80 0.13 152)">+14</span></span>
+              <span style="display:flex;justify-content:space-between;color:rgba(233,238,242,.75)">Falk drops to P5<span style="font:500 11.5px 'IBM Plex Mono',monospace;color:oklch(0.70 0.17 25)">-2 pos</span></span>
+              <a href="#1c" style="margin-top:2px;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.75 0.13 245)">OPEN STANDINGS →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="2b">
+<div class="dv-olabel"><a class="dv-oid" href="#2b">2b</a>Same shell, Timeline tab — <a class="dv-oid" href="#1b">1b</a>'s scrubber lives inside the home page rather than a separate app</div>
+<div class="dv-card" style="width:1240px;background:#1b2024;border-color:rgba(233,238,242,.10)">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 24px;border-bottom:1px solid rgba(233,238,242,.08)">
+    <div style="display:flex;align-items:baseline;gap:14px">
+      <span style="font:700 15px Barlow,sans-serif;color:#e9eef2">simlytics</span>
+      <span style="font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">APEX GTP · 2026 S2 · R7 WATKINS GLEN</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">LAP</span>
+      <span style="font:600 15px 'IBM Plex Mono',monospace;color:oklch(0.84 0.13 78)">27</span>
+      <span style="font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.3)">/ 42</span>
+      <span style="margin-left:12px;font:600 9.5px 'IBM Plex Mono',monospace;padding:4px 9px;border-radius:4px;background:oklch(0.78 0.13 152 / .16);color:oklch(0.82 0.13 152)">GREEN</span>
+    </div>
+  </div>
+  <div style="display:flex;align-items:center;gap:0;padding:0 24px;border-bottom:1px solid rgba(233,238,242,.08)">
+    <a href="#2a" style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Result</a>
+    <span style="font:600 12.5px Barlow,sans-serif;padding:11px 13px;color:#e9eef2;box-shadow:inset 0 -2px 0 oklch(0.72 0.13 245)">Timeline</span>
+    <span style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Passing</span>
+    <span style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Pit cycles</span>
+    <span style="font:500 12.5px Barlow,sans-serif;padding:11px 13px;color:rgba(233,238,242,.6)">Pace</span>
+    <span style="margin-left:auto;font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">SHIFT-DRAG TO SELECT A STINT</span>
+  </div>
+
+  <div style="padding:18px 24px 10px">
+    <svg viewBox="0 0 1180 290" style="width:100%;height:auto;display:block">
+      <rect x="0" y="0" width="1180" height="290" fill="#212830" rx="6"></rect>
+      <rect x="230" y="0" width="78" height="290" fill="oklch(0.82 0.13 78 / .10)"></rect>
+      <rect x="600" y="0" width="62" height="290" fill="oklch(0.82 0.13 78 / .10)"></rect>
+      <rect x="906" y="0" width="50" height="290" fill="oklch(0.82 0.13 78 / .10)"></rect>
+      <line x1="750" y1="0" x2="750" y2="290" stroke="oklch(0.84 0.13 78)" stroke-width="1.5"></line>
+      <circle cx="750" cy="24" r="4" fill="oklch(0.84 0.13 78)"></circle>
+      <polyline points="30,58 140,58 246,32 354,32 462,14 570,14 676,14 750,24 784,32 890,14 998,14 1150,14" fill="none" stroke="oklch(0.68 0.16 25)" stroke-width="2.4"></polyline>
+      <polyline points="30,14 140,14 246,14 354,14 462,32 570,32 676,32 750,20 784,14 890,32 998,32 1150,32" fill="none" stroke="oklch(0.72 0.13 245)" stroke-width="2.4"></polyline>
+      <polyline points="30,106 140,80 246,80 354,58 462,58 570,58 676,80 750,68 784,58 890,58 998,58 1150,58" fill="none" stroke="oklch(0.78 0.13 152)" stroke-width="1.8"></polyline>
+      <polyline points="30,32 140,32 246,58 354,80 462,80 570,106 676,106 750,106 784,106 890,136 998,136 1150,136" fill="none" stroke="rgba(233,238,242,.30)" stroke-width="1.5"></polyline>
+      <polyline points="30,190 140,162 246,136 354,136 462,106 570,80 676,58 750,70 784,80 890,80 998,80 1150,80" fill="none" stroke="oklch(0.74 0.14 340)" stroke-width="1.8"></polyline>
+      <polyline points="30,260 140,232 246,232 354,206 462,232 570,206 676,206 750,190 784,162 890,190 998,190 1150,190" fill="none" stroke="rgba(233,238,242,.2)" stroke-width="1.5"></polyline>
+      <text x="1160" y="18" fill="rgba(233,238,242,.5)" style="font:500 10px 'IBM Plex Mono',monospace">P1</text>
+      <text x="1156" y="282" fill="rgba(233,238,242,.32)" style="font:500 10px 'IBM Plex Mono',monospace">P16</text>
+    </svg>
+    <div style="margin-top:10px;height:22px;border-radius:4px;background:linear-gradient(90deg,oklch(0.55 0.13 152 / .45) 0 19%,oklch(0.82 0.13 78 / .5) 19% 26%,oklch(0.55 0.13 152 / .45) 26% 51%,oklch(0.82 0.13 78 / .5) 51% 56%,oklch(0.55 0.13 152 / .45) 56% 77%,oklch(0.82 0.13 78 / .5) 77% 81%,oklch(0.55 0.13 152 / .45) 81% 100%);position:relative">
+      <div style="position:absolute;left:64%;top:-3px;bottom:-3px;width:2px;background:oklch(0.90 0.13 78)"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px;font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.32)"><span>LAP 1</span><span>GREEN / CAUTION FLAG STATE</span><span>LAP 42</span></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.05fr 1fr 0.95fr;gap:1px;background:rgba(233,238,242,.07);margin-top:12px">
+    <div style="background:#1b2024;padding:16px 22px 20px">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:12px">RUNNING ORDER · LAP 27</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:#e9eef2"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.45)">1</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:oklch(0.72 0.13 245);border-radius:2px"></span>M. Ohtani-Reed</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.45)">LEADER</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.80 0.13 152)">+2</span></div>
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:#e9eef2"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.45)">2</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:oklch(0.68 0.16 25);border-radius:2px"></span>T. Vasquez</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:oklch(0.84 0.13 78)">+0.412</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.80 0.13 152)">+4</span></div>
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:#e9eef2"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.45)">3</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:oklch(0.78 0.13 152);border-radius:2px"></span>K. Bergström</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.5)">+3.86</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.80 0.13 152)">+2</span></div>
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:#e9eef2"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.45)">4</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:oklch(0.74 0.14 340);border-radius:2px"></span>R. Okonkwo</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:oklch(0.84 0.13 78)">+0.88</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.80 0.13 152)">+7</span></div>
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:rgba(233,238,242,.6)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">5</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:rgba(233,238,242,.28);border-radius:2px"></span>D. Falk</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">+6.20</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.70 0.17 25)">-3</span></div>
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:rgba(233,238,242,.6)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">6</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:rgba(233,238,242,.18);border-radius:2px"></span>J. Prentice</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.4)">+9.71</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.80 0.13 152)">+2</span></div>
+      </div>
+      <div style="margin-top:14px;font:400 11px/1.5 Barlow,sans-serif;color:rgba(233,238,242,.35)">Amber gap = inside 1% of the median lap: a live passing opportunity in <span style="font-family:'IBM Plex Mono',monospace">lap_gaps</span>.</div>
+    </div>
+    <div style="background:#1b2024;padding:16px 22px 20px">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:12px">EVENT FEED · LAPS 24–30</div>
+      <div style="display:flex;flex-direction:column">
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(233,238,242,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">L24</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(233,238,242,.85)">Okonkwo → Falk <span style="color:rgba(233,238,242,.4)">green pass, gap 0.31%</span></span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(233,238,242,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:oklch(0.84 0.13 78)">L25</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(233,238,242,.85)">Pit window opens <span style="color:rgba(233,238,242,.4)">9 of 16 cars stop within 3 laps</span></span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(233,238,242,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">L26</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(233,238,242,.85)">Falk pit cycle 28.9s <span style="color:oklch(0.70 0.17 25)">+6.8s vs field median</span></span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(233,238,242,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">L27</span><span style="font:400 12.5px Barlow,sans-serif;color:#e9eef2">Vasquez closes to 0.412s on Ohtani-Reed</span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(233,238,242,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">L28</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(233,238,242,.85)">Vasquez → Ohtani-Reed <span style="color:oklch(0.80 0.13 152)">lead change</span></span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(233,238,242,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.35)">L29</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(233,238,242,.5)">Bergström opportunity not converted <span style="color:rgba(233,238,242,.35)">(3rd of 5)</span></span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0"><span style="font:600 11px 'IBM Plex Mono',monospace;color:oklch(0.84 0.13 78)">L30</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(233,238,242,.85)">Caution — inferred from lap-time inflation</span></div>
+      </div>
+    </div>
+    <div style="background:#1b2024;padding:16px 22px 20px">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(233,238,242,.4);margin-bottom:12px">PACE · GREEN LAPS ONLY</div>
+      <svg viewBox="0 0 300 190" style="width:100%;height:auto;display:block">
+        <line x1="150" y1="6" x2="150" y2="184" stroke="rgba(233,238,242,.18)" stroke-width="1" stroke-dasharray="3 3"></line>
+        <line x1="96" y1="20" x2="196" y2="20" stroke="rgba(233,238,242,.25)"></line><rect x="118" y="12" width="52" height="16" rx="2" fill="oklch(0.72 0.13 245 / .5)"></rect><line x1="140" y1="10" x2="140" y2="30" stroke="#e9eef2" stroke-width="2"></line>
+        <line x1="104" y1="52" x2="210" y2="52" stroke="rgba(233,238,242,.25)"></line><rect x="126" y="44" width="58" height="16" rx="2" fill="oklch(0.68 0.16 25 / .5)"></rect><line x1="146" y1="42" x2="146" y2="62" stroke="#e9eef2" stroke-width="2"></line>
+        <line x1="112" y1="84" x2="222" y2="84" stroke="rgba(233,238,242,.25)"></line><rect x="136" y="76" width="60" height="16" rx="2" fill="oklch(0.78 0.13 152 / .45)"></rect><line x1="158" y1="74" x2="158" y2="94" stroke="#e9eef2" stroke-width="2"></line>
+        <line x1="118" y1="116" x2="238" y2="116" stroke="rgba(233,238,242,.25)"></line><rect x="146" y="108" width="66" height="16" rx="2" fill="oklch(0.74 0.14 340 / .45)"></rect><line x1="170" y1="106" x2="170" y2="126" stroke="#e9eef2" stroke-width="2"></line>
+        <line x1="126" y1="148" x2="256" y2="148" stroke="rgba(233,238,242,.25)"></line><rect x="158" y="140" width="72" height="16" rx="2" fill="rgba(233,238,242,.26)"></rect><line x1="184" y1="138" x2="184" y2="158" stroke="#e9eef2" stroke-width="2"></line>
+        <line x1="134" y1="178" x2="270" y2="178" stroke="rgba(233,238,242,.25)"></line><rect x="170" y="170" width="76" height="16" rx="2" fill="rgba(233,238,242,.18)"></rect><line x1="196" y1="168" x2="196" y2="188" stroke="#e9eef2" stroke-width="2"></line>
+      </svg>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;font:500 10px 'IBM Plex Mono',monospace;color:rgba(233,238,242,.32)"><span>-1.0%</span><span>RACE MEDIAN</span><span>+2.5%</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "convert <a class="dv-oid" href="#1c">1c</a> and <a class="dv-oid" href="#1d">1d</a> into this palette too" · "show the Passing tab of <a class="dv-oid" href="#2a">2a</a>" · "add a season-wide home before a session is picked" · "mobile layout for <a class="dv-oid" href="#2a">2a</a>"</p>
+</section>
+
+<section class="dv-turn" id="t1">
+<div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Simlytics web UI — first directions (all built on the real schema: race_results, laps, passes, lap_gaps, pit_cycles)</span></div>
+<div class="dv-opts">
+
+<div class="dv-opt" id="1a">
+<div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Race session report — by-the-book tabbed dashboard, maps 1:1 onto Streamlit</div>
+<div class="dv-card" style="width:1160px">
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 22px;border-bottom:1px solid rgba(22,24,26,.10)">
+    <div style="display:flex;align-items:baseline;gap:14px">
+      <span style="font:700 17px Barlow,sans-serif;letter-spacing:-.01em;color:#16181a">simlytics</span>
+      <span style="font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">GTP LEAGUE · SEASON 2026 S2</span>
+    </div>
+    <div style="display:flex;gap:6px">
+      <span style="font:600 12px Barlow,sans-serif;padding:6px 12px;border-radius:6px;background:#16181a;color:#fff">Race session</span>
+      <span style="font:600 12px Barlow,sans-serif;padding:6px 12px;border-radius:6px;color:rgba(22,24,26,.6)">Time frame</span>
+      <span style="font:600 12px Barlow,sans-serif;padding:6px 12px;border-radius:6px;color:rgba(22,24,26,.6)">Head-to-head</span>
+    </div>
+  </div>
+
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding:18px 22px 14px;background:#faf9f7;border-bottom:1px solid rgba(22,24,26,.08)">
+    <div style="display:flex;flex-direction:column;gap:7px">
+      <span style="font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45)">SESSION</span>
+      <div style="display:flex;align-items:center;gap:10px;padding:9px 13px;background:#fff;border:1px solid rgba(22,24,26,.16);border-radius:7px;min-width:420px">
+        <span style="font:600 14px Barlow,sans-serif;color:#16181a">R7 · Watkins Glen — 90 min · 12 Aug 2026</span>
+        <span style="font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4);margin-left:auto">83742118 ▾</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:26px;padding-bottom:2px">
+      <div style="display:flex;flex-direction:column;gap:2px"><span style="font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">LAPS</span><span style="font:600 20px Barlow,sans-serif;color:#16181a">42</span></div>
+      <div style="display:flex;flex-direction:column;gap:2px"><span style="font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">SOF</span><span style="font:600 20px Barlow,sans-serif;color:#16181a">2384</span></div>
+      <div style="display:flex;flex-direction:column;gap:2px"><span style="font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">CAUTIONS</span><span style="font:600 20px Barlow,sans-serif;color:#16181a">3</span></div>
+      <div style="display:flex;flex-direction:column;gap:2px"><span style="font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">GREEN PASSES</span><span style="font:600 20px Barlow,sans-serif;color:oklch(0.55 0.13 152)">118</span></div>
+      <div style="display:flex;flex-direction:column;gap:2px"><span style="font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">LEAD CHG</span><span style="font:600 20px Barlow,sans-serif;color:#16181a">7</span></div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:0;padding:0 22px;border-bottom:1px solid rgba(22,24,26,.10)">
+    <span style="font:600 12.5px Barlow,sans-serif;padding:11px 14px;color:#16181a;box-shadow:inset 0 -2px 0 oklch(0.70 0.13 245)">Result</span>
+    <span style="font:500 12.5px Barlow,sans-serif;padding:11px 14px;color:rgba(22,24,26,.55)">Position &amp; gaps</span>
+    <span style="font:500 12.5px Barlow,sans-serif;padding:11px 14px;color:rgba(22,24,26,.55)">Passing</span>
+    <span style="font:500 12.5px Barlow,sans-serif;padding:11px 14px;color:rgba(22,24,26,.55)">Pit cycles</span>
+    <span style="font:500 12.5px Barlow,sans-serif;padding:11px 14px;color:rgba(22,24,26,.55)">Pace</span>
+    <span style="font:500 12.5px Barlow,sans-serif;padding:11px 14px;color:rgba(22,24,26,.55)">Timeline</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 380px;gap:0">
+    <div style="padding:16px 22px 22px;border-right:1px solid rgba(22,24,26,.08)">
+      <div style="display:grid;grid-template-columns:34px 1fr 40px 44px 52px 52px 52px 46px;gap:0;font:500 10px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:rgba(22,24,26,.45);padding:0 0 8px;border-bottom:1px solid rgba(22,24,26,.10)">
+        <span>POS</span><span>DRIVER</span><span style="text-align:right">ST</span><span style="text-align:right">LED</span><span style="text-align:right">NET+/-</span><span style="text-align:right">PIT Δ</span><span style="text-align:right">INC</span><span style="text-align:right">PTS</span>
+      </div>
+      <sc-for list="{{ resultRows }}" as="r" hint-placeholder-count="10">
+        <div style="display:grid;grid-template-columns:34px 1fr 40px 44px 52px 52px 52px 46px;gap:0;align-items:center;padding:9px 0;border-bottom:1px solid rgba(22,24,26,.06);font:500 13px Barlow,sans-serif;color:#16181a">
+          <span style="font:600 13px 'IBM Plex Mono',monospace">{{ r.pos }}</span>
+          <span style="display:flex;align-items:center;gap:9px"><span style="width:3px;height:15px;border-radius:2px;background:{{ r.color }}"></span>{{ r.name }}<span style="font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.35)">#{{ r.car }}</span></span>
+          <span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(22,24,26,.6)">{{ r.start }}</span>
+          <span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px">{{ r.led }}</span>
+          <span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px;color:{{ r.netColor }}">{{ r.net }}</span>
+          <span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(22,24,26,.6)">{{ r.pit }}</span>
+          <span style="text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px;color:rgba(22,24,26,.6)">{{ r.inc }}</span>
+          <span style="text-align:right;font:600 13px 'IBM Plex Mono',monospace">{{ r.pts }}</span>
+        </div>
+      </sc-for>
+      <p style="margin:12px 0 0;font:400 11px/1.5 Barlow,sans-serif;color:rgba(22,24,26,.45)">NET+/- is green-flag passes made minus conceded (pit-cycle and caution order changes excluded). PIT Δ is median time lost per green stop.</p>
+    </div>
+
+    <div style="padding:16px 20px 22px;display:flex;flex-direction:column;gap:20px">
+      <div>
+        <div style="font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:rgba(22,24,26,.45);margin-bottom:10px">POSITION BY LAP</div>
+        <svg viewBox="0 0 340 170" style="width:100%;height:auto;display:block">
+          <rect x="0" y="0" width="340" height="170" fill="#faf9f7"></rect>
+          <rect x="72" y="0" width="23" height="170" fill="oklch(0.85 0.10 78 / 0.35)"></rect>
+          <rect x="178" y="0" width="19" height="170" fill="oklch(0.85 0.10 78 / 0.35)"></rect>
+          <rect x="265" y="0" width="15" height="170" fill="oklch(0.85 0.10 78 / 0.35)"></rect>
+          <polyline points="8,30 42,30 76,14 110,14 144,3 178,3 212,3 246,14 280,3 314,3 332,3" fill="none" stroke="oklch(0.60 0.16 25)" stroke-width="2"></polyline>
+          <polyline points="8,3 42,3 76,3 110,3 144,14 178,14 212,14 246,3 280,14 314,14 332,14" fill="none" stroke="oklch(0.60 0.13 245)" stroke-width="2"></polyline>
+          <polyline points="8,62 42,46 76,46 110,30 144,30 178,30 212,46 246,30 280,30 314,30 332,30" fill="none" stroke="oklch(0.55 0.13 152)" stroke-width="1.6"></polyline>
+          <polyline points="8,14 42,14 76,30 110,46 144,46 178,62 212,62 246,62 280,78 314,78 332,78" fill="none" stroke="rgba(22,24,26,.35)" stroke-width="1.4"></polyline>
+          <polyline points="8,110 42,94 76,78 110,78 144,62 178,46 212,30 246,46 280,46 314,46 332,46" fill="none" stroke="oklch(0.62 0.15 340)" stroke-width="1.6"></polyline>
+          <polyline points="8,150 42,134 76,134 110,118 144,134 178,118 212,118 246,102 280,118 314,118 332,118" fill="none" stroke="rgba(22,24,26,.22)" stroke-width="1.4"></polyline>
+        </svg>
+      </div>
+      <div>
+        <div style="font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.06em;color:rgba(22,24,26,.45);margin-bottom:10px">GREEN PIT CYCLES · TIME LOST</div>
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <div style="display:grid;grid-template-columns:118px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif"><span>K. Bergström</span><span style="height:9px;border-radius:2px;background:oklch(0.55 0.13 152);width:52%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">21.4s</span></div>
+          <div style="display:grid;grid-template-columns:118px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif"><span>T. Vasquez</span><span style="height:9px;border-radius:2px;background:oklch(0.55 0.13 152);width:58%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">22.1s</span></div>
+          <div style="display:grid;grid-template-columns:118px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif"><span>M. Ohtani-Reed</span><span style="height:9px;border-radius:2px;background:oklch(0.70 0.13 245);width:64%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">23.0s</span></div>
+          <div style="display:grid;grid-template-columns:118px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif"><span>R. Okonkwo</span><span style="height:9px;border-radius:2px;background:oklch(0.70 0.13 245);width:71%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">24.3s</span></div>
+          <div style="display:grid;grid-template-columns:118px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif"><span>D. Falk</span><span style="height:9px;border-radius:2px;background:oklch(0.78 0.14 78);width:88%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">28.9s</span></div>
+          <sc-if value="{{ showOutliers }}" hint-placeholder-val="{{ true }}">
+            <div style="display:grid;grid-template-columns:118px 1fr 46px;align-items:center;gap:8px;font:500 12px Barlow,sans-serif;opacity:.5"><span>J. Prentice <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:oklch(0.55 0.17 25)">OUTLIER</span></span><span style="height:9px;border-radius:2px;background:repeating-linear-gradient(90deg,rgba(22,24,26,.3) 0 4px,transparent 4px 8px);width:100%"></span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace">61.2s</span></div>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="1b">
+<div class="dv-olabel"><a class="dv-oid" href="#1b">1b</a>Race session as a scrubbable timeline — dark telemetry style, the lap chart is the navigation</div>
+<div class="dv-card" style="width:1160px;background:#101316;border-color:rgba(255,255,255,.10)">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid rgba(255,255,255,.08)">
+    <div style="display:flex;align-items:baseline;gap:14px">
+      <span style="font:700 16px Barlow,sans-serif;color:#eef1f3">simlytics</span>
+      <span style="font:500 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.45)">R7 WATKINS GLEN · 83742118</span>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font:500 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.45)">LAP</span>
+      <span style="font:600 15px 'IBM Plex Mono',monospace;color:oklch(0.80 0.14 78)">27</span>
+      <span style="font:500 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.35)">/ 42</span>
+      <span style="margin-left:14px;font:600 10px 'IBM Plex Mono',monospace;padding:4px 9px;border-radius:4px;background:oklch(0.55 0.13 152 / .18);color:oklch(0.80 0.13 152)">GREEN</span>
+    </div>
+  </div>
+
+  <div style="padding:18px 22px 8px">
+    <svg viewBox="0 0 1100 300" style="width:100%;height:auto;display:block">
+      <rect x="0" y="0" width="1100" height="300" fill="#171b1f" rx="6"></rect>
+      <rect x="215" y="0" width="72" height="300" fill="oklch(0.80 0.14 78 / .10)"></rect>
+      <rect x="560" y="0" width="58" height="300" fill="oklch(0.80 0.14 78 / .10)"></rect>
+      <rect x="845" y="0" width="46" height="300" fill="oklch(0.80 0.14 78 / .10)"></rect>
+      <line x1="700" y1="0" x2="700" y2="300" stroke="oklch(0.80 0.14 78)" stroke-width="1.5"></line>
+      <circle cx="700" cy="26" r="4" fill="oklch(0.80 0.14 78)"></circle>
+      <polyline points="30,60 130,60 230,32 330,32 430,14 530,14 630,14 700,26 730,32 830,14 930,14 1070,14" fill="none" stroke="oklch(0.68 0.17 25)" stroke-width="2.4"></polyline>
+      <polyline points="30,14 130,14 230,14 330,14 430,32 530,32 630,32 700,20 730,14 830,32 930,32 1070,32" fill="none" stroke="oklch(0.70 0.13 245)" stroke-width="2.4"></polyline>
+      <polyline points="30,110 130,82 230,82 330,60 430,60 530,60 630,82 700,70 730,60 830,60 930,60 1070,60" fill="none" stroke="oklch(0.78 0.13 152)" stroke-width="1.8"></polyline>
+      <polyline points="30,32 130,32 230,60 330,82 430,82 530,110 630,110 700,110 730,110 830,140 930,140 1070,140" fill="none" stroke="rgba(238,241,243,.30)" stroke-width="1.5"></polyline>
+      <polyline points="30,196 130,168 230,140 330,140 430,110 530,82 630,60 700,72 730,82 830,82 930,82 1070,82" fill="none" stroke="oklch(0.72 0.15 340)" stroke-width="1.8"></polyline>
+      <polyline points="30,268 130,240 230,240 330,212 430,240 530,212 630,212 700,196 730,168 830,196 930,196 1070,196" fill="none" stroke="rgba(238,241,243,.20)" stroke-width="1.5"></polyline>
+      <text x="1082" y="18" fill="rgba(238,241,243,.55)" style="font:500 10px 'IBM Plex Mono',monospace">P1</text>
+      <text x="1082" y="290" fill="rgba(238,241,243,.35)" style="font:500 10px 'IBM Plex Mono',monospace">P16</text>
+    </svg>
+    <div style="display:flex;align-items:center;gap:0;margin-top:10px;padding:0 2px">
+      <div style="flex:1;height:22px;border-radius:4px;background:linear-gradient(90deg,oklch(0.55 0.13 152 / .5) 0 19%,oklch(0.80 0.14 78 / .55) 19% 26%,oklch(0.55 0.13 152 / .5) 26% 51%,oklch(0.80 0.14 78 / .55) 51% 56%,oklch(0.55 0.13 152 / .5) 56% 77%,oklch(0.80 0.14 78 / .55) 77% 81%,oklch(0.55 0.13 152 / .5) 81% 100%);position:relative">
+        <div style="position:absolute;left:64%;top:-3px;bottom:-3px;width:2px;background:oklch(0.90 0.14 78)"></div>
+      </div>
+    </div>
+    <div style="display:flex;justify-content:space-between;margin-top:6px;font:500 10px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.35)"><span>LAP 1</span><span>DRAG THE SPINE TO SCRUB · SHIFT-DRAG TO SELECT A STINT</span><span>LAP 42</span></div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1.05fr 1fr 0.95fr;gap:1px;background:rgba(255,255,255,.07);margin-top:12px">
+    <div style="background:#101316;padding:16px 20px 20px">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(238,241,243,.4);margin-bottom:12px">RUNNING ORDER · LAP 27</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:#eef1f3"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.5)">1</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:oklch(0.70 0.13 245);border-radius:2px"></span>M. Ohtani-Reed</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.5)">LEADER</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.78 0.13 152)">+2</span></div>
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:#eef1f3"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.5)">2</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:oklch(0.68 0.17 25);border-radius:2px"></span>T. Vasquez</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:oklch(0.80 0.14 78)">+0.412</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.78 0.13 152)">+4</span></div>
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:#eef1f3"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.5)">3</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:oklch(0.78 0.13 152);border-radius:2px"></span>K. Bergström</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.55)">+3.86</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.78 0.13 152)">+2</span></div>
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:#eef1f3"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.5)">4</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:oklch(0.72 0.15 340);border-radius:2px"></span>R. Okonkwo</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:oklch(0.80 0.14 78)">+0.88</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.78 0.13 152)">+7</span></div>
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:rgba(238,241,243,.6)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.4)">5</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:rgba(238,241,243,.3);border-radius:2px"></span>D. Falk</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.45)">+6.20</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.70 0.17 25)">-3</span></div>
+        <div style="display:grid;grid-template-columns:20px 1fr 62px 34px;align-items:center;gap:8px;font:500 12.5px Barlow,sans-serif;color:rgba(238,241,243,.6)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.4)">6</span><span style="display:flex;gap:8px;align-items:center"><span style="width:3px;height:14px;background:rgba(238,241,243,.2);border-radius:2px"></span>J. Prentice</span><span style="text-align:right;font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.45)">+9.71</span><span style="text-align:right;font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.78 0.13 152)">+2</span></div>
+      </div>
+      <div style="margin-top:14px;font:400 11px/1.5 Barlow,sans-serif;color:rgba(238,241,243,.35)">Amber gap = inside 1% of the median lap, i.e. a live passing opportunity in <span style="font-family:'IBM Plex Mono',monospace">lap_gaps</span>.</div>
+    </div>
+
+    <div style="background:#101316;padding:16px 20px 20px">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(238,241,243,.4);margin-bottom:12px">EVENT FEED · LAPS 24–30</div>
+      <div style="display:flex;flex-direction:column;gap:0">
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.4)">L24</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(238,241,243,.85)">Okonkwo → Falk <span style="color:rgba(238,241,243,.4)">green pass, gap 0.31%</span></span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:oklch(0.80 0.14 78)">L25</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(238,241,243,.85)">Pit window opens <span style="color:rgba(238,241,243,.4)">9 of 16 cars stop within 3 laps</span></span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.4)">L26</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(238,241,243,.85)">Falk pit cycle 28.9s <span style="color:oklch(0.70 0.17 25)">+6.8s vs field median</span></span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.4)">L27</span><span style="font:400 12.5px Barlow,sans-serif;color:#eef1f3">Vasquez closes to 0.412s on Ohtani-Reed</span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.4)">L28</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(238,241,243,.85)">Vasquez → Ohtani-Reed <span style="color:oklch(0.78 0.13 152)">lead change</span></span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.4)">L29</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(238,241,243,.5)">Bergström opportunity not converted <span style="color:rgba(238,241,243,.35)">(3rd of 5)</span></span></div>
+        <div style="display:grid;grid-template-columns:34px 1fr;gap:10px;padding:8px 0"><span style="font:600 11px 'IBM Plex Mono',monospace;color:oklch(0.80 0.14 78)">L30</span><span style="font:400 12.5px Barlow,sans-serif;color:rgba(238,241,243,.85)">Caution — inferred from lap-time inflation</span></div>
+      </div>
+    </div>
+
+    <div style="background:#101316;padding:16px 20px 20px">
+      <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(238,241,243,.4);margin-bottom:12px">PACE · GREEN LAPS ONLY</div>
+      <svg viewBox="0 0 300 190" style="width:100%;height:auto;display:block">
+        <line x1="150" y1="6" x2="150" y2="184" stroke="rgba(238,241,243,.18)" stroke-width="1" stroke-dasharray="3 3"></line>
+        <g>
+          <line x1="96" y1="20" x2="196" y2="20" stroke="rgba(238,241,243,.25)"></line><rect x="118" y="12" width="52" height="16" rx="2" fill="oklch(0.70 0.13 245 / .55)"></rect><line x1="140" y1="10" x2="140" y2="30" stroke="#eef1f3" stroke-width="2"></line>
+          <line x1="104" y1="52" x2="210" y2="52" stroke="rgba(238,241,243,.25)"></line><rect x="126" y="44" width="58" height="16" rx="2" fill="oklch(0.68 0.17 25 / .55)"></rect><line x1="146" y1="42" x2="146" y2="62" stroke="#eef1f3" stroke-width="2"></line>
+          <line x1="112" y1="84" x2="222" y2="84" stroke="rgba(238,241,243,.25)"></line><rect x="136" y="76" width="60" height="16" rx="2" fill="oklch(0.78 0.13 152 / .5)"></rect><line x1="158" y1="74" x2="158" y2="94" stroke="#eef1f3" stroke-width="2"></line>
+          <line x1="118" y1="116" x2="238" y2="116" stroke="rgba(238,241,243,.25)"></line><rect x="146" y="108" width="66" height="16" rx="2" fill="oklch(0.72 0.15 340 / .5)"></rect><line x1="170" y1="106" x2="170" y2="126" stroke="#eef1f3" stroke-width="2"></line>
+          <line x1="126" y1="148" x2="256" y2="148" stroke="rgba(238,241,243,.25)"></line><rect x="158" y="140" width="72" height="16" rx="2" fill="rgba(238,241,243,.28)"></rect><line x1="184" y1="138" x2="184" y2="158" stroke="#eef1f3" stroke-width="2"></line>
+          <line x1="134" y1="178" x2="270" y2="178" stroke="rgba(238,241,243,.25)"></line><rect x="170" y="170" width="76" height="16" rx="2" fill="rgba(238,241,243,.20)"></rect><line x1="196" y1="168" x2="196" y2="188" stroke="#eef1f3" stroke-width="2"></line>
+        </g>
+      </svg>
+      <div style="display:flex;justify-content:space-between;margin-top:6px;font:500 10px 'IBM Plex Mono',monospace;color:rgba(238,241,243,.35)"><span>-1.0%</span><span>RACE MEDIAN</span><span>+2.5%</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="1c">
+<div class="dv-olabel"><a class="dv-oid" href="#1c">1c</a>Time-frame explorer — build-your-own stat table with a four-mode range picker</div>
+<div class="dv-card" style="width:1160px">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid rgba(22,24,26,.10)">
+    <div style="display:flex;align-items:baseline;gap:14px"><span style="font:700 16px Barlow,sans-serif;color:#16181a">simlytics</span><span style="font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">TIME FRAME</span></div>
+    <span style="font:500 11.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.5)">14 drivers · 8 races · 3 412 green passes</span>
+  </div>
+
+  <div style="display:grid;grid-template-columns:264px 1fr;gap:0">
+    <div style="padding:18px 20px 24px;border-right:1px solid rgba(22,24,26,.08);background:#faf9f7;display:flex;flex-direction:column;gap:22px">
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45);margin-bottom:9px">RANGE MODE</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+          <span style="font:600 11.5px Barlow,sans-serif;text-align:center;padding:7px 0;border-radius:6px;background:#16181a;color:#fff">Rounds</span>
+          <span style="font:500 11.5px Barlow,sans-serif;text-align:center;padding:7px 0;border-radius:6px;background:#fff;border:1px solid rgba(22,24,26,.14);color:rgba(22,24,26,.7)">Dates</span>
+          <span style="font:500 11.5px Barlow,sans-serif;text-align:center;padding:7px 0;border-radius:6px;background:#fff;border:1px solid rgba(22,24,26,.14);color:rgba(22,24,26,.7)">Last N</span>
+          <span style="font:500 11.5px Barlow,sans-serif;text-align:center;padding:7px 0;border-radius:6px;background:#fff;border:1px solid rgba(22,24,26,.14);color:rgba(22,24,26,.7)">Hand-pick</span>
+        </div>
+      </div>
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45);margin-bottom:11px">ROUNDS 3 → 8 OF 10</div>
+        <div style="display:flex;gap:3px;align-items:flex-end;height:44px">
+          <span style="flex:1;height:60%;border-radius:3px;background:rgba(22,24,26,.12)"></span>
+          <span style="flex:1;height:75%;border-radius:3px;background:rgba(22,24,26,.12)"></span>
+          <span style="flex:1;height:52%;border-radius:3px;background:oklch(0.70 0.13 245)"></span>
+          <span style="flex:1;height:88%;border-radius:3px;background:oklch(0.70 0.13 245)"></span>
+          <span style="flex:1;height:66%;border-radius:3px;background:oklch(0.70 0.13 245)"></span>
+          <span style="flex:1;height:44%;border-radius:3px;background:oklch(0.70 0.13 245)"></span>
+          <span style="flex:1;height:80%;border-radius:3px;background:oklch(0.70 0.13 245)"></span>
+          <span style="flex:1;height:70%;border-radius:3px;background:oklch(0.70 0.13 245)"></span>
+          <span style="flex:1;height:35%;border-radius:3px;background:rgba(22,24,26,.10)"></span>
+          <span style="flex:1;height:30%;border-radius:3px;background:rgba(22,24,26,.10)"></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:6px;font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)"><span>R1</span><span>BAR HEIGHT = FIELD SIZE</span><span>R10</span></div>
+      </div>
+      <div>
+        <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:9px"><span style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45)">METRICS</span><span style="font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.35)">7 / 24</span></div>
+        <div style="display:flex;flex-wrap:wrap;gap:5px">
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#16181a;color:#fff">points ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#16181a;color:#fff">avg finish ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#16181a;color:#fff">net passes ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#16181a;color:#fff">conversion % ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#16181a;color:#fff">defense % ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#16181a;color:#fff">pit Δ median ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#16181a;color:#fff">passing score ×</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#fff;border:1px dashed rgba(22,24,26,.28);color:rgba(22,24,26,.55)">+ laps led</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#fff;border:1px dashed rgba(22,24,26,.28);color:rgba(22,24,26,.55)">+ incidents</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#fff;border:1px dashed rgba(22,24,26,.28);color:rgba(22,24,26,.55)">+ restart net</span>
+          <span style="font:500 11px Barlow,sans-serif;padding:5px 9px;border-radius:20px;background:#fff;border:1px dashed rgba(22,24,26,.28);color:rgba(22,24,26,.55)">+ green pace z</span>
+        </div>
+      </div>
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45);margin-bottom:9px">OPTIONS</div>
+        <div style="display:flex;flex-direction:column;gap:8px;font:500 11.5px Barlow,sans-serif;color:#16181a">
+          <span style="display:flex;align-items:center;gap:8px"><span style="width:26px;height:15px;border-radius:9px;background:oklch(0.70 0.13 245);position:relative"><span style="position:absolute;right:2px;top:2px;width:11px;height:11px;border-radius:50%;background:#fff"></span></span>Drop-adjusted points (best 8)</span>
+          <span style="display:flex;align-items:center;gap:8px"><span style="width:26px;height:15px;border-radius:9px;background:rgba(22,24,26,.18);position:relative"><span style="position:absolute;left:2px;top:2px;width:11px;height:11px;border-radius:50%;background:#fff"></span></span>Per-race rates, not totals</span>
+          <span style="display:flex;align-items:center;gap:8px"><span style="width:26px;height:15px;border-radius:9px;background:oklch(0.70 0.13 245);position:relative"><span style="position:absolute;right:2px;top:2px;width:11px;height:11px;border-radius:50%;background:#fff"></span></span>Exclude pit-cycle outliers</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:18px 22px 24px;display:flex;flex-direction:column;gap:22px">
+      <div>
+        <div style="display:grid;grid-template-columns:26px 1fr 46px 56px 58px 62px 58px 62px 58px;padding-bottom:8px;border-bottom:1px solid rgba(22,24,26,.10);font:500 9.5px 'IBM Plex Mono',monospace;letter-spacing:.05em;color:rgba(22,24,26,.45)">
+          <span>#</span><span>DRIVER</span><span style="text-align:right">PTS</span><span style="text-align:right">AVG FIN</span><span style="text-align:right">NET PASS</span><span style="text-align:right">CONV %</span><span style="text-align:right">DEF %</span><span style="text-align:right">PIT Δ s</span><span style="text-align:right">SCORE</span>
+        </div>
+        <sc-for list="{{ seasonRows }}" as="s" hint-placeholder-count="8">
+          <div style="display:grid;grid-template-columns:26px 1fr 46px 56px 58px 62px 58px 62px 58px;align-items:center;padding:9px 0;border-bottom:1px solid rgba(22,24,26,.06);font:500 13px Barlow,sans-serif;color:#16181a">
+            <span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.5)">{{ s.rank }}</span>
+            <span style="display:flex;align-items:center;gap:9px"><span style="width:3px;height:15px;border-radius:2px;background:{{ s.color }}"></span>{{ s.name }}</span>
+            <span style="text-align:right;font:600 12.5px 'IBM Plex Mono',monospace">{{ s.pts }}</span>
+            <span style="text-align:right;font:500 12px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.65)">{{ s.avgFin }}</span>
+            <span style="text-align:right;font:500 12px 'IBM Plex Mono',monospace;color:{{ s.netColor }}">{{ s.net }}</span>
+            <span style="text-align:right;font:500 12px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.65)">{{ s.conv }}</span>
+            <span style="text-align:right;font:500 12px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.65)">{{ s.def }}</span>
+            <span style="text-align:right;font:500 12px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.65)">{{ s.pit }}</span>
+            <span style="text-align:right;display:flex;justify-content:flex-end;align-items:center;gap:6px"><span style="width:34px;height:6px;border-radius:3px;background:rgba(22,24,26,.08);position:relative;overflow:hidden"><span style="position:absolute;left:0;top:0;bottom:0;background:oklch(0.70 0.13 245);width:{{ s.scoreW }}"></span></span><span style="font:600 12px 'IBM Plex Mono',monospace">{{ s.score }}</span></span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1.35fr 1fr;gap:22px">
+        <div>
+          <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45);margin-bottom:10px">FINISH POSITION · DRIVER × ROUND</div>
+          <div style="display:grid;grid-template-columns:104px repeat(8,1fr);gap:3px;align-items:center">
+            <span></span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4);text-align:center">R1</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4);text-align:center">R2</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4);text-align:center">R3</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4);text-align:center">R4</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4);text-align:center">R5</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4);text-align:center">R6</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4);text-align:center">R7</span>
+            <span style="font:500 9.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4);text-align:center">R8</span>
+          </div>
+          <sc-for list="{{ heatRows }}" as="h" hint-placeholder-count="7">
+            <div style="display:grid;grid-template-columns:104px repeat(8,1fr);gap:3px;align-items:center;margin-top:3px">
+              <span style="font:500 11.5px Barlow,sans-serif;color:#16181a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ h.name }}</span>
+              <sc-for list="{{ h.cells }}" as="c" hint-placeholder-count="8">
+                <span style="height:22px;border-radius:3px;display:flex;align-items:center;justify-content:center;font:500 10.5px 'IBM Plex Mono',monospace;background:{{ c.bg }};color:{{ c.fg }}">{{ c.v }}</span>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+        <div>
+          <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45);margin-bottom:10px">POINTS PROGRESSION</div>
+          <svg viewBox="0 0 340 190" style="width:100%;height:auto;display:block">
+            <line x1="18" y1="176" x2="332" y2="176" stroke="rgba(22,24,26,.15)"></line>
+            <polyline points="18,168 62,138 106,120 150,96 194,78 238,54 282,30 326,10" fill="none" stroke="oklch(0.60 0.16 25)" stroke-width="2.2"></polyline>
+            <polyline points="18,160 62,146 106,112 150,104 194,72 238,62 282,42 326,26" fill="none" stroke="oklch(0.60 0.13 245)" stroke-width="2.2"></polyline>
+            <polyline points="18,172 62,152 106,134 150,116 194,96 238,80 282,60 326,44" fill="none" stroke="oklch(0.55 0.13 152)" stroke-width="1.8"></polyline>
+            <polyline points="18,166 62,158 106,148 150,130 194,118 238,100 282,88 326,72" fill="none" stroke="oklch(0.62 0.15 340)" stroke-width="1.6"></polyline>
+            <polyline points="18,174 62,166 106,158 150,146 194,138 238,124 282,112 326,98" fill="none" stroke="rgba(22,24,26,.3)" stroke-width="1.4"></polyline>
+          </svg>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font:500 10.5px Barlow,sans-serif;color:rgba(22,24,26,.6)">
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:3px;background:oklch(0.60 0.16 25)"></span>Vasquez</span>
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:3px;background:oklch(0.60 0.13 245)"></span>Ohtani-Reed</span>
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:3px;background:oklch(0.55 0.13 152)"></span>Bergström</span>
+            <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:3px;background:oklch(0.62 0.15 340)"></span>Okonkwo</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="1d">
+<div class="dv-olabel"><a class="dv-oid" href="#1d">1d</a>Head-to-head — two drivers over any range, plus driver-vs-field on every axis</div>
+<div class="dv-card" style="width:900px">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid rgba(22,24,26,.10)">
+    <span style="font:700 16px Barlow,sans-serif;color:#16181a">Head-to-head</span>
+    <span style="font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.45)">ROUNDS 1–8 · 2026 S2</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 92px 1fr;align-items:center;padding:20px 22px;gap:0;background:#faf9f7;border-bottom:1px solid rgba(22,24,26,.08)">
+    <div style="display:flex;flex-direction:column;gap:3px">
+      <span style="font:600 19px Barlow,sans-serif;color:#16181a">T. Vasquez</span>
+      <span style="font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.55 0.16 25)">#21 · 8 RACES · CUST 812204</span>
+    </div>
+    <span style="font:600 13px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.35);text-align:center">VS</span>
+    <div style="display:flex;flex-direction:column;gap:3px;align-items:flex-end">
+      <span style="font:600 19px Barlow,sans-serif;color:#16181a">M. Ohtani-Reed</span>
+      <span style="font:500 11px 'IBM Plex Mono',monospace;color:oklch(0.55 0.13 245)">#4 · 8 RACES · CUST 604117</span>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 300px;gap:0">
+    <div style="padding:18px 22px 22px;border-right:1px solid rgba(22,24,26,.08);display:flex;flex-direction:column;gap:11px">
+      <sc-for list="{{ h2hRows }}" as="m" hint-placeholder-count="7">
+        <div style="display:grid;grid-template-columns:52px 1fr 118px 1fr 52px;align-items:center;gap:8px">
+          <span style="font:600 13px 'IBM Plex Mono',monospace;color:#16181a;text-align:right">{{ m.left }}</span>
+          <span style="height:8px;border-radius:4px;background:rgba(22,24,26,.07);display:flex;justify-content:flex-end"><span style="height:8px;border-radius:4px;background:oklch(0.60 0.16 25);width:{{ m.leftW }}"></span></span>
+          <span style="font:500 10.5px 'IBM Plex Mono',monospace;letter-spacing:.04em;color:rgba(22,24,26,.5);text-align:center">{{ m.label }}</span>
+          <span style="height:8px;border-radius:4px;background:rgba(22,24,26,.07)"><span style="display:block;height:8px;border-radius:4px;background:oklch(0.60 0.13 245);width:{{ m.rightW }}"></span></span>
+          <span style="font:600 13px 'IBM Plex Mono',monospace;color:#16181a">{{ m.right }}</span>
+        </div>
+      </sc-for>
+      <div style="margin-top:8px;padding-top:14px;border-top:1px solid rgba(22,24,26,.08)">
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45);margin-bottom:10px">ON-TRACK MEETINGS · 8 ROUNDS</div>
+        <div style="display:flex;gap:5px;align-items:center">
+          <span style="flex:0 0 44%;height:26px;border-radius:4px;background:oklch(0.60 0.16 25 / .85);display:flex;align-items:center;padding:0 9px;font:600 11.5px 'IBM Plex Mono',monospace;color:#fff">9 PASSES</span>
+          <span style="flex:0 0 30%;height:26px;border-radius:4px;background:oklch(0.60 0.13 245 / .85);display:flex;align-items:center;justify-content:flex-end;padding:0 9px;font:600 11.5px 'IBM Plex Mono',monospace;color:#fff">6</span>
+          <span style="flex:1;height:26px;border-radius:4px;background:repeating-linear-gradient(135deg,rgba(22,24,26,.10) 0 4px,transparent 4px 8px);display:flex;align-items:center;justify-content:center;font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.5)">4 REVERTED</span>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:18px 20px 22px;display:flex;flex-direction:column;gap:18px">
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45);margin-bottom:8px">PASSING COMPONENTS · Z</div>
+        <svg viewBox="0 0 260 240" style="width:100%;height:auto;display:block">
+          <polygon points="130,30 220,120 130,210 40,120" fill="none" stroke="rgba(22,24,26,.14)"></polygon>
+          <polygon points="130,75 175,120 130,165 85,120" fill="none" stroke="rgba(22,24,26,.10)"></polygon>
+          <line x1="130" y1="30" x2="130" y2="210" stroke="rgba(22,24,26,.10)"></line>
+          <line x1="40" y1="120" x2="220" y2="120" stroke="rgba(22,24,26,.10)"></line>
+          <polygon points="130,60 183,120 130,153 67,120" fill="oklch(0.60 0.16 25 / .20)" stroke="oklch(0.60 0.16 25)" stroke-width="2"></polygon>
+          <polygon points="130,76 197,120 130,183 102,120" fill="oklch(0.60 0.13 245 / .18)" stroke="oklch(0.60 0.13 245)" stroke-width="2"></polygon>
+          <text x="130" y="20" text-anchor="middle" fill="rgba(22,24,26,.55)" style="font:500 10px 'IBM Plex Mono',monospace">RACECRAFT</text>
+          <text x="228" y="124" fill="rgba(22,24,26,.55)" style="font:500 10px 'IBM Plex Mono',monospace">ATK</text>
+          <text x="130" y="228" text-anchor="middle" fill="rgba(22,24,26,.55)" style="font:500 10px 'IBM Plex Mono',monospace">DEFENSE</text>
+          <text x="6" y="124" fill="rgba(22,24,26,.55)" style="font:500 10px 'IBM Plex Mono',monospace">RSTRT</text>
+        </svg>
+      </div>
+      <div>
+        <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45);margin-bottom:8px">FIELD · SCORE vs PIT Δ</div>
+        <svg viewBox="0 0 260 150" style="width:100%;height:auto;display:block">
+          <line x1="14" y1="136" x2="252" y2="136" stroke="rgba(22,24,26,.15)"></line>
+          <line x1="14" y1="8" x2="14" y2="136" stroke="rgba(22,24,26,.15)"></line>
+          <circle cx="52" cy="102" r="4" fill="rgba(22,24,26,.22)"></circle>
+          <circle cx="74" cy="86" r="4" fill="rgba(22,24,26,.22)"></circle>
+          <circle cx="96" cy="112" r="4" fill="rgba(22,24,26,.22)"></circle>
+          <circle cx="118" cy="70" r="4" fill="rgba(22,24,26,.22)"></circle>
+          <circle cx="140" cy="94" r="4" fill="rgba(22,24,26,.22)"></circle>
+          <circle cx="162" cy="58" r="4" fill="rgba(22,24,26,.22)"></circle>
+          <circle cx="196" cy="120" r="4" fill="rgba(22,24,26,.22)"></circle>
+          <circle cx="214" cy="46" r="4" fill="rgba(22,24,26,.22)"></circle>
+          <circle cx="182" cy="34" r="6" fill="oklch(0.60 0.16 25)"></circle>
+          <circle cx="146" cy="52" r="6" fill="oklch(0.60 0.13 245)"></circle>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="dv-opt" id="1e">
+<div class="dv-olabel"><a class="dv-oid" href="#1e">1e</a>Three picker metaphors for "which races?" — pick one language and reuse it everywhere</div>
+<div style="display:flex;gap:18px;flex-wrap:wrap">
+  <div class="dv-card" style="width:330px;padding:18px 18px 20px">
+    <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45);margin-bottom:12px">A · SEASON RAIL</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;background:#16181a;color:#fff"><span style="font:600 11px 'IBM Plex Mono',monospace;opacity:.6">R7</span><span style="font:600 12.5px Barlow,sans-serif">Watkins Glen</span><span style="margin-left:auto;font:500 10.5px 'IBM Plex Mono',monospace;opacity:.55">12 AUG</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;background:#faf9f7;border:1px solid rgba(22,24,26,.08)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">R6</span><span style="font:500 12.5px Barlow,sans-serif;color:#16181a">Road Atlanta</span><span style="margin-left:auto;font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">29 JUL</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;background:#faf9f7;border:1px solid rgba(22,24,26,.08)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">R5</span><span style="font:500 12.5px Barlow,sans-serif;color:#16181a">Sebring</span><span style="margin-left:auto;font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">15 JUL</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:7px;background:#faf9f7;border:1px solid rgba(22,24,26,.08)"><span style="font:600 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">R4</span><span style="font:500 12.5px Barlow,sans-serif;color:#16181a">Mid-Ohio</span><span style="margin-left:auto;font:500 10.5px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">01 JUL</span></div>
+    </div>
+    <p style="margin:12px 0 0;font:400 11px/1.5 Barlow,sans-serif;color:rgba(22,24,26,.5)">Best when a session is nearly always chosen by round. One click, no modes.</p>
+  </div>
+
+  <div class="dv-card" style="width:330px;padding:18px 18px 20px">
+    <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45);margin-bottom:12px">B · CALENDAR BRUSH</div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px">
+      <span style="height:26px;border-radius:4px;background:rgba(22,24,26,.05)"></span>
+      <span style="height:26px;border-radius:4px;background:rgba(22,24,26,.05)"></span>
+      <span style="height:26px;border-radius:4px;background:rgba(22,24,26,.05);display:flex;align-items:center;justify-content:center;font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">1</span>
+      <span style="height:26px;border-radius:4px;background:oklch(0.70 0.13 245 / .18);display:flex;align-items:center;justify-content:center;font:600 10px 'IBM Plex Mono',monospace;color:oklch(0.45 0.13 245)">2</span>
+      <span style="height:26px;border-radius:4px;background:rgba(22,24,26,.05);display:flex;align-items:center;justify-content:center;font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">3</span>
+      <span style="height:26px;border-radius:4px;background:rgba(22,24,26,.05);display:flex;align-items:center;justify-content:center;font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">4</span>
+      <span style="height:26px;border-radius:4px;background:oklch(0.70 0.13 245 / .18);display:flex;align-items:center;justify-content:center;font:600 10px 'IBM Plex Mono',monospace;color:oklch(0.45 0.13 245)">5</span>
+      <span style="height:26px;border-radius:4px;background:rgba(22,24,26,.05);display:flex;align-items:center;justify-content:center;font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">6</span>
+      <span style="height:26px;border-radius:4px;background:oklch(0.70 0.13 245);display:flex;align-items:center;justify-content:center;font:600 10px 'IBM Plex Mono',monospace;color:#fff">7</span>
+      <span style="height:26px;border-radius:4px;background:oklch(0.70 0.13 245 / .35);display:flex;align-items:center;justify-content:center;font:500 10px 'IBM Plex Mono',monospace;color:#16181a">8</span>
+      <span style="height:26px;border-radius:4px;background:oklch(0.70 0.13 245 / .35);display:flex;align-items:center;justify-content:center;font:500 10px 'IBM Plex Mono',monospace;color:#16181a">9</span>
+      <span style="height:26px;border-radius:4px;background:oklch(0.70 0.13 245 / .35);display:flex;align-items:center;justify-content:center;font:500 10px 'IBM Plex Mono',monospace;color:#16181a">10</span>
+      <span style="height:26px;border-radius:4px;background:oklch(0.70 0.13 245 / .35);display:flex;align-items:center;justify-content:center;font:500 10px 'IBM Plex Mono',monospace;color:#16181a">11</span>
+      <span style="height:26px;border-radius:4px;background:oklch(0.70 0.13 245);display:flex;align-items:center;justify-content:center;font:600 10px 'IBM Plex Mono',monospace;color:#fff">12</span>
+      <span style="height:26px;border-radius:4px;background:rgba(22,24,26,.05);display:flex;align-items:center;justify-content:center;font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">13</span>
+      <span style="height:26px;border-radius:4px;background:rgba(22,24,26,.05);display:flex;align-items:center;justify-content:center;font:500 10px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.4)">14</span>
+    </div>
+    <div style="margin-top:12px;display:flex;gap:8px;font:500 11px 'IBM Plex Mono',monospace;color:rgba(22,24,26,.55)"><span style="padding:6px 9px;border-radius:6px;background:#faf9f7;border:1px solid rgba(22,24,26,.10)">02 JUL → 12 AUG</span><span style="padding:6px 9px;border-radius:6px;background:#faf9f7;border:1px solid rgba(22,24,26,.10)">6 RACES</span></div>
+    <p style="margin:12px 0 0;font:400 11px/1.5 Barlow,sans-serif;color:rgba(22,24,26,.5)">Dots mark race nights; drag to brush a date range. Good when seasons overlap.</p>
+  </div>
+
+  <div class="dv-card" style="width:330px;padding:18px 18px 20px">
+    <div style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45);margin-bottom:12px">C · QUERY BAR + BASKET</div>
+    <div style="display:flex;align-items:center;gap:7px;padding:9px 11px;border:1px solid rgba(22,24,26,.16);border-radius:7px;font:500 12px 'IBM Plex Mono',monospace;color:#16181a;flex-wrap:wrap">
+      <span style="padding:3px 7px;border-radius:4px;background:oklch(0.70 0.13 245 / .14);color:oklch(0.42 0.13 245)">last:6</span>
+      <span style="padding:3px 7px;border-radius:4px;background:oklch(0.70 0.13 245 / .14);color:oklch(0.42 0.13 245)">track:road</span>
+      <span style="padding:3px 7px;border-radius:4px;background:oklch(0.70 0.13 245 / .14);color:oklch(0.42 0.13 245)">min_laps:30</span>
+      <span style="color:rgba(22,24,26,.3)">|</span>
+    </div>
+    <div style="margin-top:14px;display:flex;flex-direction:column;gap:6px">
+      <span style="font:600 10px 'IBM Plex Mono',monospace;letter-spacing:.08em;color:rgba(22,24,26,.45)">BASKET · 4 SESSIONS</span>
+      <div style="display:flex;flex-wrap:wrap;gap:5px">
+        <span style="font:500 11px 'IBM Plex Mono',monospace;padding:5px 8px;border-radius:5px;background:#16181a;color:#fff">83742118 ×</span>
+        <span style="font:500 11px 'IBM Plex Mono',monospace;padding:5px 8px;border-radius:5px;background:#16181a;color:#fff">83698041 ×</span>
+        <span style="font:500 11px 'IBM Plex Mono',monospace;padding:5px 8px;border-radius:5px;background:#16181a;color:#fff">83610772 ×</span>
+        <span style="font:500 11px 'IBM Plex Mono',monospace;padding:5px 8px;border-radius:5px;background:#16181a;color:#fff">83544319 ×</span>
+      </div>
+      <div style="margin-top:6px;padding:9px 11px;border-radius:7px;background:#faf9f7;border:1px solid rgba(22,24,26,.08);font:500 11px/1.5 'IBM Plex Mono',monospace;color:rgba(22,24,26,.55)">SELECT … WHERE subsession_id IN (4)<br>saved as <span style="color:#16181a">"road course form"</span></div>
+    </div>
+    <p style="margin:12px 0 0;font:400 11px/1.5 Barlow,sans-serif;color:rgba(22,24,26,.5)">Power-user route: filters are text, selections are saveable and shareable as a URL.</p>
+  </div>
+</div>
+</div>
+
+</div>
+<p class="dv-next">Try next: "build out <a class="dv-oid" href="#1b">1b</a> as the real race page with the passing report tab" · "take <a class="dv-oid" href="#1c">1c</a>'s stat picker but the dark style of <a class="dv-oid" href="#1b">1b</a>" · "add a public standings page and a broadcast overlay" · "show me a mobile layout"</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showOutliers&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Data&quot;}}">
+const C = {
+  red: 'oklch(0.60 0.16 25)', blue: 'oklch(0.60 0.13 245)', green: 'oklch(0.55 0.13 152)',
+  pink: 'oklch(0.62 0.15 340)', grey: 'rgba(22,24,26,.35)', faint: 'rgba(22,24,26,.20)'
+};
+const pos = n => n <= 1 ? ['oklch(0.55 0.13 152 / .55)', '#16181a']
+  : n <= 3 ? ['oklch(0.55 0.13 152 / .30)', '#16181a']
+  : n <= 6 ? ['oklch(0.80 0.14 78 / .28)', '#16181a']
+  : n <= 10 ? ['rgba(22,24,26,.08)', 'rgba(22,24,26,.65)']
+  : ['oklch(0.65 0.17 25 / .22)', 'rgba(22,24,26,.7)'];
+
+class Component extends DCLogic {
+  renderVals() {
+    const result = [
+      ['1', 'T. Vasquez', '21', '3', 24, '+6', '22.1', '0', '48', C.red],
+      ['2', 'M. Ohtani-Reed', '4', '1', 15, '+4', '23.0', '1', '43', C.blue],
+      ['3', 'K. Bergström', '77', '5', 2, '+2', '21.4', '0', '39', C.green],
+      ['4', 'R. Okonkwo', '9', '8', 0, '+7', '24.3', '2', '36', C.pink],
+      ['5', 'D. Falk', '12', '2', 1, '-3', '28.9', '1', '34', C.grey],
+      ['6', 'S. Mbeki', '31', '6', 0, '+1', '23.6', '0', '32', C.faint],
+      ['7', 'A. Kowalczyk', '55', '9', 0, '-2', '22.8', '3', '30', C.faint],
+      ['8', 'J. Prentice', '18', '10', 0, '+2', '61.2', '1', '28', C.faint],
+      ['9', 'L. Haverford', '6', '7', 0, '-5', '25.1', '4', '26', C.faint],
+      ['10', 'N. Duarte', '44', '11', 0, '-4', '24.0', '2', '24', C.faint]
+    ].map(r => ({
+      pos: r[0], name: r[1], car: r[2], start: r[3], led: r[4] || '—', net: r[5],
+      netColor: r[5].startsWith('+') ? 'oklch(0.50 0.13 152)' : 'oklch(0.55 0.17 25)',
+      pit: r[6], inc: r[7], pts: r[8], color: r[9]
+    }));
+
+    const season = [
+      ['1', 'T. Vasquez', 312, 3.4, '+41', '38.2', '71.4', '22.4', 0.86, C.red],
+      ['2', 'M. Ohtani-Reed', 298, 3.9, '+27', '44.1', '62.0', '23.1', 0.74, C.blue],
+      ['3', 'K. Bergström', 271, 5.1, '+12', '29.6', '68.8', '21.9', 0.41, C.green],
+      ['4', 'R. Okonkwo', 244, 6.0, '+35', '41.7', '48.2', '24.6', 0.55, C.pink],
+      ['5', 'D. Falk', 228, 6.8, '-8', '24.9', '58.3', '27.2', -0.12, C.grey],
+      ['6', 'S. Mbeki', 210, 7.4, '+4', '31.0', '54.7', '23.8', 0.09, C.faint],
+      ['7', 'A. Kowalczyk', 186, 8.1, '-14', '22.4', '51.9', '22.6', -0.28, C.faint],
+      ['8', 'J. Prentice', 174, 8.9, '+2', '27.8', '46.1', '25.4', -0.15, C.faint]
+    ].map(r => ({
+      rank: r[0], name: r[1], pts: r[2], avgFin: r[3].toFixed(1), net: r[4],
+      netColor: r[4].startsWith('+') ? 'oklch(0.50 0.13 152)' : 'oklch(0.55 0.17 25)',
+      conv: r[5], def: r[6], pit: r[7], score: r[8].toFixed(2),
+      scoreW: Math.round(((r[8] + 0.6) / 1.6) * 100) + '%', color: r[9]
+    }));
+
+    const heat = [
+      ['T. Vasquez', [3, 1, 2, 1, 4, 1, 1, 2]],
+      ['M. Ohtani-Reed', [1, 4, 1, 3, 2, 2, 2, 1]],
+      ['K. Bergström', [5, 2, 6, 2, 3, 4, 3, 5]],
+      ['R. Okonkwo', [8, 7, 3, 5, 1, 6, 4, 3]],
+      ['D. Falk', [2, 5, 9, 4, 12, 3, 5, 7]],
+      ['S. Mbeki', [6, 9, 4, 8, 5, 7, 6, 4]],
+      ['J. Prentice', [11, 6, 8, 14, 7, 9, 8, 6]]
+    ].map(([name, cells]) => ({
+      name,
+      cells: cells.map(v => { const [bg, fg] = pos(v); return { v, bg, fg }; })
+    }));
+
+    const h2h = [
+      ['312', 'POINTS', '298', '100%', '96%'],
+      ['3.4', 'AVG FINISH', '3.9', '100%', '87%'],
+      ['3', 'WINS', '2', '100%', '67%'],
+      ['+41', 'NET GREEN PASSES', '+27', '100%', '66%'],
+      ['38.2%', 'CONVERSION', '44.1%', '87%', '100%'],
+      ['71.4%', 'DEFENSE', '62.0%', '100%', '87%'],
+      ['22.4s', 'PIT Δ MEDIAN', '23.1s', '100%', '97%'],
+      ['0.86', 'PASSING SCORE', '0.74', '100%', '86%']
+    ].map(m => ({ left: m[0], label: m[1], right: m[2], leftW: m[3], rightW: m[4] }));
+
+    const D = { red: 'oklch(0.68 0.16 25)', blue: 'oklch(0.72 0.13 245)', green: 'oklch(0.78 0.13 152)', pink: 'oklch(0.74 0.14 340)', grey: 'rgba(233,238,242,.32)', faint: 'rgba(233,238,242,.18)' };
+    const remap = { [C.red]: D.red, [C.blue]: D.blue, [C.green]: D.green, [C.pink]: D.pink, [C.grey]: D.grey, [C.faint]: D.faint };
+    const resultD = result.map(r => ({
+      ...r, color: remap[r.color] || D.faint,
+      netColor: r.net.startsWith('+') ? 'oklch(0.80 0.13 152)' : 'oklch(0.70 0.17 25)'
+    }));
+
+    const seasonD = season.map(s => ({
+      ...s, color: remap[s.color] || D.faint,
+      netColor: s.net.startsWith('+') ? 'oklch(0.80 0.13 152)' : 'oklch(0.70 0.17 25)'
+    }));
+
+    const posD = n => n <= 1 ? ['oklch(0.78 0.13 152 / .50)', '#0f1316']
+      : n <= 3 ? ['oklch(0.78 0.13 152 / .26)', '#e9eef2']
+      : n <= 6 ? ['oklch(0.82 0.13 78 / .24)', '#e9eef2']
+      : n <= 10 ? ['rgba(233,238,242,.09)', 'rgba(233,238,242,.6)']
+      : ['oklch(0.68 0.17 25 / .28)', 'rgba(233,238,242,.85)'];
+    const heatD = heat.map(h => ({
+      name: h.name,
+      cells: h.cells.map(c => { const [bg, fg] = posD(c.v); return { v: c.v, bg, fg }; })
+    }));
+
+    const names = ['Vasquez', 'Ohtani-R', 'Bergström', 'Okonkwo', 'Falk', 'Mbeki'];
+    const matrix = [
+      [null, 4, 3, 2, 5, 6],
+      [3, null, 4, 3, 4, 5],
+      [1, 2, null, 3, 4, 4],
+      [2, 3, 5, null, 6, 5],
+      [0, 1, 2, 2, null, 4],
+      [0, 1, 1, 2, 3, null]
+    ];
+    const passMatrix = matrix.map((row, i) => ({
+      name: names[i],
+      cells: row.map((v, j) => v === null
+        ? { v: '·', bg: 'rgba(233,238,242,.04)', fg: 'rgba(233,238,242,.25)' }
+        : { v, bg: 'oklch(0.72 0.13 245 / ' + (0.06 + v * 0.075).toFixed(2) + ')', fg: v >= 4 ? '#e9eef2' : 'rgba(233,238,242,.75)' })
+    }));
+
+    const pitStops = [
+      ['K. Bergström', 1, 25, 26, 2, '96.44', '84.12', '21.4', '+0.0', 9],
+      ['T. Vasquez', 1, 26, 27, 2, '97.10', '84.60', '22.1', '+0.7', 9],
+      ['M. Ohtani-Reed', 1, 25, 26, 2, '97.82', '85.04', '23.0', '+1.6', 9],
+      ['S. Mbeki', 1, 27, 28, 2, '98.30', '85.41', '23.6', '+2.2', 9],
+      ['A. Kowalczyk', 1, 26, 27, 2, '97.66', '85.02', '22.8', '+1.4', 9],
+      ['R. Okonkwo', 1, 27, 28, 2, '98.94', '85.72', '24.3', '+2.9', 9],
+      ['D. Falk', 1, 26, 28, 3, '99.51', '92.18', '28.9', '+7.5', 9]
+    ].map(p => ({
+      name: p[0], stop: p[1], inLap: p[2], outLap: p[3], nLaps: p[4],
+      inS: p[5], outS: p[6], cycle: p[7], lost: p[8], pitters: p[9],
+      lostColor: parseFloat(p[8]) > 3 ? 'oklch(0.82 0.13 78)' : 'rgba(233,238,242,.7)',
+      barW: Math.round((parseFloat(p[7]) / 30) * 100) + '%'
+    }));
+
+    return {
+      resultRows: result, resultRowsD: resultD, seasonRows: season, seasonRowsD: seasonD,
+      heatRows: heat, heatRowsD: heatD, h2hRows: h2h, passMatrix, pitStops,
+      showOutliers: this.props.showOutliers ?? true
+    };
+  }
+}
+</script>
+</body>
+</html>

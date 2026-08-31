@@ -1,0 +1,40 @@
+{# Pit cycles tab — mockup 3d #}
+{% if not pit %}
+  <div class="panel-pane"><p class="footnote">No green-window pit stops recorded for this race.</p></div>
+{% elif pit.empty %}
+  <div class="panel-pane">
+    <p class="footnote">
+      Every stop in this race is flagged as an outlier.
+      <a href="/session/{{ race.subsession_id }}?tab=pit&outliers=1">Show them anyway</a>.
+    </p>
+  </div>
+{% else %}
+<div class="panel-pane">
+  <div class="micro">Pit window · who stopped when</div>
+  <div class="pitwindow">
+    {% for r in pit.rows %}
+    <div class="pitrow">
+      <span class="n">{{ r.name }}</span>
+      <span class="lane">
+        {% for s in r.stops %}
+        <i class="stop {% if s.is_outlier %}outlier{% endif %}"
+           style="left: {{ '%.2f' % s.left }}%; width: {{ '%.2f' % s.width }}%"
+           title="L{{ s.in_lap }}–L{{ s.out_lap }} · {{ '%.1f' % s.lost_s }}s lost"></i>
+        {% endfor %}
+      </span>
+      <span class="v">{{ '%.1f' % r.median }}s</span>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="pitscale">
+    <span>Lap {{ pit.lo }}</span>
+    <span>Green pit window</span>
+    <span>Lap {{ pit.hi }}</span>
+  </div>
+  <div class="tl-note">
+    Bar spans in-lap to out-lap; the figure is each driver's median time lost against
+    the race's median lap. Outliers are a per-race Tukey Q3+3·IQR on time lost —
+    repair, stall or penalty stops.
+  </div>
+</div>
+{% endif %}

@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}R{{ race.round }} {{ race | track }} · simlytics{% endblock %}
+
+{% block content %}
+<div class="card">
+
+  {# ---------------- rail ---------------- #}
+  <div class="rail">
+    <div class="wordmark"><b>simlytics</b><span>v0.4</span></div>
+
+    <div class="rail-group">
+      <div class="micro">League / season</div>
+      <div class="season-card">
+        <b>{{ season.league_name or 'League' }}</b>
+        <span>{{ race.season_name | upper }}</span>
+      </div>
+    </div>
+
+    <div class="rail-group">
+      <div class="rail-head">
+        <span class="micro">Sessions</span>
+        <span class="count">{{ sessions | length }} RACES</span>
+      </div>
+      <div class="sessions">
+        {% for s in sessions %}
+        <a class="session-row {% if s.subsession_id == race.subsession_id %}is-current{% endif %}"
+           href="/session/{{ s.subsession_id }}">
+          <span class="r">R{{ s.round }}</span>
+          <span class="t">{{ s | track }}</span>
+          <span class="d">{{ s.start_time | race_date }}</span>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+
+    <div class="rail-foot">
+      <div class="micro" style="padding:0 4px">Season-wide</div>
+      <a class="rail-link" href="/season?season_id={{ race.season_id }}">Standings &amp; stat builder</a>
+      <a class="rail-link" href="/h2h?season_id={{ race.season_id }}">Head-to-head</a>
+    </div>
+  </div>
+
+  {# ---------------- main ---------------- #}
+  <div>
+    <div class="head">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <span class="head-id">
+          Round {{ race.round }} · {{ race.subsession_id }} · {{ race.start_time | race_date('long') }}
+        </span>
+        <span class="head-title">{{ race | track }}</span>
+      </div>
+      {% if tab == 'timeline' and tl %}
+      <div class="lapcursor">
+        <span class="lbl">Lap</span>
+        <span class="n">{{ tl.lap }}</span>
+        <span class="of">/ {{ tl.last_lap }}</span>
+        <span class="pill {{ 'caution' if tl.under_caution else 'green' }}">
+          {{ 'Caution' if tl.under_caution else 'Green' }}
+        </span>
+      </div>
+      {% endif %}
+      <div class="stats">
+        <div class="stat"><span>Laps</span><b>{{ race.laps_completed }}</b></div>
+        <div class="stat"><span>SOF</span><b>{{ race.sof }}</b></div>
+        <div class="stat"><span>Cautions</span><b class="caution">{{ race.num_cautions }}</b></div>
+        <div class="stat"><span>Green passes</span><b class="gain">{{ race.green_passes }}</b></div>
+        <div class="stat"><span>Lead chg</span><b>{{ race.num_lead_changes }}</b></div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      {% for key, label in [('result','Result'), ('timeline','Timeline'), ('passing','Passing'),
+                            ('pit','Pit cycles'), ('pace','Pace')] %}
+        <a href="/session/{{ race.subsession_id }}?tab={{ key }}"
+           class="{% if tab == key %}is-active{% endif %}">{{ label }}</a>
+      {% endfor %}
+      {% if tab == 'passing' and pass_ %}
+        <span class="tabstat">R{{ race.round }} · {{ pass_.total }} green passes</span>
+      {% elif tab == 'pit' and pit and not pit.empty %}
+        <span class="tabstat">
+          <span>Window {{ pit.window }} · {{ pit.rows | length }} drivers pitted</span>
+          <a class="tabchip"
+             href="/session/{{ race.subsession_id }}?tab=pit&outliers={{ 0 if pit.show_outliers else 1 }}">
+            {{ 'Outliers shown' if pit.show_outliers else 'Outliers hidden' }}
+            {%- if pit.outliers %} ({{ pit.outliers }}){% endif %}
+          </a>
+        </span>
+      {% elif tab == 'pace' and pace %}
+        <span class="tabstat">Green laps only · {{ pace.green_laps }} laps · median {{ pace.median_lap | laptime }}</span>
+      {% else %}
+        <span class="spacer">
+          <a class="btn" href="/season?season_id={{ race.season_id }}">Compare a time frame</a>
+          <a class="btn" href="/h2h?season_id={{ race.season_id }}">Head-to-head</a>
+        </span>
+      {% endif %}
+    </div>
+
+    {% if tab == 'timeline' %}{% include "_timeline.html" %}
+    {% elif tab == 'passing' %}{% include "_passing.html" %}
+    {% elif tab == 'pit' %}{% include "_pit.html" %}
+    {% elif tab == 'pace' %}{% include "_pace.html" %}
+    {% else %}
+    <div class="body">
+      <div class="main">
+        <div class="result-cols result-head">
+          <span>POS</span><span>DRIVER</span>
+          <span class="r">ST</span><span class="r">LED</span><span class="r">NET+/-</span>
+          <span class="r">PIT Δ</span><span class="r">INC</span><span class="r">PTS</span>
+        </div>
+        {% for r in result %}
+        <a class="result-cols result-row"
+           href="/h2h?season_id={{ race.season_id }}&a={{ r.cust_id }}">
+          <span class="pos">{{ r.finish }}</span>
+          <span class="driver">
+            <span class="chip"></span>{{ r.driver_name }}
+            <span class="car">#{{ r.car_num }}</span>
+          </span>
+          <span class="num">{{ r.start }}</span>
+          <span class="num strong">{{ r.laps_led }}</span>
+          <span class="num {{ r.net_class }}">{{ '%+d' % r.net_passes }}</span>
+          <span class="num">{{ r.pit_display }}</span>
+          <span class="num">{{ r.incidents }}</span>
+          <span class="pts">{{ r.league_points }}</span>
+        </a>
+        {% endfor %}
+        <p class="footnote">
+          Click any driver to open
+          <a href="/h2h?season_id={{ race.season_id }}">head-to-head</a> with them pre-loaded.
+          NET+/- excludes pit-cycle and caution order changes.
+        </p>
+      </div>
+
+      <div class="aside">
+        <div>
+          <div class="micro" style="margin-bottom:9px">Race shape</div>
+          <div class="panel-rows">
+            <div class="panel-row"><span>Entries</span><span class="v">{{ race.entries }}</span></div>
+            <div class="panel-row"><span>Caution laps</span><span class="v">{{ race.num_caution_laps }}</span></div>
+            <div class="panel-row"><span>Reverted passes</span><span class="v">{{ race.reverted_passes }}</span></div>
+            <div class="panel-row"><span>Winner</span><span class="v">{{ result[0].driver_name if result else '—' }}</span></div>
+          </div>
+        </div>
+        <div class="panel">
+          A <b>green pass</b> is an on-track order change that is neither a pit-cycle
+          artefact nor made under caution. <b>Pit Δ</b> is the median green pit-cycle
+          time lost against the race's median lap, with outlier stops excluded.
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

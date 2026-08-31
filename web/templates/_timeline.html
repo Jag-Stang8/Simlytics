@@ -1,0 +1,89 @@
+{# Timeline tab — mockup 2b. Chart is Vega-Lite, from web/lib/charts.py. #}
+{% if not tl %}
+  <div class="main" style="border-right:none">
+    <p class="footnote">No lap data ingested for this race.</p>
+  </div>
+{% else %}
+<div class="tl-chart">
+  <div id="poschart"></div>
+
+  <div class="flagstrip" style="background: {{ tl.flag_css }}">
+    <div class="cursor" style="left: {{ '%.2f' % tl.cursor_pct }}%"></div>
+  </div>
+  <div class="flagstrip-legend">
+    <span>Lap {{ tl.first_lap }}</span>
+    <span>Green / caution flag state</span>
+    <span>Lap {{ tl.last_lap }}</span>
+  </div>
+
+  <form method="get" action="/session/{{ race.subsession_id }}">
+    <input type="hidden" name="tab" value="timeline">
+    <input class="scrub" type="range" name="lap"
+           min="{{ tl.first_lap }}" max="{{ tl.last_lap }}" value="{{ tl.lap }}"
+           oninput="this.form.requestSubmit()">
+  </form>
+</div>
+
+<div class="tl-panels">
+  <div class="tl-panel">
+    <div class="micro">Running order · lap {{ tl.lap }}</div>
+    <div class="order">
+      {% for r in tl.order[:12] %}
+      <div class="order-row {% if loop.index > 4 %}back{% endif %} {% if r.pitted %}pitting{% endif %}">
+        <span class="p">{{ r.position }}</span>
+        <span class="who"><span class="dot"></span><b>{{ r.driver_name }}</b></span>
+        <span class="gap {% if r.close %}close{% endif %}">{{ r.gap_display }}</span>
+        <span class="lap">{{ r.laptime | laptime }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="tl-note">
+      Amber gap = inside 1% of the median lap: a live passing opportunity in
+      <code>lap_gaps</code>.
+    </div>
+  </div>
+
+  <div class="tl-panel">
+    <div class="micro">Event feed · laps {{ tl.feed_lo }}–{{ tl.feed_hi }}</div>
+    <div class="feed">
+      {% for e in tl.feed %}
+      <div class="feed-row {% if e.kind in ('caution','restart') %}flag{% endif %}
+                  {% if e.lap_num == tl.lap %}now{% endif %}">
+        <span class="l">L{{ e.lap_num }}</span>
+        <span class="txt">
+          {% if e.kind == 'caution' %}Caution — inferred from lap-time inflation
+          {% elif e.kind == 'restart' %}Restart
+          {% elif e.kind == 'pit' %}{{ e.driver_name }} pits{% if e.detail %} <span class="muted">({{ e.detail }})</span>{% endif %}
+          {% elif e.kind == 'lead_change' %}{{ e.driver_name }} takes the lead from {{ e.other_driver_name }}
+          {% else %}{{ e.driver_name }} passes {{ e.other_driver_name }}{% endif %}
+        </span>
+      </div>
+      {% else %}
+      <div class="tl-note">Nothing within three laps of this one.</div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="tl-panel">
+    <div class="micro">Highlighted</div>
+    <div class="panel-rows">
+      {% for name in tl.highlight %}
+      <div class="panel-row"><span>{{ name }}</span><span class="v">P{{ loop.index }}</span></div>
+      {% endfor %}
+    </div>
+    <div class="tl-note">
+      A 28–46 car field is past what colour can carry, so only these keep a hue —
+      the rest of the field stays grey. Caution bands are derived
+      (<code>stats/passes.py</code>), not reported.
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/vega@6"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@6"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@7"></script>
+<script>
+  vegaEmbed('#poschart', {{ tl.spec | tojson }}, {actions: false, renderer: 'svg'})
+    .catch(console.error);
+</script>
+{% endif %}

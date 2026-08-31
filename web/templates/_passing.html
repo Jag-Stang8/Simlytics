@@ -1,0 +1,69 @@
+{# Passing tab — mockup 3c #}
+{% if not pass_ %}
+  <div class="panel-pane"><p class="footnote">No pass data — this race's lap chart has not been ingested.</p></div>
+{% else %}
+<div class="panels pass">
+
+  <div class="panel-pane">
+    <div class="micro">Pass matrix · rows passed columns</div>
+    <div class="matrix"
+         style="grid-template-columns: 92px repeat({{ pass_.names | length }}, minmax(0, 1fr))">
+      <span></span>
+      {% for n in pass_.names %}<span class="collabel">{{ n }}</span>{% endfor %}
+      {% for row in pass_.grid %}
+        <span class="rowlabel">{{ row.name }}</span>
+        {% for c in row.cells %}
+          <span class="cell {% if c.self %}self{% endif %}"
+                {% if not c.self and c.n %}style="background: oklch(0.72 0.13 245 / {{ '%.2f' % c.alpha }})"{% endif %}
+                title="{{ row.name }} → {{ pass_.names[loop.index0] }}: {{ c.n }}">
+            {% if c.self %}·{% elif c.n %}{{ c.n }}{% endif %}
+          </span>
+        {% endfor %}
+      {% endfor %}
+    </div>
+    <div class="tl-note">
+      Row driver passed the column driver. Green passes only — neither a pit-cycle
+      artefact nor made under caution.
+    </div>
+  </div>
+
+  <div class="panel-pane">
+    <div class="micro">Passes made · by flag state</div>
+    <div class="flagbars">
+      {% for r in pass_.flags %}
+      <div class="flagbar">
+        <span class="n">{{ r.driver_name }}</span>
+        <span class="track">
+          {% if r.made_green %}<i class="seg green" style="width: {{ '%.1f' % r.pct.green }}%"></i>{% endif %}
+          {% if r.made_pit %}<i class="seg pit" style="width: {{ '%.1f' % r.pct.pit }}%"></i>{% endif %}
+          {% if r.made_caution %}<i class="seg caution" style="width: {{ '%.1f' % r.pct.caution }}%"></i>{% endif %}
+        </span>
+        <span class="v">{{ r.total_made }}</span>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="legend">
+      <span><i style="background: oklch(0.78 0.13 152 / .75)"></i>Green</span>
+      <span><i style="background: oklch(0.62 0.13 300 / .75)"></i>Pit</span>
+      <span><i style="background: oklch(0.82 0.13 78 / .75)"></i>Caution</span>
+    </div>
+  </div>
+
+  <div class="panel-pane">
+    <div class="micro">Opportunity conversion</div>
+    <div class="panel-rows">
+      {% for r in pass_.conv %}
+      <div class="panel-row">
+        <span>{{ r.name }}</span>
+        <span class="v">{{ '%.0f' % r.rate }}% <span style="color:var(--ink-32)">of {{ r.opps }}</span></span>
+      </div>
+      {% endfor %}
+    </div>
+    <div class="tl-note">
+      An <b>opportunity</b> is a same-lap gap inside 1% of the median lap with a
+      car ahead, green flag only. Converted = a pass on the following lap.
+    </div>
+  </div>
+
+</div>
+{% endif %}

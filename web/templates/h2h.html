@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+{% block title %}{{ a.driver_name }} vs {{ b.driver_name }} · simlytics{% endblock %}
+
+{% block content %}
+<div class="topbar">
+  <div class="left">
+    <span class="mark">simlytics</span>
+    <span class="crumb">Head-to-head</span>
+  </div>
+  <div class="right">
+    <span class="stat">Rounds {{ lo }}–{{ hi }} · {{ season.season_name }}</span>
+    <a class="btn" href="/season?season_id={{ season.season_id }}&r_from={{ lo }}&r_to={{ hi }}">Time frame</a>
+    <a class="btn" href="/">Back to session</a>
+  </div>
+</div>
+
+<div class="h2h-banner">
+  <div class="who">
+    <b>{{ a.driver_name }}</b>
+    <span class="h2h-a">{{ a.races | int }} races · cust {{ a.cust_id }}</span>
+  </div>
+  <span class="vs">VS</span>
+  <div class="who b">
+    <b>{{ b.driver_name }}</b>
+    <span class="h2h-b">{{ b.races | int }} races · cust {{ b.cust_id }}</span>
+  </div>
+</div>
+
+<div class="h2h-body">
+  <div class="h2h-metrics">
+    {% for m in bars %}
+    <div class="h2h-row">
+      <span class="val l">{{ m.a }}</span>
+      <span class="track l"><i style="width: {{ '%.1f' % m.aw }}%"></i></span>
+      <span class="lbl">{{ m.label }}</span>
+      <span class="track r"><i style="width: {{ '%.1f' % m.bw }}%"></i></span>
+      <span class="val">{{ m.b }}</span>
+    </div>
+    {% endfor %}
+
+    <div style="margin-top:8px;padding-top:14px;border-top:1px solid var(--line-08)">
+      <div class="micro" style="font-size:10px;letter-spacing:.08em;color:var(--ink-40);margin-bottom:10px">
+        On-track meetings · rounds {{ lo }}–{{ hi }}
+      </div>
+      {% if meetings %}
+      <div class="meetings">
+        {% if a_over %}
+        <i class="a" style="flex: 0 0 {{ '%.1f' % a_pct }}%">{{ a_over }} passes</i>
+        {% endif %}
+        {% if b_over %}
+        <i class="b" style="flex: 0 0 {{ '%.1f' % b_pct }}%">{{ b_over }}</i>
+        {% endif %}
+      </div>
+      <p class="footnote">
+        Green passes only — neither a pit-cycle artefact nor made under caution.
+        Left bar is {{ a.driver_name }} passing {{ b.driver_name }}.
+      </p>
+      {% else %}
+      <div class="meetings">
+        <i class="none" style="flex:1">No green passes between them in this range</i>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="aside">
+    <div>
+      <div class="micro" style="margin-bottom:9px">Swap driver</div>
+      <div class="panel-rows" style="max-height:340px;overflow-y:auto">
+        {% for p in people[:20] %}
+        <div class="panel-row">
+          <a href="/h2h?season_id={{ season.season_id }}&r_from={{ lo }}&r_to={{ hi }}&a={{ p.cust_id }}&b={{ b.cust_id }}"
+             style="color:{% if p.cust_id == a.cust_id %}var(--loss){% else %}var(--ink-80){% endif %};text-decoration:none">
+            {{ p.driver_name }}
+          </a>
+          <a class="v" href="/h2h?season_id={{ season.season_id }}&r_from={{ lo }}&r_to={{ hi }}&a={{ a.cust_id }}&b={{ p.cust_id }}"
+             style="color:{% if p.cust_id == b.cust_id %}var(--accent-text){% else %}var(--ink-45){% endif %};text-decoration:none">
+            {{ p.points | int }}
+          </a>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <div class="panel">
+      Click a name to set the <b style="color:var(--loss)">left</b> driver, or its
+      points to set the <b style="color:var(--accent-text)">right</b> one. Bar
+      length is scaled per metric — the two are comparable to each other, not
+      across rows.
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,597 @@
+/* ==========================================================================
+   simlytics — design tokens and components
+   Lifted from resources/Simlytics Web UI Ideas.dc.html (option 2a).
+   Every value here is the mockup's own. Edit freely; nothing generates this file.
+   ========================================================================== */
+
+:root {
+  /* surfaces */
+  --app:        #1b2024;   /* card / main surface */
+  --sidebar:    #161b1f;
+  --panel:      #212830;   /* tiles, inset blocks */
+  --on-light:   #16181a;   /* ink used on a light fill */
+
+  /* ink */
+  --ink:        #e9eef2;
+  --ink-85:     rgba(233,238,242,.85);
+  --ink-80:     rgba(233,238,242,.8);
+  --ink-60:     rgba(233,238,242,.6);
+  --ink-55:     rgba(233,238,242,.55);
+  --ink-45:     rgba(233,238,242,.45);
+  --ink-40:     rgba(233,238,242,.4);
+  --ink-35:     rgba(233,238,242,.35);
+  --ink-32:     rgba(233,238,242,.32);
+  --ink-30:     rgba(233,238,242,.3);
+  --ink-28:     rgba(233,238,242,.28);
+
+  /* lines */
+  --line-06:    rgba(233,238,242,.06);
+  --line-08:    rgba(233,238,242,.08);
+  --line-09:    rgba(233,238,242,.09);
+  --line-10:    rgba(233,238,242,.10);
+  --line-14:    rgba(233,238,242,.14);
+
+  /* accents — the mockup's oklch values, unchanged */
+  --accent:       oklch(0.72 0.13 245);
+  --accent-text:  oklch(0.75 0.13 245);
+  --gain:         oklch(0.78 0.13 152);
+  --caution:      oklch(0.82 0.13 78);
+  --loss:         oklch(0.68 0.17 25);
+
+  /* type */
+  --sans: Barlow, Helvetica, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  /* geometry — the mockup's fixed 238/372/1240 become fluid ranges so the
+     card tracks the viewport instead of sitting at one width. The design's
+     values are the upper bound in each case. */
+  --rail-w:   clamp(196px, 17vw, 238px);
+  --aside-w:  clamp(280px, 26vw, 372px);
+  --gutter:   clamp(14px, 1.8vw, 26px);   /* horizontal padding inside panes */
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+body {
+  margin: 0;
+  background: var(--app);
+  font-family: var(--sans);
+  color: var(--ink);
+}
+
+/* --- app shell: full-bleed, rail beside a scrolling main column ----------- */
+.card {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: var(--rail-w) minmax(0, 1fr);
+  background: var(--app);
+}
+/* the main column owns its own scroll so the rail stays put */
+.card > :last-child { min-width: 0; }
+
+/* --- micro-label: the section heading used throughout -------------------- */
+.micro {
+  font: 600 9.5px var(--mono);
+  letter-spacing: .09em;
+  text-transform: uppercase;
+  color: var(--ink-35);
+}
+
+/* --- sidebar ------------------------------------------------------------- */
+.rail {
+  background: var(--sidebar);
+  border-right: 1px solid var(--line-08);
+  padding: 16px 14px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+/* the session list takes the slack, so Season-wide stays pinned at the bottom */
+.rail-group:has(.sessions) { min-height: 0; }
+.sessions { overflow-y: auto; scrollbar-width: thin; }
+.wordmark { display: flex; align-items: baseline; gap: 9px; padding: 0 4px; }
+.wordmark b { font: 700 16px var(--sans); color: var(--ink); }
+.wordmark span { font: 500 9.5px var(--mono); color: var(--ink-35); }
+
+.rail-group { display: flex; flex-direction: column; gap: 6px; }
+.rail-group > .micro { padding: 0 4px; }
+.rail-head {
+  display: flex; align-items: baseline; justify-content: space-between; padding: 0 4px;
+}
+.rail-head .count { font: 500 9.5px var(--mono); color: var(--ink-28); }
+
+.season-card {
+  display: flex; flex-direction: column; gap: 2px;
+  padding: 9px 11px; border-radius: 8px;
+  background: var(--panel); border: 1px solid var(--line-09);
+}
+.season-card b { font: 600 12.5px var(--sans); color: var(--ink); }
+.season-card span { font: 500 10.5px var(--mono); color: var(--ink-45); }
+
+.sessions { display: flex; flex-direction: column; gap: 4px; }
+.session-row {
+  display: flex; align-items: center; gap: 9px;
+  padding: 9px 10px; border-radius: 7px;
+  border: 1px solid transparent;
+  text-decoration: none;
+}
+.session-row .r { font: 600 10.5px var(--mono); color: var(--ink-32); }
+.session-row .t { font: 500 12.5px var(--sans); color: var(--ink-80); }
+.session-row .d { margin-left: auto; font: 500 10px var(--mono); color: var(--ink-30); }
+.session-row:hover { background: var(--panel); }
+
+/* current race — the mockup outlines it in accent over the panel fill */
+.session-row.is-current {
+  background: var(--panel);
+  border-color: oklch(0.72 0.13 245 / .45);
+}
+.session-row.is-current .r { color: var(--accent-text); }
+.session-row.is-current .t { font-weight: 600; color: var(--ink); }
+
+.rail-foot { margin-top: auto; display: flex; flex-direction: column; gap: 5px; }
+.rail-link {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 10px; border-radius: 7px;
+  font: 500 12px var(--sans); color: var(--ink-85);
+  background: var(--panel); text-decoration: none;
+}
+.rail-link:hover { color: var(--ink); }
+
+/* --- header -------------------------------------------------------------- */
+.head {
+  display: flex; align-items: flex-end; justify-content: space-between;
+  gap: clamp(12px, 2vw, 24px); flex-wrap: wrap;
+  padding: 18px var(--gutter) 16px; border-bottom: 1px solid var(--line-08);
+}
+.head-id {
+  font: 500 10px var(--mono); letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink-40);
+}
+.head-title {
+  font: 600 25px/1.1 var(--sans); letter-spacing: -.01em; color: var(--ink);
+}
+.stats { display: flex; gap: clamp(12px, 1.8vw, 22px); padding-bottom: 4px; flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; gap: 1px; }
+.stat span { font: 500 9.5px var(--mono); color: var(--ink-40); text-transform: uppercase; }
+.stat b { font: 600 19px var(--sans); color: var(--ink); }
+.stat b.caution { color: var(--caution); }
+.stat b.gain    { color: var(--gain); }
+
+/* --- tabs ---------------------------------------------------------------- */
+.tabs {
+  display: flex; align-items: center; gap: 0; flex-wrap: wrap;
+  padding: 0 var(--gutter); border-bottom: 1px solid var(--line-08);
+}
+.tabs a {
+  font: 500 12.5px var(--sans); padding: 11px 13px;
+  color: var(--ink-60); text-decoration: none;
+}
+.tabs a:hover { color: var(--ink-85); }
+.tabs a.is-active {
+  font-weight: 600; color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+.tabs .spacer { margin-left: auto; display: flex; gap: 7px; }
+.btn {
+  font: 500 11.5px var(--sans); padding: 6px 11px; border-radius: 6px;
+  border: 1px solid var(--line-14); color: var(--ink-80); text-decoration: none;
+}
+.btn:hover { border-color: var(--ink-40); color: var(--ink); }
+
+/* --- body split ---------------------------------------------------------- */
+.body { display: grid; grid-template-columns: 1fr var(--aside-w); }
+.main { padding: 16px var(--gutter) 22px; border-right: 1px solid var(--line-08); min-width: 0; }
+.aside { padding: 16px var(--gutter) 22px; display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+/* --- result table -------------------------------------------------------- */
+.result-cols {
+  display: grid;
+  grid-template-columns: 32px 1fr 38px 42px 54px 52px 44px 44px;
+}
+.result-head {
+  padding-bottom: 8px; border-bottom: 1px solid var(--line-10);
+  font: 500 9.5px var(--mono); letter-spacing: .06em; color: var(--ink-40);
+}
+.result-head .r { text-align: right; }
+
+.result-row {
+  align-items: center; padding: 9px 0;
+  border-bottom: 1px solid var(--line-06);
+  font: 500 13px var(--sans); color: var(--ink);
+  text-decoration: none;
+}
+.result-row:hover { background: rgba(233,238,242,.03); }
+.result-row .pos { font: 600 12.5px var(--mono); }
+.result-row .driver { display: flex; align-items: center; gap: 9px; }
+.result-row .chip { width: 3px; height: 15px; border-radius: 2px; background: var(--accent); }
+.result-row .car { font: 500 10px var(--mono); color: var(--ink-30); }
+.result-row .num {
+  text-align: right; font-family: var(--mono); font-size: 12px; color: var(--ink-55);
+}
+.result-row .num.strong { color: var(--ink); }
+.result-row .pts { text-align: right; font: 600 13px var(--mono); }
+.result-row .gain { color: var(--gain); }
+.result-row .loss { color: var(--loss); }
+.result-row .flat { color: var(--ink-55); }
+
+.footnote {
+  margin: 12px 0 0; font: 400 11px/1.5 var(--sans); color: var(--ink-40);
+}
+.footnote a { color: var(--accent-text); text-decoration: none; }
+
+/* --- aside panels -------------------------------------------------------- */
+.panel {
+  padding: 12px 14px; border-radius: 8px;
+  background: var(--panel); border: 1px solid var(--line-08);
+  font: 400 11.5px/1.6 var(--sans); color: var(--ink-60);
+}
+.panel b { color: var(--ink); font-weight: 600; }
+.panel-rows { display: flex; flex-direction: column; gap: 8px; }
+.panel-row {
+  display: flex; align-items: baseline; justify-content: space-between;
+  font: 500 12px var(--sans); color: var(--ink-80);
+}
+.panel-row .v { font-family: var(--mono); font-size: 12px; color: var(--ink); }
+
+/* Drop the aside under the table before collapsing the rail — the result table
+   is the thing that wants the width. */
+@media (max-width: 1180px) {
+  .body { grid-template-columns: 1fr; }
+  .main { border-right: none; border-bottom: 1px solid var(--line-08); }
+}
+@media (max-width: 860px) {
+  .card { grid-template-columns: 1fr; }
+  .rail {
+    position: static; height: auto; overflow: visible;
+    border-right: none; border-bottom: 1px solid var(--line-08);
+  }
+  .sessions { max-height: 210px; }
+  .head-title { font-size: 21px; }
+}
+
+/* ==========================================================================
+   Timeline tab (mockup 2b)
+   ========================================================================== */
+
+/* lap cursor + flag pill, sitting in the header's right slot */
+.lapcursor { display: flex; align-items: center; gap: 8px; }
+.lapcursor .lbl { font: 500 10.5px var(--mono); color: var(--ink-40); }
+.lapcursor .n   { font: 600 15px var(--mono); color: var(--caution); }
+.lapcursor .of  { font: 500 10.5px var(--mono); color: var(--ink-30); }
+.pill {
+  margin-left: 4px; font: 600 9.5px var(--mono); letter-spacing: .06em;
+  padding: 4px 9px; border-radius: 4px;
+}
+.pill.green   { background: oklch(0.78 0.13 152 / .16); color: oklch(0.82 0.13 152); }
+.pill.caution { background: oklch(0.82 0.13 78 / .16);  color: oklch(0.86 0.13 78); }
+
+.tl-chart { padding: 18px var(--gutter) 10px; }
+.tl-chart .vega-embed { width: 100%; }
+.tl-chart .vega-embed details { display: none; }   /* hide the ⋯ action menu */
+
+/* flag strip: one bar showing green/caution across the race */
+.flagstrip {
+  margin-top: 10px; height: 22px; border-radius: 4px; position: relative;
+  overflow: hidden;
+}
+.flagstrip .cursor {
+  position: absolute; top: -3px; bottom: -3px; width: 2px;
+  background: oklch(0.90 0.13 78);
+}
+.flagstrip-legend {
+  display: flex; justify-content: space-between; margin-top: 6px;
+  font: 500 10px var(--mono); color: var(--ink-32);
+}
+
+/* lap scrubber — a real input, styled to sit under the strip */
+.scrub { width: 100%; margin: 10px 0 0; accent-color: var(--caution); }
+
+/* panels separated by 1px of surface, as every tab in the mockups draws them */
+.panels {
+  display: grid; gap: 1px; background: rgba(233,238,242,.07);
+}
+.panels.tl   { grid-template-columns: 1.05fr 1fr 0.95fr; margin-top: 12px; }
+.panels.pass { grid-template-columns: 1fr 1fr minmax(0, 320px); }
+.panels.pace { grid-template-columns: 1fr minmax(0, 400px); }
+.panel-pane { background: var(--app); padding: 16px var(--gutter) 20px; min-width: 0; }
+.panel-pane .micro { font-size: 10px; letter-spacing: .08em; color: var(--ink-40); margin-bottom: 12px; }
+/* kept as aliases so the timeline markup reads the same */
+.tl-panels { display: grid; grid-template-columns: 1.05fr 1fr 0.95fr;
+  gap: 1px; background: rgba(233,238,242,.07); margin-top: 12px; }
+.tl-panel { background: var(--app); padding: 16px var(--gutter) 20px; min-width: 0; }
+.tl-panel .micro { font-size: 10px; letter-spacing: .08em; color: var(--ink-40); margin-bottom: 12px; }
+.tl-note { margin-top: 14px; font: 400 11px/1.5 var(--sans); color: var(--ink-35); }
+.tl-note code { font-family: var(--mono); font-size: 10.5px; }
+
+/* running order */
+.order { display: flex; flex-direction: column; gap: 8px; }
+.order-row {
+  display: grid; grid-template-columns: 20px 1fr 62px 34px;
+  align-items: center; gap: 8px;
+  font: 500 12.5px var(--sans); color: var(--ink);
+}
+.order-row.back { color: var(--ink-60); }
+.order-row .p { font: 600 11px var(--mono); color: var(--ink-45); }
+.order-row.back .p { color: var(--ink-35); }
+.order-row .who { display: flex; gap: 8px; align-items: center; min-width: 0; }
+.order-row .who b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.order-row .gap { text-align: right; font: 500 11.5px var(--mono); color: var(--ink-55); }
+/* inside 1% of the median lap — a live passing opportunity */
+.order-row .gap.close { color: var(--caution); }
+.order-row .lap { text-align: right; font: 500 11px var(--mono); color: var(--ink-32); }
+.order-row .dot { width: 3px; height: 14px; border-radius: 2px; background: var(--accent); flex: none; }
+.order-row.pitting .dot { background: var(--loss); }
+
+/* event feed */
+.feed { display: flex; flex-direction: column; }
+.feed-row {
+  display: grid; grid-template-columns: 34px 1fr; gap: 10px;
+  padding: 8px 0; border-bottom: 1px solid var(--line-06);
+}
+.feed-row:last-child { border-bottom: none; }
+.feed-row .l { font: 600 11px var(--mono); color: var(--ink-35); }
+.feed-row.flag .l { color: oklch(0.84 0.13 78); }
+.feed-row .txt { font: 400 12.5px var(--sans); color: var(--ink-85); }
+.feed-row.now .txt { color: var(--ink); font-weight: 500; }
+.feed-row .muted { color: var(--ink-50, rgba(233,238,242,.5)); }
+
+@media (max-width: 1180px) {
+  .tl-panels { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 860px) {
+  .tl-panels { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   Passing / Pit / Pace tabs (mockups 3c, 3d, 3e)
+   ========================================================================== */
+
+/* a mono stat pinned to the right of the tab strip */
+.tabstat {
+  margin-left: auto; display: flex; align-items: center; gap: 10px;
+  font: 500 10.5px var(--mono); letter-spacing: .04em;
+  color: var(--ink-35); text-transform: uppercase;
+}
+.tabchip {
+  padding: 4px 9px; border-radius: 5px; background: var(--panel);
+  border: 1px solid var(--line-10); color: var(--ink-70, rgba(233,238,242,.7));
+  text-decoration: none;
+}
+.tabchip:hover { border-color: var(--line-14); color: var(--ink); }
+
+/* --- pass matrix --------------------------------------------------------- */
+.matrix { display: grid; gap: 3px; align-items: center; }
+.matrix .rowlabel {
+  font: 500 11px var(--sans); color: var(--ink-80);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.matrix .collabel {
+  font: 500 9.5px var(--mono); color: var(--ink-35);
+  writing-mode: vertical-rl; transform: rotate(180deg);
+  height: 58px; justify-self: center;
+}
+.matrix .cell {
+  height: 22px; border-radius: 3px; background: rgba(233,238,242,.05);
+  display: flex; align-items: center; justify-content: center;
+  font: 600 10px var(--mono); color: var(--ink-80);
+}
+.matrix .cell.self { background: transparent; color: var(--ink-28); }
+
+/* --- flag-split bars (passes made by flag state) ------------------------- */
+.flagbars { display: flex; flex-direction: column; gap: 7px; }
+.flagbar { display: grid; grid-template-columns: 104px 1fr 30px; gap: 9px; align-items: center; }
+.flagbar .n { font: 500 11.5px var(--sans); color: var(--ink-80);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.flagbar .track { display: flex; height: 13px; border-radius: 3px; overflow: hidden; gap: 2px; }
+.flagbar .seg.green   { background: oklch(0.78 0.13 152 / .75); }
+.flagbar .seg.pit     { background: oklch(0.62 0.13 300 / .75); }
+.flagbar .seg.caution { background: oklch(0.82 0.13 78 / .75); }
+.flagbar .v { text-align: right; font: 600 11px var(--mono); color: var(--ink); }
+
+.legend { display: flex; gap: 12px; margin-top: 12px; }
+.legend span { display: flex; align-items: center; gap: 6px;
+  font: 500 10px var(--mono); color: var(--ink-40); text-transform: uppercase; }
+.legend i { width: 9px; height: 9px; border-radius: 2px; display: block; }
+
+/* --- pit window ---------------------------------------------------------- */
+.pitwindow { display: flex; flex-direction: column; gap: 5px; }
+.pitrow { display: grid; grid-template-columns: 118px 1fr 52px; gap: 10px; align-items: center; }
+.pitrow .n { font: 500 11.5px var(--sans); color: var(--ink-80);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pitrow .lane {
+  position: relative; height: 14px; border-radius: 3px;
+  background: rgba(233,238,242,.05);
+}
+.pitrow .stop {
+  position: absolute; top: 0; bottom: 0; border-radius: 3px;
+  background: var(--accent); opacity: .85;
+}
+.pitrow .stop.outlier { background: var(--loss); }
+.pitrow .v { text-align: right; font: 500 11px var(--mono); color: var(--ink-55); }
+.pitscale {
+  display: flex; justify-content: space-between; margin: 8px 0 0 128px;
+  font: 500 10px var(--mono); color: var(--ink-32);
+}
+
+/* --- pace distribution --------------------------------------------------- */
+.pace { display: flex; flex-direction: column; gap: 7px; }
+.pacerow { display: grid; grid-template-columns: 112px 1fr; gap: 9px; align-items: center; }
+.pacerow .n { font: 500 12px var(--sans); color: var(--ink);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pacerow.back .n { color: var(--ink-60); }
+.pacetrack { position: relative; height: 18px; }
+.pacetrack .whisker {
+  position: absolute; top: 50%; height: 1px; background: rgba(233,238,242,.25);
+}
+.pacetrack .box {
+  position: absolute; top: 1px; bottom: 1px; border-radius: 2px;
+  background: oklch(0.72 0.13 245 / .5);
+}
+.pacerow.back .pacetrack .box { background: rgba(233,238,242,.22); }
+.pacetrack .med { position: absolute; top: -1px; bottom: -1px; width: 2px; background: var(--ink); }
+.pacetrack .zero {
+  position: absolute; top: -2px; bottom: -2px; width: 1px;
+  background: rgba(233,238,242,.18);
+}
+.pacescale {
+  display: flex; justify-content: space-between; margin: 8px 0 0 121px;
+  font: 500 10px var(--mono); color: var(--ink-32);
+}
+
+@media (max-width: 1180px) {
+  .panels.pass, .panels.pace { grid-template-columns: 1fr; }
+}
+
+/* ==========================================================================
+   Season-wide pages: Time frame (3a) and Head-to-head (3b)
+   ========================================================================== */
+
+/* top bar used by both — wordmark, breadcrumb, right-hand stat */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: 14px var(--gutter); border-bottom: 1px solid var(--line-08);
+}
+.topbar .left { display: flex; align-items: baseline; gap: 14px; }
+.topbar .mark { font: 700 15px var(--sans); color: var(--ink); }
+.topbar .crumb, .topbar .stat {
+  font: 500 10.5px var(--mono); color: var(--ink-40); text-transform: uppercase;
+}
+.topbar .right { display: flex; align-items: center; gap: 10px; }
+
+/* --- range sidebar ------------------------------------------------------- */
+.season-shell { display: grid; grid-template-columns: 262px minmax(0, 1fr); }
+.range {
+  padding: 18px 20px 24px; border-right: 1px solid var(--line-08);
+  background: var(--sidebar); display: flex; flex-direction: column; gap: 22px;
+}
+.segmented { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+.segmented a {
+  font: 500 11.5px var(--sans); text-align: center; padding: 7px 0;
+  border-radius: 6px; background: var(--panel);
+  border: 1px solid var(--line-10); color: var(--ink-75, rgba(233,238,242,.75));
+  text-decoration: none;
+}
+.segmented a.on {
+  font-weight: 600; background: var(--ink); color: var(--on-light);
+  border-color: var(--ink);
+}
+
+/* round bars — height is field size, fill is in/out of range */
+.roundbars { display: flex; gap: 3px; align-items: flex-end; height: 44px; }
+.roundbars a { flex: 1; border-radius: 3px; background: rgba(233,238,242,.14); }
+.roundbars a.on { background: var(--accent); }
+.roundbars a.out { background: rgba(233,238,242,.10); }
+.scalerow {
+  display: flex; justify-content: space-between; margin-top: 6px;
+  font: 500 9.5px var(--mono); color: var(--ink-32);
+}
+
+/* metric chips */
+.chips { display: flex; flex-wrap: wrap; gap: 5px; }
+.chips a {
+  font: 500 11px var(--sans); padding: 5px 9px; border-radius: 20px;
+  text-decoration: none;
+}
+.chips a.on { background: var(--ink); color: var(--on-light); }
+.chips a.off { border: 1px dashed rgba(233,238,242,.25); color: var(--ink-60); }
+
+/* --- season table -------------------------------------------------------- */
+.season-main { padding: 18px var(--gutter) 24px; display: flex; flex-direction: column; gap: 22px; }
+.stable { display: grid; }
+.stable .h {
+  padding-bottom: 8px; border-bottom: 1px solid var(--line-10);
+  font: 500 9.5px var(--mono); letter-spacing: .05em; color: var(--ink-40);
+}
+.stable .h span + span, .stable .row span + span { text-align: right; }
+.stable .row {
+  align-items: center; padding: 9px 0; border-bottom: 1px solid var(--line-06);
+  font: 500 13px var(--sans); color: var(--ink); text-decoration: none;
+}
+.stable .row:hover { background: rgba(233,238,242,.03); }
+.stable .row .rank { font: 600 11px var(--mono); color: var(--ink-45); text-align: left; }
+.stable .row .who { display: flex; align-items: center; gap: 9px; text-align: left; min-width: 0; }
+.stable .row .who b { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.stable .row .who i { width: 3px; height: 15px; border-radius: 2px; background: var(--accent); flex: none; }
+.stable .row .n { font: 500 12px var(--mono); color: var(--ink-60); }
+.stable .row .n.lead { font: 600 12.5px var(--mono); color: var(--ink); }
+.stable .row .n.gain { color: var(--gain); }
+.stable .row .n.loss { color: var(--loss); }
+
+/* --- driver x round heatmap ---------------------------------------------- */
+.season-split { display: grid; grid-template-columns: 1.35fr 1fr; gap: 24px; }
+.heat { display: grid; gap: 3px; align-items: center; }
+.heat .hname {
+  font: 500 11.5px var(--sans); color: var(--ink);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.heat .hcol { font: 500 9.5px var(--mono); color: var(--ink-35); text-align: center; }
+.heat .hcell {
+  height: 22px; border-radius: 3px; display: flex;
+  align-items: center; justify-content: center;
+  font: 500 10.5px var(--mono);
+}
+
+/* --- head-to-head -------------------------------------------------------- */
+.h2h-banner {
+  display: grid; grid-template-columns: 1fr 92px 1fr; align-items: center;
+  padding: 20px var(--gutter); background: var(--sidebar);
+  border-bottom: 1px solid var(--line-08);
+}
+.h2h-banner .who b { font: 600 19px var(--sans); color: var(--ink); display: block; }
+.h2h-banner .who span { font: 500 10.5px var(--mono); }
+.h2h-banner .b { text-align: right; }
+.h2h-banner .vs { font: 600 13px var(--mono); color: var(--ink-30); text-align: center; }
+.h2h-a { color: var(--loss); }
+.h2h-b { color: var(--accent-text); }
+
+.h2h-body { display: grid; grid-template-columns: minmax(0, 1fr) 310px; }
+.h2h-metrics {
+  padding: 18px var(--gutter) 22px; border-right: 1px solid var(--line-08);
+  display: flex; flex-direction: column; gap: 11px;
+}
+.h2h-row {
+  display: grid; grid-template-columns: 62px 1fr 128px 1fr 62px;
+  align-items: center; gap: 8px;
+}
+.h2h-row .val { font: 600 13px var(--mono); color: var(--ink); }
+.h2h-row .val.l { text-align: right; }
+.h2h-row .lbl {
+  font: 500 10.5px var(--mono); letter-spacing: .04em;
+  color: var(--ink-45); text-align: center; text-transform: uppercase;
+}
+.h2h-row .track {
+  height: 8px; border-radius: 4px; background: rgba(233,238,242,.09);
+  display: flex; overflow: hidden;
+}
+.h2h-row .track.l { justify-content: flex-end; }
+.h2h-row .track i { display: block; height: 8px; border-radius: 4px; }
+.h2h-row .track.l i { background: var(--loss); }
+.h2h-row .track.r i { background: var(--accent); }
+
+.meetings { display: flex; gap: 5px; align-items: center; }
+.meetings i {
+  height: 26px; border-radius: 4px; display: flex; align-items: center;
+  padding: 0 9px; font: 600 11.5px var(--mono); color: #fff; font-style: normal;
+  white-space: nowrap; overflow: hidden;
+}
+.meetings i.a { background: oklch(0.62 0.16 25); }
+.meetings i.b { background: oklch(0.58 0.13 245); justify-content: flex-end; }
+.meetings i.none {
+  background: repeating-linear-gradient(135deg, rgba(233,238,242,.12) 0 4px, transparent 4px 8px);
+  color: var(--ink-45); justify-content: center; font-weight: 500; font-size: 10.5px;
+}
+
+@media (max-width: 1180px) {
+  .season-split { grid-template-columns: 1fr; }
+  .h2h-body { grid-template-columns: 1fr; }
+}
+@media (max-width: 860px) {
+  .season-shell { grid-template-columns: 1fr; }
+  .range { border-right: none; border-bottom: 1px solid var(--line-08); }
+}

@@ -21,8 +21,17 @@ from itertools import combinations
 from db.connection import connection
 
 # Laps whose field-median lap time exceeds this multiple of the race median are
-# treated as caution laps (validated against reported caution counts).
-CAUTION_LAP_FACTOR = 1.4
+# candidate caution laps, and a caution period must be at least MIN_CAUTION_RUN
+# consecutive laps -- a single slow lap is a wreck or a spin, not a caution.
+#
+# Both values were fitted against race_summary's reported counts over the 19
+# races that have lap data: the period count then comes out EXACTLY right in all
+# 19, and no race's caution-lap count is off by more than 2. The factor sits
+# mid-plateau (any value in 1.44-1.48 gives zero period error) rather than at an
+# edge, so it should hold up on new races. Without the run-length rule the same
+# sweep cannot reach zero period error at any factor.
+CAUTION_LAP_FACTOR = 1.46
+MIN_CAUTION_RUN = 2
 # A pass is "reverted" (contested/defended) if the pass is undone within this
 # many laps.
 REVERT_WINDOW = 2
@@ -78,6 +87,22 @@ def _subsessions_with_laps(conn) -> list[int]:
         return [r[0] for r in cur.fetchall()]
 
 
+def _min_run(laps: set[int], minimum: int) -> set[int]:
+    """Drop caution runs shorter than `minimum` consecutive laps."""
+    keep: set[int] = set()
+    run: list[int] = []
+    for lap in sorted(laps):
+        if run and lap == run[-1] + 1:
+            run.append(lap)
+        else:
+            if len(run) >= minimum:
+                keep.update(run)
+            run = [lap]
+    if len(run) >= minimum:
+        keep.update(run)
+    return keep
+
+
 def _race_context(conn, ss: int):
     """Return (median_laptime, caution_lap_set, pitted_set) for a subsession."""
     with conn.cursor() as cur:
@@ -104,7 +129,7 @@ def _race_context(conn, ss: int):
             """,
             (ss, ss, CAUTION_LAP_FACTOR),
         )
-        caution = {r[0] for r in cur.fetchall()}
+        caution = _min_run({r[0] for r in cur.fetchall()}, MIN_CAUTION_RUN)
 
         cur.execute(
             "SELECT cust_id, lap_num FROM lap_events "
